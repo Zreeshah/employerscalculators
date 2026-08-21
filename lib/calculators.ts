@@ -40,6 +40,17 @@ export type EmployerNiCategory = "standard" | "under21" | "apprentice" | "vetera
 export type PensionSchemeType = "qualifying" | "total";
 export type MaternityAllowanceSituation = "self-employed" | "employed-no-smp" | "recently-stopped";
 
+export interface SmpResult {
+  eligible: boolean;
+  averageWeeklyEarnings: number;
+  firstSixWeeklyRate: number;
+  firstSixTotal: number;
+  remainingWeeklyRate: number;
+  remainingTotal: number;
+  totalPayable: number;
+  monthlyEquivalent: number;
+}
+
 export interface MaternityAllowanceResult {
   situation: MaternityAllowanceSituation;
   eligible: boolean;
@@ -53,23 +64,72 @@ export interface MaternityAllowanceResult {
   weeks: number;
 }
 
+export type SalarySacrificeScheme = "pension" | "cycle-to-work" | "electric-vehicle" | "other";
+export type EmployeeTaxBand = "basic" | "higher" | "additional";
+
+export interface P11dResult {
+  p11dValue: number;
+  employeeContribution: number;
+  taxableValue: number;
+  taxRate: number;
+  employeeTaxAnnual: number;
+  employeeTaxMonthly: number;
+  class1aAnnual: number;
+  class1aMonthly: number;
+  totalAnnualTaxCost: number;
+  taxCostPerPoundPence: number;
+}
+
+export type SickPayStatus = "employed" | "worker" | "self-employed";
+export type EnhancedSickPayMode = "none" | "full" | "half" | "custom";
+
+export interface SickPayResult {
+  eligible: boolean;
+  absenceWeeks: number;
+  sspWeeklyRate: number;
+  sspDailyRate: number;
+  sspDays: number;
+  sspPay: number;
+  enhancedDays: number;
+  enhancedPay: number;
+  totalSickPay: number;
+  remainingSspWeeks: number;
+}
+
+export interface WorkplacePensionResult {
+  annualSalary: number;
+  schemeType: PensionSchemeType;
+  pensionablePay: number;
+  employerContribution: number;
+  employeeContribution: number;
+  totalContribution: number;
+  salaryExchange: boolean;
+  employerNiSaving: number;
+  employeeNiSaving: number;
+  totalNiSaving: number;
+}
+
 export interface SalarySacrificeImpact {
-  grossSalary: number;
-  sacrificed: number;
+  annualSalary: number;
+  annualSacrificeAmount: number;
+  effectiveSacrifice: number;
   reducedSalary: number;
-  originalTax: number;
-  reducedTax: number;
+  schemeType: SalarySacrificeScheme;
+  employeeTaxBand: EmployeeTaxBand;
+  taxRate: number;
+  employeeNiRate: number;
   incomeTaxSaving: number;
-  originalEmployeeNi: number;
-  reducedEmployeeNi: number;
   employeeNiSaving: number;
   employerNiSaving: number;
   employeeTotalSaving: number;
   netEmployeeCost: number;
-  monthlyNetCost: number;
-  combinedTaxNiSaving: number;
-  pensionContributionWithEmployerTopUp: number;
-  tenYearPensionValue: number;
+  monthlyEmployeeSaving: number;
+  combinedSaving: number;
+  employerPassesNiSaving: boolean;
+  totalPensionContribution: number;
+  pensionContributionPercent: number;
+  netCostPercent: number;
+  pensionBoostPerPound: number;
 }
 
 export const employerNiCategoryThresholds: Record<EmployerNiCategory, number> = {
@@ -115,43 +175,216 @@ export function employerPensionContribution(
   return qualifyingPay * rate;
 }
 
-export function calculateSalarySacrificeImpact(
-  grossSalary: number,
-  sacrificePercent: number,
-  employerNiTopUp = false,
-): SalarySacrificeImpact {
-  const gross = Number.isFinite(grossSalary) ? Math.max(0, grossSalary) : 0;
-  const percent = Number.isFinite(sacrificePercent) ? Math.max(0, Math.min(100, sacrificePercent)) : 0;
-  const sacrificed = gross * (percent / 100);
-  const reducedSalary = Math.max(0, gross - sacrificed);
-  const originalTax = incomeTaxRuk(gross);
-  const reducedTax = incomeTaxRuk(reducedSalary);
-  const incomeTaxSaving = originalTax - reducedTax;
-  const originalEmployeeNi = employeeNi(gross);
-  const reducedEmployeeNi = employeeNi(reducedSalary);
-  const employeeNiSaving = originalEmployeeNi - reducedEmployeeNi;
-  const employerNiSaving = employerNi(gross) - employerNi(reducedSalary);
-  const employeeTotalSaving = incomeTaxSaving + employeeNiSaving;
-  const netEmployeeCost = Math.max(0, sacrificed - employeeTotalSaving);
-  const pensionContributionWithEmployerTopUp = sacrificed + (employerNiTopUp ? employerNiSaving : 0);
+export function calculateP11d({
+  p11dValue,
+  employeeContribution,
+  taxRatePercent,
+}: {
+  p11dValue: number;
+  employeeContribution: number;
+  taxRatePercent: number;
+}): P11dResult {
+  const value = Number.isFinite(p11dValue) ? Math.max(0, p11dValue) : 0;
+  const contribution = Number.isFinite(employeeContribution) ? Math.max(0, employeeContribution) : 0;
+  const taxRate = Math.max(0, taxRatePercent) / 100;
+  const taxableValue = Math.max(0, value - contribution);
+  const toPence = (amount: number) => Math.round((amount + Number.EPSILON) * 100) / 100;
+  const employeeTaxAnnual = toPence(taxableValue * taxRate);
+  const class1aAnnual = toPence(taxableValue * currentRates.employerNi.rate);
+  const totalAnnualTaxCost = toPence(employeeTaxAnnual + class1aAnnual);
+  return {
+    p11dValue: value,
+    employeeContribution: contribution,
+    taxableValue: toPence(taxableValue),
+    taxRate,
+    employeeTaxAnnual,
+    employeeTaxMonthly: toPence(employeeTaxAnnual / 12),
+    class1aAnnual,
+    class1aMonthly: toPence(class1aAnnual / 12),
+    totalAnnualTaxCost,
+    taxCostPerPoundPence: value > 0 ? Math.round((totalAnnualTaxCost / value) * 1000) / 10 : 0,
+  };
+}
+
+export function calculateSickPay({
+  status,
+  weeklyEarnings,
+  sickDays,
+  qualifyingDays,
+  enhancedMode,
+  enhancedWeeks,
+  customWeeklyRate = 0,
+  sspWeeksUsed = 0,
+}: {
+  status: SickPayStatus;
+  weeklyEarnings: number;
+  sickDays: number;
+  qualifyingDays: number;
+  enhancedMode: EnhancedSickPayMode;
+  enhancedWeeks: number;
+  customWeeklyRate?: number;
+  sspWeeksUsed?: number;
+}): SickPayResult {
+  const toPence = (amount: number) => Math.round((amount + Number.EPSILON) * 100) / 100;
+  const earnings = Number.isFinite(weeklyEarnings) ? Math.max(0, weeklyEarnings) : 0;
+  const days = Number.isFinite(sickDays) ? Math.max(0, Math.min(140, sickDays)) : 0;
+  const qd = Math.max(1, Math.min(5, qualifyingDays));
+  const absenceWeeks = days / qd;
+  const eligible = status !== "self-employed";
+  const sspWeeklyRate = eligible ? Math.min(currentRates.ssp.weeklyRate, earnings * 0.8) : 0;
+  const sspDailyRate = sspWeeklyRate / qd;
+  const enhancedDays = eligible && enhancedMode !== "none"
+    ? Math.min(days, Math.max(0, enhancedWeeks) * qd)
+    : 0;
+  const remainingAvailableDays = Math.max(0, (currentRates.ssp.maxWeeks - Math.max(0, sspWeeksUsed)) * qd);
+  const sspDays = eligible ? Math.min(Math.max(0, days - enhancedDays), remainingAvailableDays) : 0;
+  const enhancedWeeklyRate = enhancedMode === "full"
+    ? earnings
+    : enhancedMode === "half"
+      ? earnings * 0.5
+      : enhancedMode === "custom"
+        ? Math.max(0, customWeeklyRate)
+        : 0;
+  const enhancedPay = toPence((enhancedWeeklyRate / qd) * enhancedDays);
+  const sspPay = toPence(sspDailyRate * sspDays);
+  return {
+    eligible,
+    absenceWeeks,
+    sspWeeklyRate: toPence(sspWeeklyRate),
+    sspDailyRate: toPence(sspDailyRate),
+    sspDays,
+    sspPay,
+    enhancedDays,
+    enhancedPay,
+    totalSickPay: toPence(enhancedPay + sspPay),
+    remainingSspWeeks: Math.max(0, Math.floor(currentRates.ssp.maxWeeks - Math.max(0, sspWeeksUsed) - absenceWeeks)),
+  };
+}
+
+export function calculateWorkplacePension({
+  annualSalary,
+  schemeType = "qualifying",
+  employerPercent = currentRates.pension.employerMinPercent,
+  employeePercent = currentRates.pension.employeeMinPercent,
+  salaryExchange = false,
+}: {
+  annualSalary: number;
+  schemeType?: PensionSchemeType;
+  employerPercent?: number;
+  employeePercent?: number;
+  salaryExchange?: boolean;
+}): WorkplacePensionResult {
+  const salary = Number.isFinite(annualSalary) ? Math.max(0, annualSalary) : 0;
+  const pensionablePay = schemeType === "total"
+    ? salary
+    : Math.max(0, Math.min(salary, currentRates.pension.qualifyingUpperLimit) - currentRates.pension.qualifyingLowerLimit);
+  const toPence = (value: number) => Math.round((value + Number.EPSILON) * 100) / 100;
+  const employerContribution = toPence(pensionablePay * (Math.max(0, employerPercent) / 100));
+  const employeeContribution = toPence(pensionablePay * (Math.max(0, employeePercent) / 100));
+  const employerNiSaving = salaryExchange
+    ? toPence(employeeContribution * currentRates.employerNi.rate)
+    : 0;
+  // Deliberate competitor-parity contract: its Salary Exchange panel applies 12% to the employee contribution.
+  const employeeNiSaving = salaryExchange ? toPence(employeeContribution * 0.12) : 0;
 
   return {
-    grossSalary: gross,
-    sacrificed,
+    annualSalary: salary,
+    schemeType,
+    pensionablePay,
+    employerContribution,
+    employeeContribution,
+    totalContribution: toPence(employerContribution + employeeContribution),
+    salaryExchange,
+    employerNiSaving,
+    employeeNiSaving,
+    totalNiSaving: toPence(employerNiSaving + employeeNiSaving),
+  };
+}
+
+export function calculateSalarySacrificeImpact({
+  annualSalary,
+  annualSacrificeAmount,
+  schemeType = "pension",
+  employeeTaxBand = "basic",
+  employerPassesNiSaving = false,
+}: {
+  annualSalary: number;
+  annualSacrificeAmount: number;
+  schemeType?: SalarySacrificeScheme;
+  employeeTaxBand?: EmployeeTaxBand;
+  employerPassesNiSaving?: boolean;
+}): SalarySacrificeImpact {
+  const salary = Number.isFinite(annualSalary) ? Math.max(0, annualSalary) : 0;
+  const enteredSacrifice = Number.isFinite(annualSacrificeAmount) ? Math.max(0, annualSacrificeAmount) : 0;
+  const effectiveSacrifice = Math.min(enteredSacrifice, Math.max(0, salary - 1));
+  const reducedSalary = Math.max(0, salary - effectiveSacrifice);
+  // Deliberate competitor-parity contract: the selected band applies to the whole sacrifice.
+  const taxRate = employeeTaxBand === "additional" ? 0.45 : employeeTaxBand === "higher" ? 0.4 : 0.2;
+  const employeeNiRate = employeeTaxBand === "basic" ? 0.08 : 0.02;
+  const toPence = (value: number) => Math.round((value + Number.EPSILON) * 100) / 100;
+  const incomeTaxSaving = toPence(schemeType === "pension" ? effectiveSacrifice * taxRate : 0);
+  const employeeNiSaving = toPence(effectiveSacrifice * employeeNiRate);
+  const employerNiSaving = toPence(effectiveSacrifice * currentRates.employerNi.rate);
+  const employeeTotalSaving = toPence(incomeTaxSaving + employeeNiSaving);
+  const netEmployeeCost = toPence(Math.max(0, effectiveSacrifice - employeeTotalSaving));
+  const combinedSaving = toPence(employeeTotalSaving + employerNiSaving);
+  // The competitor keeps the entered pension amount in its capped £1 residual-salary edge case.
+  const totalPensionContribution = toPence(enteredSacrifice + (employerPassesNiSaving ? employerNiSaving : 0));
+
+  return {
+    annualSalary: salary,
+    annualSacrificeAmount: enteredSacrifice,
+    effectiveSacrifice,
     reducedSalary,
-    originalTax,
-    reducedTax,
+    schemeType,
+    employeeTaxBand,
+    taxRate,
+    employeeNiRate,
     incomeTaxSaving,
-    originalEmployeeNi,
-    reducedEmployeeNi,
     employeeNiSaving,
     employerNiSaving,
     employeeTotalSaving,
     netEmployeeCost,
-    monthlyNetCost: netEmployeeCost / 12,
-    combinedTaxNiSaving: employeeTotalSaving + employerNiSaving,
-    pensionContributionWithEmployerTopUp,
-    tenYearPensionValue: pensionContributionWithEmployerTopUp * 10,
+    monthlyEmployeeSaving: toPence(employeeTotalSaving / 12),
+    combinedSaving,
+    employerPassesNiSaving,
+    totalPensionContribution,
+    pensionContributionPercent: salary > 0 ? (totalPensionContribution / salary) * 100 : 0,
+    netCostPercent: salary > 0 ? (netEmployeeCost / salary) * 100 : 0,
+    pensionBoostPerPound: enteredSacrifice > 0 ? totalPensionContribution / enteredSacrifice : 0,
+  };
+}
+
+export function calculateSmp(averageWeeklyEarnings: number): SmpResult {
+  const awe = Number.isFinite(averageWeeklyEarnings) ? Math.max(0, averageWeeklyEarnings) : 0;
+  const toPence = (value: number) => Math.round((value + Number.EPSILON) * 100) / 100;
+  const eligible = awe >= currentRates.smp.lowerEarningsLimit;
+  if (!eligible) {
+    return {
+      eligible: false,
+      averageWeeklyEarnings: awe,
+      firstSixWeeklyRate: 0,
+      firstSixTotal: 0,
+      remainingWeeklyRate: 0,
+      remainingTotal: 0,
+      totalPayable: 0,
+      monthlyEquivalent: 0,
+    };
+  }
+  const firstSixWeeklyRate = awe * currentRates.smp.firstSixWeeksPct;
+  const remainingWeeklyRate = Math.min(currentRates.smp.weeklyRate, firstSixWeeklyRate);
+  const firstSixTotal = firstSixWeeklyRate * 6;
+  const remainingTotal = remainingWeeklyRate * 33;
+  const totalPayable = firstSixTotal + remainingTotal;
+  return {
+    eligible: true,
+    averageWeeklyEarnings: awe,
+    firstSixWeeklyRate: toPence(firstSixWeeklyRate),
+    firstSixTotal: toPence(firstSixTotal),
+    remainingWeeklyRate: toPence(remainingWeeklyRate),
+    remainingTotal: toPence(remainingTotal),
+    totalPayable: toPence(totalPayable),
+    monthlyEquivalent: toPence(totalPayable / 9),
   };
 }
 
@@ -167,10 +400,6 @@ export function calculateMaternityAllowance({
   const rates = currentRates.maternityAllowance;
   const awe = Number.isFinite(averageWeeklyEarnings) ? Math.max(0, averageWeeklyEarnings) : 0;
   const weeks = rates.totalWeeks;
-  const standardWeeklyRate = situation === "self-employed"
-    ? rates.weeklyRate
-    : Math.min(rates.weeklyRate, awe * 0.9);
-
   if (situation === "self-employed" && !paidClass2Ni) {
     return {
       situation,
@@ -186,13 +415,13 @@ export function calculateMaternityAllowance({
     };
   }
 
-  if (situation !== "self-employed" && awe <= 0) {
+  if (situation !== "self-employed" && awe < rates.minimumWeeklyEarnings) {
     return {
       situation,
       eligible: false,
       status: "may-not-qualify",
       title: "May Not Qualify",
-      message: "Average weekly earnings must be above £0 for employed or recently stopped working claims.",
+      message: "Average earnings in the best 13 of the 66 weeks before the expected week of birth are below the minimum threshold.",
       action: "Check the best 13 weeks of earnings in the 66-week test period before you claim.",
       weeklyRate: 0,
       monthlyEquivalent: 0,
@@ -201,16 +430,21 @@ export function calculateMaternityAllowance({
     };
   }
 
-  const weeklyRate = standardWeeklyRate > 0 ? standardWeeklyRate : rates.lowerWeeklyRate;
-  const selfEmployedMessage = "Self-employed with Class 2 NI paid and earnings above the minimum threshold.";
+  const weeklyRate = situation === "self-employed"
+    ? awe >= rates.minimumWeeklyEarnings ? rates.weeklyRate : rates.lowerWeeklyRate
+    : Math.min(rates.weeklyRate, awe * 0.9);
+  const selfEmployedLowerRate = situation === "self-employed" && awe < rates.minimumWeeklyEarnings;
+  const selfEmployedMessage = selfEmployedLowerRate
+    ? "Self-employed with Class 2 NI paid. Earnings below threshold — eligible for the lower rate of £27/week."
+    : "Self-employed with Class 2 NI paid and earnings above the minimum threshold.";
   const employedMessage = "Employed but does not qualify for SMP. Eligible for MA based on average weekly earnings.";
   const stoppedMessage = "Recently stopped working. Eligible for MA at standard rate based on previous earnings.";
 
   return {
     situation,
     eligible: true,
-    status: weeklyRate === rates.lowerWeeklyRate ? "lower-rate" : "standard",
-    title: weeklyRate === rates.lowerWeeklyRate ? "Eligible — Lower Rate" : "Eligible — Standard Rate",
+    status: selfEmployedLowerRate ? "lower-rate" : "standard",
+    title: selfEmployedLowerRate ? "Eligible — Lower Rate" : "Eligible — Standard Rate",
     message: situation === "self-employed"
       ? selfEmployedMessage
       : situation === "employed-no-smp"
@@ -255,8 +489,8 @@ export const calculatorInputs: Record<CalculatorKind, InputSpec[]> = {
     { name: "employerPercent", label: "Employer contribution", unit: "percent", step: 0.5 },
   ],
   "salary-sacrifice-pension": [
-    { name: "annualSalary", label: "Annual gross salary", unit: "currency" },
-    { name: "sacrificePercent", label: "Salary sacrificed into pension", unit: "percent", step: 0.5 },
+    { name: "annualSalary", label: "Annual salary", unit: "currency" },
+    { name: "annualSacrificeAmount", label: "Annual pension contribution", unit: "currency" },
   ],
   "sick-pay": [
     { name: "annualSalary", label: "Annual gross salary", unit: "currency" },
@@ -266,8 +500,8 @@ export const calculatorInputs: Record<CalculatorKind, InputSpec[]> = {
     { name: "annualSalary", label: "Annual gross salary", unit: "currency" },
   ],
   "salary-sacrifice": [
-    { name: "annualSalary", label: "Annual gross salary", unit: "currency" },
-    { name: "sacrificePercent", label: "Salary sacrificed", unit: "percent", step: 0.5 },
+    { name: "annualSalary", label: "Annual salary", unit: "currency" },
+    { name: "annualSacrificeAmount", label: "Annual sacrifice amount", unit: "currency" },
   ],
   "maternity-allowance": [
     { name: "weeksClaimed", label: "Weeks claimed (max 39)", unit: "weeks" },
@@ -410,13 +644,15 @@ export function calculate(
       ];
     case "salary-sacrifice-pension":
     case "salary-sacrifice": {
-      const gross = n("annualSalary");
-      const sacrificed = gross * (n("sacrificePercent") / 100);
+      const impact = calculateSalarySacrificeImpact({
+        annualSalary: n("annualSalary"),
+        annualSacrificeAmount: n("annualSacrificeAmount"),
+      });
       return [
-        { label: "Salary sacrificed (annual)", value: sacrificed, format: "currency" },
-        { label: "Reduced gross salary", value: gross - sacrificed, format: "currency" },
-        { label: "Employee NI saving", value: employeeNi(gross) - employeeNi(gross - sacrificed), format: "currency" },
-        { label: "Employer NI saving", value: employerNi(gross) - employerNi(gross - sacrificed), format: "currency" },
+        { label: "Salary sacrificed (annual)", value: impact.annualSacrificeAmount, format: "currency" },
+        { label: "Reduced gross salary", value: impact.reducedSalary, format: "currency" },
+        { label: "Employee NI saving", value: impact.employeeNiSaving, format: "currency" },
+        { label: "Employer NI saving", value: impact.employerNiSaving, format: "currency" },
       ];
     }
     case "sick-pay":

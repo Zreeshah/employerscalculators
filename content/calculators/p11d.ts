@@ -114,7 +114,7 @@ export default calculator({
   ],
   relatedSlugs: [],
   defaults: {
-    benefitValue: 2000,
+    benefitValue: 1200,
     taxRate: 20,
   },
 });

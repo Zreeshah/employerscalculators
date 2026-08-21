@@ -11,15 +11,15 @@ export default calculator({
   intro:
     "Estimate the National Insurance savings when pension contributions are paid through a **salary sacrifice** arrangement instead of as a normal deduction. Useful for employers designing a scheme and employees weighing one up. In 2026/27 the employee saves NI at 8% on the sacrificed amount in the main band (2% above £50,270) and the employer saves 15% — savings many employers add to the employee's pension pot (HMRC).",
   formulaExplainer:
-    ":::callout info\nFor a gross salary **S** and sacrifice percentage **s**:\n\n- **Sacrificed amount: S × s** — paid into the pension instead of as cash pay\n- **Reduced gross salary: S − (S × s)** — what the employee is now taxed on\n- **Employee NI saving: NI(S) − NI(S − S × s)** — where NI runs at 8% between the primary threshold and the upper earnings limit, then 2% above\n- **Employer NI saving: ENI(S) − ENI(S − S × s)** — at 15% above the £5,000 secondary threshold, with no upper cap\n\nThe savings come from the lower cash pay; both sides of NI are recalculated on the reduced figure, and the difference is what the arrangement saves. Statutory pay bases (SMP, SSP, redundancy) and the National Living Wage are calculated on the **reduced** cash pay, so check the impact before agreeing a large sacrifice.\n:::",
+    ":::callout info\nFor annual salary **S**, annual pension contribution **C**, and selected tax band **t**:\n\n- **Reduced gross salary: S − C**\n- **Income-tax saving: C × t** at 20%, 40% or 45%\n- **Employee NI saving:** C × 8% for basic rate, or C × 2% for higher/additional rate\n- **Employer NI saving:** C × 15%\n- **Net employee cost:** C − income-tax saving − employee NI saving\n- **Total pension contribution:** C plus employer NI saving when the employer top-up is selected\n\nThe calculator caps the effective sacrifice so at least £1 of gross salary remains. Statutory pay bases and the National Living Wage use the reduced cash pay, so check the impact before agreeing a large sacrifice.\n:::",
   howToSteps: [
     {
       name: "Enter the gross annual salary",
       text: "Use the contractual gross before any sacrifice. This is the figure on the employment contract that the sacrifice arrangement will amend, so the calculator can apply the same percentage to a known starting point.",
     },
     {
-      name: "Set the sacrifice percentage",
-      text: "Pick the percentage of gross that goes into the pension via salary sacrifice instead of as cash pay. Stay below the point where post-sacrifice cash pay would breach the National Living Wage (£12.71 an hour for workers aged 21+ from April 2026) and inside the pension annual allowance.",
+      name: "Enter the annual pension contribution",
+      text: "Enter the amount in pounds that will go into the pension via salary sacrifice instead of as cash pay. Stay below the point where post-sacrifice cash pay would breach the National Living Wage (£12.71 an hour for workers aged 21+ from April 2026) and inside the pension annual allowance.",
     },
     {
       name: "Read the reduced gross and the NI savings",
@@ -53,7 +53,7 @@ export default calculator({
     },
     {
       heading: "Summary: how to use this salary sacrifice pension calculator",
-      body: "Enter the gross salary and the sacrifice percentage to see the reduced gross and the employee and employer NI savings. Use the figures to size the sacrifice, plan the employer contribution, and check the post-sacrifice cash pay does not breach the National Living Wage. The workplace pension calculator is a useful companion for the total pension contribution on the same salary.",
+      body: "Enter the gross salary and annual pension contribution in pounds, select the employee tax band, and choose whether the employer adds its NI saving to the pension. The calculator shows reduced gross, income-tax and NI savings, net employee cost, total pension contribution and monthly saving. Check that post-sacrifice cash pay does not breach the National Living Wage.",
     },
     {
       "heading": "Salary sacrifice pension versus relief at source",
@@ -109,7 +109,7 @@ export default calculator({
   ],
   relatedSlugs: [],
   defaults: {
-    annualSalary: 40000,
-    sacrificePercent: 5,
+    annualSalary: 45000,
+    annualSacrificeAmount: 5000,
   },
 });

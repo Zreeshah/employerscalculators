@@ -114,7 +114,7 @@ export default calculator({
   ],
   relatedSlugs: [],
   defaults: {
-    annualSalary: 35000,
+    annualSalary: 30000,
     employeePercent: 5,
     employerPercent: 3,
   },

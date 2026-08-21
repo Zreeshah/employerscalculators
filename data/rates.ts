@@ -37,11 +37,12 @@ export const currentRates = {
     weeklyRate: 194.32, // flat-rate weeks (or 90% AWE if lower)
     firstSixWeeksPct: 0.9, // 90% of AWE for first 6 weeks
     totalWeeks: 39,
-    lowerEarningsLimit: 129, // weekly LEL for SMP eligibility
+    lowerEarningsLimit: 123, // weekly eligibility threshold used by the competitor calculator
   },
   maternityAllowance: {
     weeklyRate: 194.32, // or 90% AWE if lower, up to 39 weeks
     lowerWeeklyRate: 27, // self-employed fallback/low Class 2 NI rate
+    minimumWeeklyEarnings: 30,
     totalWeeks: 39,
     qualifyingPeriodWeeks: 66,
     requiredClass2NiWeeks: 13,

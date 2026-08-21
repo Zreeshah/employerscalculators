@@ -14,12 +14,12 @@ export default calculator({
     "SMP is split into two tiers: the first six weeks of paid leave always use 90% of the employee's average weekly earnings, with no upper cap. The remaining 33 weeks use the lower of the statutory weekly rate and 90% of earnings, so high earners receive the flat rate and lower earners stay on 90%.\n\n:::callout info\nSMP = **(first 6 weeks × 90% of AWE) + (remaining weeks × lower of £194.32 or 90% of AWE)**, capped at 39 weeks\n:::\n\nThe **average weekly earnings** figure is the gross pay the employee earned over the eight-week (or two monthly pay period) reference window ending with the last payday before the end of the 15th week before the baby is due. Bonuses, overtime and commission paid in that window all count towards AWE.",
   howToSteps: [
     {
-      name: "Enter the weeks of maternity leave",
-      text: "Type the number of weeks of paid maternity leave the employee is taking in 2026/27. The maximum is 39 — the remaining 13 weeks of the 52-week maternity leave are unpaid.",
+      name: "Enter the annual salary",
+      text: "Use annual salary for an estimate. The calculator divides it by 52 to estimate Average Weekly Earnings and applies the fixed 39-week SMP schedule.",
     },
     {
-      name: "Enter the average weekly earnings",
-      text: "Add the employee's gross AWE over the eight-week (or two-month) reference period ending before the end of the 15th week before the baby is due. HMRC uses this figure to set both tiers of SMP.",
+      name: "Use actual Average Weekly Earnings if needed",
+      text: "Turn on the actual-AWE option when payroll earnings in the statutory reference period differ from annual salary divided by 52, for example because of bonuses, overtime or variable pay.",
     },
     {
       name: "Read the weekly rates",
@@ -27,7 +27,7 @@ export default calculator({
     },
     {
       name: "Read the total SMP payable",
-      text: "The total combines the two tiers across the number of weeks entered, capped at 39 weeks. The figure is the gross amount before income tax and employee NI are deducted through PAYE.",
+      text: "The total combines the fixed 6-week and 33-week tiers across 39 weeks. The figure is gross before income tax and employee NI are deducted through PAYE.",
     },
   ],
   sections: [
@@ -37,7 +37,7 @@ export default calculator({
     },
     {
       heading: "Who qualifies for SMP",
-      body: "An employee qualifies for SMP if all of the following apply, as set out on GOV.UK:\n\n- She has at least **26 weeks' continuous service** by the end of the 15th week before the expected week of childbirth (the qualifying week).\n- She is still employed by you in that qualifying week.\n- She earns at least £129 a week on average over the eight-week (or two-month) reference period — the Lower Earnings Limit used for Class 1 NI.\n- She gives the employer correct notice (at least 28 days before she stops work, where reasonably practicable) and proof of pregnancy.\n\nIf the employee does not meet these criteria — usually because she has not yet built up 26 weeks of service — the employer must issue form **SMP1** within seven days of the decision. The employee can then claim Maternity Allowance from Jobcentre Plus instead.",
+      body: "An employee qualifies for SMP if all of the following apply, as set out on GOV.UK:\n\n- She has at least **26 weeks' continuous service** by the end of the 15th week before the expected week of childbirth (the qualifying week).\n- She is still employed by you in that qualifying week.\n- Her Average Weekly Earnings meet the calculator's £123 weekly eligibility threshold.\n- She gives the employer correct notice (at least 28 days before she stops work, where reasonably practicable) and proof of pregnancy.\n\nIf the employee does not meet these criteria — usually because she has not yet built up 26 weeks of service — the employer must issue form **SMP1** within seven days of the decision. The employee can then claim Maternity Allowance from Jobcentre Plus instead.",
     },
     {
       heading: "How SMP is calculated",
@@ -65,7 +65,7 @@ export default calculator({
     },
     {
       heading: "Summary: how to use this SMP calculator",
-      body: "Enter the **weeks of maternity leave** and the employee's **average weekly earnings**, and the calculator shows the weekly rate for each tier and the total SMP payable.\n\nThe figures use the 2026/27 statutory weekly rate of £194.32 and the 90% AWE rules set out by HMRC. The total is gross — deduct income tax and employee NI in the normal payroll run to get the net figure on the payslip.",
+      body: "Enter annual salary or turn on actual Average Weekly Earnings. The calculator checks the weekly earnings threshold, then shows the first-six-week rate and total, the remaining-33-week rate and total, the full 39-week payment and an approximate monthly equivalent.\n\nThe figures use the 2026/27 statutory weekly rate of £194.32 and the 90% AWE rules. The total is gross before PAYE deductions.",
     },
     {
       "heading": "SMP eligibility decision tree for payroll",
@@ -137,4 +137,7 @@ export default calculator({
     "maternity-allowance-calculator",
     "ssp-calculator",
   ],
+  defaults: {
+    annualSalary: 30000,
+  },
 });

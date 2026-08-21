@@ -11,7 +11,7 @@ export default calculator({
   intro:
     "Work out how a salary sacrifice arrangement changes gross pay and National Insurance for both employee and employer in 2026/27. This UK salary sacrifice calculator is built for employers modelling the NI saving on a new scheme, employees checking the impact on their take-home, and payroll teams confirming the figures. In 2026/27 the employee saves NI at 8% on the sacrificed amount in the main band (2% above £50,270) and the employer saves 15%, because the sacrificed pay is no longer subject to NI.",
   formulaExplainer:
-    ":::callout info\n**Salary sacrifice formula (2026/27):** sacrificed = gross salary × sacrifice %. Reduced gross = gross − sacrificed. Employee NI saving = employee NI on gross − employee NI on reduced gross (8% between £12,570 and £50,270, 2% above). Employer NI saving = employer NI on gross − employer NI on reduced gross (15% above £5,000).\n\nBecause employee and employer NI are calculated against the reduced gross, the difference between the two figures is the NI saving on each side. Income tax savings depend on the type of benefit and are not modelled here.\n:::",
+    ":::callout info\n**Salary sacrifice formula (2026/27):** reduced gross = annual salary − annual sacrifice amount. The selected tax band sets employee NI at **8%** for basic rate or **2%** for higher/additional rate, and employer NI saving is **15%** of the sacrifice. Pension schemes also include income-tax saving at the selected **20%, 40% or 45%** rate; Cycle to Work, electric vehicle and other-benefit schemes show NI saving only.\n\nEmployee saving = employee NI saving + any pension income-tax saving. Net employee cost = effective sacrifice − employee saving. Total both save = employee saving + employer NI saving.\n:::",
   sections: [
     {
       heading: "What is a salary sacrifice arrangement?",
@@ -36,7 +36,7 @@ export default calculator({
     {
       heading: "Summary: how to use this calculator",
       body:
-        "Two numbers in, four numbers out. Enter the annual gross salary and the sacrifice percentage. The salary sacrifice calculator returns the sacrificed amount, the reduced gross salary, the employee NI saving and the employer NI saving, using the 2026/27 NI rates applied to the before-and-after gross. Use the reduced gross as the new baseline for pension contributions, statutory pay and benefits in kind.\n\nFor pension-specific modelling — where income tax relief on the sacrificed amount is included — use the salary sacrifice pension calculator.",
+        "Enter the annual salary and annual sacrifice amount in pounds, then choose the scheme type and employee tax band. The calculator returns the reduced gross salary, employee NI saving, employer NI saving, pension income-tax saving where applicable, employee total saving, net employee cost and combined saving. Use the reduced gross as the new baseline for pension contributions, statutory pay and benefits in kind.\n\nFor pension-specific modelling with an employer NI top-up, use the salary sacrifice pension calculator.",
     },
     {
       "heading": "Salary sacrifice schemes this calculator can support",
@@ -91,4 +91,8 @@ export default calculator({
     },
   ],
   relatedSlugs: [],
+  defaults: {
+    annualSalary: 40000,
+    annualSacrificeAmount: 5000,
+  },
 });
