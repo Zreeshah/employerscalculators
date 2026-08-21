@@ -16,6 +16,47 @@
 @layer components {
   .card {
     @apply rounded-xl border border-ink/10 bg-white;
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+
+  .number-box {
+    container-type: inline-size;
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  .safe-number {
+    display: block;
+    max-width: 100%;
+    min-width: 0;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+    white-space: normal;
+    line-height: 1;
+    font-size: clamp(2rem, 16cqw, 4rem);
+  }
+
+  .safe-number-md {
+    display: block;
+    max-width: 100%;
+    min-width: 0;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+    white-space: normal;
+    line-height: 1.05;
+    font-size: clamp(1.75rem, 13cqw, 3rem);
+  }
+
+  .safe-number-sm {
+    display: block;
+    max-width: 100%;
+    min-width: 0;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+    white-space: normal;
+    line-height: 1.1;
+    font-size: clamp(1.5rem, 11cqw, 2.25rem);
   }
 }
 

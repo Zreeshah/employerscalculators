@@ -103,14 +103,14 @@ function GenericCalculatorForm({
 
       <div
         aria-live="polite"
-        className="card bg-paper/70 p-6 shadow-sm md:sticky md:top-20 md:self-start"
+        className="card number-box bg-paper/70 p-6 shadow-sm md:sticky md:top-20 md:self-start"
       >
         <h2 className="text-2xl font-semibold">Your results</h2>
         <dl className="mt-5 divide-y divide-ink/10">
           {results.map((line) => (
             <div key={line.label} className="py-3 first:pt-0 last:pb-0">
               <dt className="text-sm text-ink/65">{line.label}</dt>
-              <dd className="tabular text-3xl font-semibold text-accent-strong">
+              <dd className="tabular safe-number-sm font-semibold text-accent-strong">
                 {formatValue(line.value, line.format)}
               </dd>
             </div>
@@ -313,8 +313,8 @@ function EmployerNiCalculator({ defaults }: { defaults?: Record<string, number> 
               </div>
             </div>
 
-            <div className="mt-8 min-w-0 rounded-2xl border border-ink/10 bg-white p-6 text-center">
-              <p className="tabular break-words text-[clamp(2.25rem,8vw,4rem)] font-semibold leading-tight text-accent-strong">
+            <div className="number-box mt-8 min-w-0 rounded-2xl border border-ink/10 bg-white p-6 text-center">
+              <p className="tabular safe-number font-semibold text-accent-strong">
                 {gbp.format(calculation.displayNi)}
               </p>
               <p className="mt-2 text-sm text-ink/60">{periodLabels[period]}</p>
@@ -347,16 +347,16 @@ function EmployerNiCalculator({ defaults }: { defaults?: Record<string, number> 
       </div>
 
       <section className="grid gap-4 sm:grid-cols-2">
-        <div className="card min-w-0 bg-white p-6 shadow-sm">
+        <div className="card number-box min-w-0 bg-white p-6 shadow-sm">
           <p className="text-sm text-ink/60">Total employment cost</p>
-          <p className="tabular mt-2 break-words text-[clamp(1.75rem,6vw,3rem)] font-semibold leading-tight text-accent-strong">
+          <p className="tabular safe-number-md mt-2 font-semibold text-accent-strong">
             {gbp.format(calculation.totalEmploymentCost)}
           </p>
           <p className="mt-1 text-sm text-ink/60">Salary plus employer NI after selected allowance</p>
         </div>
-        <div className="card min-w-0 bg-white p-6 shadow-sm">
+        <div className="card number-box min-w-0 bg-white p-6 shadow-sm">
           <p className="text-sm text-ink/60">NI savings</p>
-          <p className="tabular mt-2 break-words text-[clamp(1.75rem,6vw,3rem)] font-semibold leading-tight text-accent-strong">
+          <p className="tabular safe-number-md mt-2 font-semibold text-accent-strong">
             {gbp.format(calculation.allowanceSaving)}
           </p>
           <p className="mt-1 text-sm text-ink/60">From Employment Allowance</p>
@@ -721,11 +721,11 @@ function EmployeeCostCalculator({ defaults }: { defaults?: Record<string, number
               </div>
             </div>
 
-            <div className="mt-8 min-w-0 rounded-2xl border border-ink/10 bg-white p-6 text-center">
+            <div className="number-box mt-8 min-w-0 rounded-2xl border border-ink/10 bg-white p-6 text-center">
               <button
                 type="button"
                 onClick={copyResult}
-                className="tabular break-words text-[clamp(2.25rem,8vw,4rem)] font-semibold leading-tight text-accent-strong transition-colors hover:text-accent"
+                className="tabular safe-number mx-auto font-semibold text-accent-strong transition-colors hover:text-accent"
                 aria-label={`Copy ${period} total employment cost`}
               >
                 {gbp.format(calculation.displayTotalCost)}
@@ -757,34 +757,34 @@ function EmployeeCostCalculator({ defaults }: { defaults?: Record<string, number
       </div>
 
       <section className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        <div className="card min-w-0 bg-white p-6 shadow-sm">
+        <div className="card number-box min-w-0 bg-white p-6 shadow-sm">
           <p className="text-sm text-ink/60">Base salary</p>
-          <p className="tabular mt-2 break-words text-[clamp(1.75rem,5vw,2.5rem)] font-semibold leading-tight text-accent-strong">{gbp.format(calculation.salary)}</p>
+          <p className="tabular safe-number-md mt-2 font-semibold text-accent-strong">{gbp.format(calculation.salary)}</p>
         </div>
-        <div className="card min-w-0 bg-white p-6 shadow-sm">
+        <div className="card number-box min-w-0 bg-white p-6 shadow-sm">
           <p className="text-sm text-ink/60">Employer NI</p>
-          <p className="tabular mt-2 break-words text-[clamp(1.75rem,5vw,2.5rem)] font-semibold leading-tight text-accent-strong">{gbp.format(calculation.payableNi)}</p>
+          <p className="tabular safe-number-md mt-2 font-semibold text-accent-strong">{gbp.format(calculation.payableNi)}</p>
         </div>
-        <div className="card min-w-0 bg-white p-6 shadow-sm">
+        <div className="card number-box min-w-0 bg-white p-6 shadow-sm">
           <p className="text-sm text-ink/60">Pension contribution</p>
-          <p className="tabular mt-2 break-words text-[clamp(1.75rem,5vw,2.5rem)] font-semibold leading-tight text-accent-strong">{gbp.format(calculation.pensionContribution)}</p>
+          <p className="tabular safe-number-md mt-2 font-semibold text-accent-strong">{gbp.format(calculation.pensionContribution)}</p>
           <p className="mt-1 text-sm text-ink/60">{includePension ? pensionSchemeLabels[pensionScheme] : "Not included"}</p>
         </div>
-        <div className="card min-w-0 bg-white p-6 shadow-sm">
+        <div className="card number-box min-w-0 bg-white p-6 shadow-sm">
           <p className="text-sm text-ink/60">Additional costs</p>
-          <p className="tabular mt-2 break-words text-[clamp(1.75rem,5vw,2.5rem)] font-semibold leading-tight text-accent-strong">{gbp.format(calculation.additionalCosts)}</p>
+          <p className="tabular safe-number-md mt-2 font-semibold text-accent-strong">{gbp.format(calculation.additionalCosts)}</p>
         </div>
       </section>
 
       {applyAllowance && (
         <section className="grid gap-4 sm:grid-cols-2">
-          <div className="card min-w-0 bg-white p-6 shadow-sm">
+          <div className="card number-box min-w-0 bg-white p-6 shadow-sm">
             <p className="text-sm text-ink/60">Employer NI before allowance</p>
-            <p className="tabular mt-2 break-words text-3xl font-semibold text-ink">{gbp.format(calculation.rawNi)}</p>
+            <p className="tabular safe-number-md mt-2 font-semibold text-ink">{gbp.format(calculation.rawNi)}</p>
           </div>
-          <div className="card min-w-0 bg-white p-6 shadow-sm">
+          <div className="card number-box min-w-0 bg-white p-6 shadow-sm">
             <p className="text-sm text-ink/60">Employment Allowance saving</p>
-            <p className="tabular mt-2 break-words text-3xl font-semibold text-accent-strong">{gbp.format(calculation.allowanceSaving)}</p>
+            <p className="tabular safe-number-md mt-2 font-semibold text-accent-strong">{gbp.format(calculation.allowanceSaving)}</p>
           </div>
         </section>
       )}
