@@ -17,6 +17,7 @@ export const relatedMap: Record<string, string[]> = {
     "employment-allowance-guide",
     "employer-ni-rates-2026-27",
     "employee-cost-calculator",
+    "salary-sacrifice-pension-calculator",
   ],
   "ir35-calculator": ["take-home-pay-calculator", "net-to-gross-calculator"],
   "smp-calculator": ["maternity-allowance-calculator", "ssp-calculator"],
@@ -32,6 +33,7 @@ export const relatedMap: Record<string, string[]> = {
     "workplace-pension-calculator",
     "salary-sacrifice-calculator",
     "salary-sacrifice-pension-guide",
+    "employer-ni-calculator",
   ],
   "salary-sacrifice-calculator": ["salary-sacrifice-pension-calculator", "salary-sacrifice-pension-guide"],
   "employee-cost-calculator": [

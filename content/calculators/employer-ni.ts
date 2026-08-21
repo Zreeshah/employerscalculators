@@ -4,101 +4,145 @@ export default calculator({
   type: "calculator",
   slug: "employer-ni-calculator",
   kind: "employer-ni",
-  title: "Employer National Insurance Calculator UK 2026/27",
+  title: "Employer NI Calculator UK 2026/27: NIC Cost Tool",
   metaDescription:
-    "Employer National Insurance calculator for 2026/27: 15% on earnings above £5,000 a year, with annual, monthly and total employment cost",
-  h1: "Employer National Insurance Calculator",
+    "Employer NI calculator for 2026/27: work out 15% Class 1 secondary NIC above the £5,000 threshold, monthly cost and total salary plus NI",
+  h1: "Employer NI Calculator",
   intro:
-    "This employer National Insurance calculator shows the Class 1 secondary contributions a UK employer pays on top of an employee's gross salary in 2026/27. It is built for small-business owners budgeting for a new hire, payroll staff checking monthly liabilities, and accountants confirming RTI submissions. For 2026/27, employer NI is charged at **15% on all earnings above the £5,000-a-year secondary threshold**, with no upper cap, in line with the GOV.UK rates and thresholds for employers.",
+    "Use this **Employer NI calculator** to estimate the Class 1 secondary National Insurance a UK employer pays on top of an employee's salary in 2026/27. Enter the annual gross salary and the tool shows the annual employer NIC, the monthly equivalent and the total salary plus employer NI cost. The estimate uses the GOV.UK 2026/27 employer NI rate of **15% above the £5,000 secondary threshold** for a standard employee, before any Employment Allowance is applied.",
   formulaExplainer:
-    "Employer NI runs on the gross pay that already feeds the rest of the payroll: income tax, employee NI, pension contributions and student loans all use the same figure. The calculation is straightforward because there is no upper limit and no tapering once the threshold is crossed.\n\n:::callout info\nEmployer NI = **(annual gross salary − £5,000) × 15%**, with nothing due at or below the £5,000 secondary threshold and no upper cap\n:::\n\nThe £5,000 secondary threshold is an annual figure applied to each employee individually. Once an employee's pay reaches £5,000 in the tax year, every pound above that line attracts NI. The **£10,500 Employment Allowance** is not modelled here because it is claimed against the business's total annual NI bill, not per employee; for a like-for-like per-head figure, ignore it.",
+    "This calculator uses the standard annual employer National Insurance formula for a category A employee in the 2026/27 tax year. It is designed for budgeting, comparing salaries and checking the broad payroll cost before you run the exact pay-period calculation in payroll software.\n\n:::callout info\nEmployer NI = **max(annual gross salary − £5,000, 0) × 15%**. The £5,000 figure is the annual secondary threshold and the 15% rate applies to earnings above it for standard employees in 2026/27.\n:::\n\nThe result is shown before Employment Allowance because that allowance belongs to the employer's whole annual NI bill, not to one employee. If the employee is under 21, an apprentice under 25, a qualifying veteran, or a Freeport or Investment Zone employee, different upper secondary thresholds can reduce the employer NI due.",
   howToSteps: [
     {
-      name: "Enter the annual gross salary",
-      text: "Type the employee's gross pay before tax for the full tax year, including any regular bonuses, commission or allowances that count as earnings for Class 1 NI purposes.",
+      name: "Enter the gross salary",
+      text: "Use the employee's annual gross salary before tax, employee NI, pension contributions or student loan deductions.",
     },
     {
-      name: "Read the annual employer NI",
-      text: "The calculator shows the employer's NI for the year, applying 15% to the portion of salary above £5,000. Anything at or below £5,000 is exempt from employer NI.",
+      name: "Apply the secondary threshold",
+      text: "The calculator ignores the first £5,000 of annual earnings because no standard employer NI is due below that threshold.",
     },
     {
-      name: "Read the monthly equivalent",
-      text: "Use the monthly figure when you are budgeting for a payroll run or modelling cash flow. The figure is the annual NI divided by 12 and does not vary by pay frequency.",
+      name: "Calculate the 15% employer NIC",
+      text: "It multiplies the remaining salary by 15% to estimate the employer's Class 1 secondary contribution for the year.",
     },
     {
-      name: "Read the total employment cost",
-      text: "The total combines gross salary with employer NI to give the full cost of employing the person for the year. Add pension contributions separately if you want a fully loaded figure.",
+      name: "Check the monthly cost",
+      text: "Use the monthly figure to budget cash flow, but remember payroll software applies thresholds by pay period for most employees.",
+    },
+    {
+      name: "Add salary and NI together",
+      text: "The total salary plus NI figure shows the minimum employment cost before pension, benefits, levy costs or overheads.",
     },
   ],
   sections: [
     {
-      heading: "What is employer National Insurance?",
-      body: "**Employer National Insurance** is the Class 1 secondary contribution an employer pays on top of an employee's earnings, in addition to the employee's own Class 1 NI. It is paid to HMRC through PAYE and reported in real time on the Full Payment Submission (FPS).\n\nUnlike employee NI, employer NI has no upper earnings limit, no taper and no higher rate for very high earners. The rate is a flat 15% on earnings above the secondary threshold, which has been frozen at £5,000 a year since 2020. Employer NI is a real cost of employment — it does not reduce the employee's take-home pay — and it is one of the reasons a £40,000 salary costs the business more than £40,000 a year.",
+      heading: "What is employer NI?",
+      body:
+        "**Employer NI** is the employer's Class 1 secondary National Insurance contribution. It is paid by the business to HMRC on top of the employee's gross pay, so it does not reduce the employee's take-home pay. Employees also pay their own Class 1 National Insurance through PAYE, but that is a separate deduction from wages. For hiring budgets, employer NI is one of the first costs to add to salary because a £30,000 salary is not a £30,000 payroll cost once secondary NIC is included.",
     },
     {
-      heading: "How employer NI is calculated",
-      body: "Employer NI uses the **annual gross salary** as its starting point, not the per-pay-period figure. This makes it easy to budget for a new hire, because the annual cost is the same whether the employee is paid weekly, monthly or on an irregular pattern.\n\nThe £5,000 secondary threshold is applied per employee, not per business. A company with two employees on £30,000 each pays NI on £25,000 of each salary, not on the combined £60,000 minus one threshold. Once an employee's pay crosses £5,000 in the tax year, the whole pound above the line attracts NI — there is no tiered rate.",
+      heading: "Employer NI rates and thresholds for 2026/27",
+      body:
+        "For 2026/27, the standard employer NI rate is **15%** on earnings above the **£5,000 annual secondary threshold**. GOV.UK also lists the threshold as £96 per week or £417 per month, which is how payroll software normally applies it during weekly or monthly payroll runs. There is no upper earnings limit for standard employer NI, so the 15% rate continues above £50,270 and on higher salaries. This calculator annualises the same rule so you can estimate the cost quickly before payroll is processed.",
     },
     {
-      heading: "Employer NI on common salaries",
-      body: "The table below shows the employer NI bill on five representative salaries for 2026/27, alongside the total cost to the business. Pension contributions are excluded.\n\n:::table\n| Annual salary | Earnings above £5,000 | Employer NI (15%) | Total cost to employer |\n|---|---|---|---|\n| £15,000 | £10,000 | £1,500 | £16,500 |\n| £30,000 | £25,000 | £3,750 | £33,750 |\n| £50,000 | £45,000 | £6,750 | £56,750 |\n| £75,000 | £70,000 | £10,500 | £85,500 |\n| £100,000 | £95,000 | £14,250 | £114,250 |\n:::\n\nUse the **employee cost calculator** to layer pension contributions on top and see the fully loaded employment cost.",
+      heading: "Employer NI examples on common salaries",
+      body:
+        "The examples below use the standard 2026/27 formula before Employment Allowance. They show why employer NIC matters most once pay moves beyond the £5,000 threshold. On a £20,000 salary, the employer pays NI on £15,000 of earnings. On a £50,000 salary, the liable earnings rise to £45,000. The total cost column includes salary plus employer NI only, so add workplace pension contributions separately when you need a fully loaded employment cost.\n\n:::table\n| Annual salary | Employer NI at 15% above £5,000 | Monthly employer NI | Salary plus employer NI |\n|---|---|---|---|\n| £20,000 | £2,250 | £187.50 | £22,250 |\n| £30,000 | £3,750 | £312.50 | £33,750 |\n| £40,000 | £5,250 | £437.50 | £45,250 |\n| £50,000 | £6,750 | £562.50 | £56,750 |\n| £75,000 | £10,500 | £875.00 | £85,500 |\n| £100,000 | £14,250 | £1,187.50 | £114,250 |\n:::",
     },
     {
-      heading: "The Employment Allowance",
-      body: "The **Employment Allowance** lets eligible employers knock up to £10,500 a year off their total employer NI bill through payroll. It is claimed on the EPS (Employer Payment Summary) by reducing the NI payment due to HMRC, rather than deducted from any single employee's NI.\n\nFor 2026/27, eligibility is restricted to employers whose only Class 1 NI liability is on the wages of employees (excluding directors) and whose total Class 1 NI for the previous tax year was below £100,000. Most small businesses and charities qualify, but larger employers and public bodies do not. The calculator above does not model the Employment Allowance, because the saving depends on the whole payroll — see the Employment Allowance guide for a worked example.",
+      heading: "Employment Allowance and why this result is before allowance",
+      body:
+        "The **Employment Allowance** can reduce an eligible employer's annual National Insurance bill by up to **£10,500** in 2026/27. It is claimed against the employer's total Class 1 secondary NI liability, not attached to a single salary. That is why this calculator shows the before-allowance cost for one employee. A small employer may have the actual cash payment to HMRC reduced to zero until the allowance is used up, while a larger payroll may use the allowance quickly and then pay employer NI in full for the rest of the tax year.",
     },
     {
-      heading: "Directors and the annual earnings period",
-      body: "Directors' NI is worked out slightly differently from regular employees. Rather than running the calculation on each pay period, director NI is calculated cumulatively against the annual earnings period, applying the secondary threshold once across the whole year.\n\nThe calculator above uses the annual basis, so its figures match the **director method**. The same applies to a director who is paid weekly or monthly: you still apply 15% above £5,000 against the year-to-date pay. The result is that a director paid in uneven lump sums does not pay NI twice on the same income, as can happen with the per-period calculation.",
+      heading: "Under-21 employees, apprentices and special NI categories",
+      body:
+        "Not every employee uses the standard employer NI rule. GOV.UK gives higher upper secondary thresholds for employees under 21, apprentices under 25 and qualifying veterans, usually **£50,270 per year** for 2026/27. Freeport and Investment Zone employees can also have a £25,000 upper secondary threshold. These categories can make employer NI zero up to the relevant threshold, then 15% above it. Use the correct NI category letter in payroll because this calculator assumes the standard category A treatment unless you adjust the salary comparison manually.",
     },
     {
-      heading: "Employer NI on benefits in kind",
-      body: "Benefits in kind (such as a company car, private medical insurance or gym membership) are not run through the regular payroll. Instead, they attract **Class 1A NI** at 15% on the taxable value of the benefit, reported on form P11D after the end of the tax year.\n\nThe Class 1A rate matches the Class 1 employer rate (both 15% in 2026/27), so the cost is the same in percentage terms. The difference is procedural: Class 1A is paid once a year, calculated on the P11D value rather than on cash earnings. Salary sacrificed into an approved pension scheme avoids both employee and employer NI on the sacrificed amount.",
+      heading: "Directors, bonuses, overtime and irregular pay",
+      body:
+        "For ordinary employees, payroll software calculates employer NI by pay period. Directors are different because National Insurance is normally assessed on an annual earnings period, so the annual threshold is applied cumulatively across the tax year. Bonuses, overtime and commission are normally earnings for Class 1 NI, so they can increase the employer's secondary contribution in the period they are paid. If you are modelling a bonus, add it to annual salary to see the approximate extra employer NI before payroll applies the exact period rules.",
     },
     {
-      heading: "Common employer NI mistakes to avoid",
-      body: "Three errors show up most often in payroll submissions:\n\n- Forgetting that employer NI is a real cost, not a payroll pass-through. Budget for it as part of the total employment cost.\n- Claiming the Employment Allowance when the business is not eligible (most public bodies and any employer whose Class 1 NI exceeded £100,000 the previous year are out).\n- Treating benefits in kind as Class 1 NI rather than Class 1A. Class 1 runs through payroll; Class 1A is reported annually on the P11D.",
+      heading: "Employer NI vs employee NI",
+      body:
+        "Employer NI and employee NI are easy to confuse because both appear inside payroll, but they answer different questions. **Employee NI** is deducted from gross pay and affects take-home pay. **Employer NI** is paid by the employer in addition to gross pay and affects hiring cost. In 2026/27, employee NI uses the primary threshold and upper earnings limit, while standard employer NI uses the lower £5,000 secondary threshold and has no upper cap. Use the take-home pay calculator for employee-side deductions and this calculator for employer-side cost.",
     },
     {
-      heading: "Summary: how to use this employer NI calculator",
-      body: "Enter the **annual gross salary** and the calculator shows the employer's NI for the year, the monthly equivalent and the total cost of employing that person.\n\nThe figures use the 2026/27 HMRC rate (15% above £5,000) and ignore the £10,500 Employment Allowance, which is claimed against the business's total NI bill. For a complete picture of employment cost, combine the result with pension contributions via the employee cost calculator.",
+      heading: "How to reduce employer NI without hiding payroll cost",
+      body:
+        "The cleanest ways to reduce employer NI are structural and must still follow payroll rules. Claim Employment Allowance if eligible, consider salary sacrifice pension where the employee genuinely exchanges salary for employer pension contributions, and check whether young worker, apprentice, veteran, Freeport or Investment Zone categories apply. Salary sacrifice can reduce NI-able pay for both employer and employee, but it must be documented properly and cannot take pay below the National Minimum Wage. Do not deduct employer NI from wages or disguise normal salary as something else.",
+    },
+    {
+      heading: "Summary: use the Employer NI calculator",
+      body:
+        "Enter the annual gross salary to estimate the employer's National Insurance for a standard UK employee in 2026/27. The calculator applies **15% above the £5,000 secondary threshold**, then shows the annual amount, monthly equivalent and total salary plus NI cost. Use the result as a quick hiring or budgeting estimate, then check Employment Allowance, pension contributions and any special NI category before treating the figure as the final payroll liability.",
+    },
+  ],
+  inlineWidgets: [
+    {
+      type: "barChart",
+      afterSectionHeading: "Employer NI examples on common salaries",
+      title: "Employer NI at common salary levels",
+      unit: "2026/27 standard category A employee, before Employment Allowance",
+      data: [
+        { label: "£20k", value: 2250, caption: "£187.50/month" },
+        { label: "£30k", value: 3750, caption: "£312.50/month" },
+        { label: "£40k", value: 5250, caption: "£437.50/month" },
+        { label: "£50k", value: 6750, caption: "£562.50/month" },
+        { label: "£75k", value: 10500, caption: "£875/month" },
+        { label: "£100k", value: 14250, caption: "£1,187.50/month" },
+      ],
     },
   ],
   faq: [
     {
-      question: "How much is employer National Insurance in 2026/27?",
+      question: "What is employers NI?",
       answer:
-        "15% of each employee's earnings above £5,000 a year, with no upper limit (HMRC). On a £30,000 salary the employer pays £3,750 a year on top of the gross pay.",
+        "Employers NI, or employer National Insurance, is the Class 1 secondary contribution a business pays to HMRC on top of an employee's gross pay. It is separate from employee NI and does not come out of the employee's wages.",
     },
     {
-      question: "What is the Employment Allowance and how does it reduce this cost?",
+      question: "How do I calculate employers NI?",
       answer:
-        "The Employment Allowance lets eligible employers knock up to £10,500 a year off their total employer NI bill. It applies to the business rather than per employee, and is claimed through payroll on the EPS.",
+        "For a standard employee in 2026/27, subtract the £5,000 annual secondary threshold from gross annual salary, then multiply the remaining amount by 15%. If salary is £5,000 or less, standard employer NI is £0.",
     },
     {
-      question: "Does employer NI stop above the Upper Earnings Limit?",
+      question: "What is the employer NI rate for 2026/27?",
       answer:
-        "No. Unlike employee NI, which drops to 2% above £50,270, employer NI stays at 15% on all earnings above £5,000 however high the salary goes.",
+        "The standard employer Class 1 secondary NI rate for 2026/27 is 15% on earnings above the £5,000 annual secondary threshold. Special category letters can change when the 15% rate starts for under-21s, apprentices, veterans, Freeport and Investment Zone employees.",
     },
     {
-      question: "Is employer NI due on benefits in kind?",
+      question: "How much employer NI is due on a £30,000 salary?",
       answer:
-        "Benefits in kind attract Class 1A NI at 15% instead of Class 1 NI, reported on form P11D after the tax year. Salary sacrificed into an approved pension scheme avoids both.",
+        "On a £30,000 salary, standard employer NI is £3,750 per year: £30,000 minus the £5,000 threshold leaves £25,000, then £25,000 multiplied by 15% equals £3,750. The monthly equivalent is £312.50.",
     },
     {
-      question: "Do directors pay employer NI differently?",
+      question: "Does employer NI apply to bonuses and overtime?",
       answer:
-        "Directors use an annual earnings period rather than a per-pay-period basis, so NI is worked out cumulatively across the year. This calculator uses the annual method, so the figures align with director calculations.",
+        "Yes. Bonuses, overtime and commission are normally earnings for Class 1 NI, so employer NI can apply when they are paid. For a simple annual estimate, add the expected bonus or overtime to salary and run the total through the calculator.",
     },
     {
-      question: "Can I deduct employer NI from the employee's pay?",
+      question: "Does Employment Allowance reduce this calculator result?",
       answer:
-        "No. Employer NI is an employer's own tax liability, paid on top of gross salary. Employees pay their own Class 1 NI separately through PAYE; the two are calculated and reported independently.",
+        "Not directly. The calculator shows employer NI before Employment Allowance because the allowance is claimed against the employer's total annual NI bill. Eligible employers can reduce that total bill by up to £10,500 in 2026/27.",
+    },
+    {
+      question: "Do employers pay NI for under-21s and apprentices?",
+      answer:
+        "Employers often pay 0% employer NI up to a higher upper secondary threshold for employees under 21 and apprentices under 25, provided the correct NI category letter is used. In 2026/27 that upper secondary threshold is £50,270 per year, with 15% due above it.",
+    },
+    {
+      question: "Can employer NI be deducted from the employee's pay?",
+      answer:
+        "No. Employer NI is the employer's own liability and is paid on top of gross salary. The employee's own National Insurance is deducted separately through PAYE.",
     },
   ],
   relatedSlugs: [
     "employment-allowance-guide",
     "employer-ni-rates-2026-27",
     "employee-cost-calculator",
+    "salary-sacrifice-pension-calculator",
   ],
 });
