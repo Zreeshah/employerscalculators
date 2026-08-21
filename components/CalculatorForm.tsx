@@ -68,7 +68,11 @@ function GenericCalculatorForm({
 
   return (
     <div className="grid gap-8 md:grid-cols-2">
-      <form className="space-y-5" aria-label="Calculator inputs">
+      <form className="card space-y-5 p-6 shadow-sm" aria-label="Calculator inputs">
+        <div>
+          <h2 className="text-2xl font-semibold">Calculator inputs</h2>
+          <p className="mt-2 text-sm text-ink/60">Results update as you type.</p>
+        </div>
         {specs.map((spec) => {
           const id = `input-${kind}-${spec.name}`;
           return (
@@ -96,22 +100,20 @@ function GenericCalculatorForm({
 
       <div
         aria-live="polite"
-        className="rounded-2xl bg-ink p-6 text-paper shadow-sm md:sticky md:top-20 md:self-start"
+        className="card bg-paper/70 p-6 shadow-sm md:sticky md:top-20 md:self-start"
       >
-        <h2 className="text-xs font-semibold uppercase tracking-widest text-paper/60">
-          Your results
-        </h2>
-        <dl className="mt-5 divide-y divide-paper/10">
+        <h2 className="text-2xl font-semibold">Your results</h2>
+        <dl className="mt-5 divide-y divide-ink/10">
           {results.map((line) => (
             <div key={line.label} className="py-3 first:pt-0 last:pb-0">
-              <dt className="text-sm text-paper/70">{line.label}</dt>
-              <dd className="tabular text-3xl font-semibold text-accent">
+              <dt className="text-sm text-ink/65">{line.label}</dt>
+              <dd className="tabular text-3xl font-semibold text-accent-strong">
                 {formatValue(line.value, line.format)}
               </dd>
             </div>
           ))}
         </dl>
-        <p className="mt-5 text-xs leading-relaxed text-paper/50">
+        <p className="mt-5 text-xs leading-relaxed text-ink/55">
           Estimates only, based on 2026/27 HMRC rates. Verify against GOV.UK before making payroll decisions.
         </p>
       </div>
@@ -208,7 +210,7 @@ function EmployerNiCalculator({ defaults }: { defaults?: Record<string, number> 
   return (
     <div className="space-y-6">
       <div className="grid gap-6 lg:grid-cols-[1fr_1.05fr]">
-        <form className="card space-y-6 p-6" aria-label="Employer NI inputs">
+        <form className="card space-y-6 bg-white p-6 shadow-sm" aria-label="Employer NI inputs">
           <div>
             <h2 className="text-2xl font-semibold">Employer NI inputs</h2>
             <p className="mt-2 text-sm text-ink/60">Results update as you type.</p>
@@ -280,15 +282,15 @@ function EmployerNiCalculator({ defaults }: { defaults?: Record<string, number> 
         </form>
 
         <div className="space-y-4" aria-live="polite">
-          <section className="rounded-2xl border border-ink bg-ink p-6 text-paper shadow-sm">
+          <section className="card bg-paper/70 p-6 shadow-sm">
             <div className="flex flex-wrap items-start justify-between gap-4">
               <div>
                 <h2 className="text-2xl font-semibold">Employer NI cost</h2>
-                <p className="mt-2 text-sm text-paper/60">
+                <p className="mt-2 text-sm text-ink/60">
                   {calculation.costPercent.toFixed(1)}% of salary after selected allowances
                 </p>
               </div>
-              <div className="inline-flex rounded-xl border border-paper/15 bg-paper/5 p-1 text-sm">
+              <div className="inline-flex rounded-xl border border-ink/10 bg-white p-1 text-sm shadow-sm">
                 {(["annual", "monthly", "weekly"] as Period[]).map((item) => (
                   <button
                     key={item}
@@ -296,8 +298,8 @@ function EmployerNiCalculator({ defaults }: { defaults?: Record<string, number> 
                     onClick={() => setPeriod(item)}
                     className={`rounded-lg px-3 py-1.5 font-medium transition-colors ${
                       period === item
-                        ? "bg-paper text-ink"
-                        : "text-paper/70 hover:text-paper"
+                        ? "bg-accent-strong text-white shadow-sm"
+                        : "text-ink/60 hover:text-accent-strong"
                     }`}
                   >
                     {item[0].toUpperCase() + item.slice(1)}
@@ -306,22 +308,22 @@ function EmployerNiCalculator({ defaults }: { defaults?: Record<string, number> 
               </div>
             </div>
 
-            <div className="mt-8 text-center">
-              <p className="tabular text-5xl font-semibold text-accent sm:text-6xl">
+            <div className="mt-8 rounded-2xl border border-ink/10 bg-white p-6 text-center">
+              <p className="tabular text-5xl font-semibold text-accent-strong sm:text-6xl">
                 {gbp.format(calculation.displayNi)}
               </p>
-              <p className="mt-2 text-sm text-paper/60">{periodLabels[period]}</p>
+              <p className="mt-2 text-sm text-ink/60">{periodLabels[period]}</p>
             </div>
 
             {applyAllowance && (
-              <dl className="mt-6 grid gap-3 border-t border-paper/10 pt-5 sm:grid-cols-2">
-                <div>
-                  <dt className="text-xs uppercase tracking-widest text-paper/50">Before allowance</dt>
-                  <dd className="tabular mt-1 text-lg font-semibold">{gbp.format(calculation.displayRawNi)}</dd>
+              <dl className="mt-5 grid gap-3 sm:grid-cols-2">
+                <div className="rounded-xl border border-ink/10 bg-white p-4">
+                  <dt className="text-xs uppercase tracking-widest text-ink/55">Before allowance</dt>
+                  <dd className="tabular mt-1 text-lg font-semibold text-ink">{gbp.format(calculation.displayRawNi)}</dd>
                 </div>
-                <div>
-                  <dt className="text-xs uppercase tracking-widest text-paper/50">Allowance saving</dt>
-                  <dd className="tabular mt-1 text-lg font-semibold text-accent">{gbp.format(calculation.displaySaving)}</dd>
+                <div className="rounded-xl border border-accent-strong/20 bg-accent/[0.06] p-4">
+                  <dt className="text-xs uppercase tracking-widest text-ink/55">Allowance saving</dt>
+                  <dd className="tabular mt-1 text-lg font-semibold text-accent-strong">{gbp.format(calculation.displaySaving)}</dd>
                 </div>
               </dl>
             )}
@@ -329,7 +331,7 @@ function EmployerNiCalculator({ defaults }: { defaults?: Record<string, number> 
 
           <a
             href={`/employee-cost-calculator/?salary=${Math.round(calculation.salary)}`}
-            className="card flex items-center justify-between gap-4 p-4 text-sm font-semibold transition-colors hover:border-accent-strong"
+            className="card flex items-center justify-between gap-4 bg-white p-4 text-sm font-semibold shadow-sm transition-colors hover:border-accent-strong"
           >
             <span>
               You will pay {gbp.format(calculation.payableNi)} in employer NI. See the full employment cost.
@@ -340,19 +342,19 @@ function EmployerNiCalculator({ defaults }: { defaults?: Record<string, number> 
       </div>
 
       <section className="grid gap-4 sm:grid-cols-2">
-        <div className="card p-6">
+        <div className="card bg-white p-6 shadow-sm">
           <p className="text-sm text-ink/60">Total employment cost</p>
-          <p className="tabular mt-2 text-4xl font-semibold">{gbp.format(calculation.totalEmploymentCost)}</p>
+          <p className="tabular mt-2 text-4xl font-semibold text-accent-strong">{gbp.format(calculation.totalEmploymentCost)}</p>
           <p className="mt-1 text-sm text-ink/60">Salary plus employer NI after selected allowance</p>
         </div>
-        <div className="card p-6">
+        <div className="card bg-white p-6 shadow-sm">
           <p className="text-sm text-ink/60">NI savings</p>
-          <p className="tabular mt-2 text-4xl font-semibold">{gbp.format(calculation.allowanceSaving)}</p>
+          <p className="tabular mt-2 text-4xl font-semibold text-accent-strong">{gbp.format(calculation.allowanceSaving)}</p>
           <p className="mt-1 text-sm text-ink/60">From Employment Allowance</p>
         </div>
       </section>
 
-      <section className="card p-6">
+      <section className="card bg-white p-6 shadow-sm">
         <h2 className="text-2xl font-semibold">Cost breakdown</h2>
         <div className="mt-6 grid items-center gap-6 md:grid-cols-[220px_1fr]">
           <div className="mx-auto w-full max-w-[220px]">
@@ -415,7 +417,7 @@ function EmployerNiCalculator({ defaults }: { defaults?: Record<string, number> 
         </div>
       </section>
 
-      <details className="card overflow-hidden" open>
+      <details className="card overflow-hidden bg-white shadow-sm" open>
         <summary className="cursor-pointer list-none px-6 py-4 text-lg font-semibold">
           How this is calculated
         </summary>

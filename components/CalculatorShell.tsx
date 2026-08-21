@@ -11,7 +11,7 @@ export default function CalculatorShell({
   defaults?: Record<string, number>;
 }) {
   return (
-    <section aria-label="Calculator" className="card p-6 shadow-sm sm:p-8">
+    <section aria-label="Calculator">
       <CalculatorForm kind={kind} defaults={defaults} />
     </section>
   );
