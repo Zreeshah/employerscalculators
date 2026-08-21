@@ -8,6 +8,8 @@ import HolidayEntitlement from "./holiday-entitlement";
 import Ir35 from "./ir35";
 import MaternityAllowance from "./maternity-allowance";
 import NetToGross from "./net-to-gross";
+import NhsPayComparison from "./nhs-pay-comparison";
+import NhsTakeHomePay from "./nhs-take-home-pay";
 import { nhsCalculators } from "./nhs";
 import P11d from "./p11d";
 import ProRata from "./pro-rata";
@@ -36,6 +38,8 @@ const core: CalculatorContent[] = [
   CompanyCarTax,
   NetToGross,
   TakeHomePay,
+  NhsTakeHomePay,
+  NhsPayComparison,
   AnnualLeave,
   HolidayEntitlement,
 ];
@@ -53,6 +57,8 @@ export const calculatorGroups: { title: string; slugs: string[] }[] = [
     slugs: [
       "pro-rata-calculator",
       "take-home-pay-calculator",
+      "nhs-take-home-pay",
+      "nhs-pay-comparison",
       "net-to-gross-calculator",
       "employee-cost-calculator",
       "salary-sacrifice-calculator",

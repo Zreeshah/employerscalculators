@@ -17,6 +17,8 @@ export type CalculatorKind =
   | "company-car-tax"
   | "net-to-gross"
   | "take-home-pay"
+  | "nhs-take-home-pay"
+  | "nhs-pay-comparison"
   | "annual-leave"
   | "holiday-entitlement"
   | "nhs-band";
@@ -35,6 +37,7 @@ export interface ResultLine {
 }
 
 export type EmployerNiCategory = "standard" | "under21" | "apprentice" | "veteran" | "freeport";
+export type PensionSchemeType = "qualifying" | "total";
 
 export const employerNiCategoryThresholds: Record<EmployerNiCategory, number> = {
   standard: currentRates.employerNi.secondaryThreshold,
@@ -62,6 +65,21 @@ export function employerNiWithAllowance(
     ? Math.min(rawNi, currentRates.employerNi.employmentAllowance)
     : 0;
   return { rawNi, allowanceSaving, payableNi: rawNi - allowanceSaving };
+}
+
+export function employerPensionContribution(
+  gross: number,
+  ratePercent = currentRates.pension.employerMinPercent,
+  scheme: PensionSchemeType = "qualifying",
+): number {
+  const safeGross = Math.max(0, gross);
+  const rate = Math.max(0, ratePercent) / 100;
+  if (scheme === "total") return safeGross * rate;
+  const qualifyingPay = Math.max(
+    0,
+    Math.min(safeGross, currentRates.pension.qualifyingUpperLimit) - currentRates.pension.qualifyingLowerLimit,
+  );
+  return qualifyingPay * rate;
 }
 
 export const calculatorInputs: Record<CalculatorKind, InputSpec[]> = {
@@ -127,6 +145,17 @@ export const calculatorInputs: Record<CalculatorKind, InputSpec[]> = {
   ],
   "take-home-pay": [
     { name: "annualSalary", label: "Annual gross salary", unit: "currency" },
+  ],
+  "nhs-take-home-pay": [
+    { name: "annualSalary", label: "NHS annual salary", unit: "currency" },
+    { name: "pensionPercent", label: "NHS pension contribution", unit: "percent", step: 0.1 },
+    { name: "studentLoanMonthly", label: "Student loan deduction per month", unit: "currency" },
+  ],
+  "nhs-pay-comparison": [
+    { name: "salaryA", label: "Scenario A full-time salary", unit: "currency" },
+    { name: "fteA", label: "Scenario A FTE", step: 0.1 },
+    { name: "salaryB", label: "Scenario B full-time salary", unit: "currency" },
+    { name: "fteB", label: "Scenario B FTE", step: 0.1 },
   ],
   "annual-leave": [
     { name: "daysWorkedPerWeek", label: "Days worked per week", unit: "days" },
@@ -256,11 +285,11 @@ export function calculate(
     case "employee-cost": {
       const gross = n("annualSalary");
       const ni = employerNi(gross);
-      const pension = gross * (r.pension.employerMinPercent / 100);
+      const pension = employerPensionContribution(gross, r.pension.employerMinPercent, "qualifying");
       return [
         { label: "Gross salary", value: gross, format: "currency" },
         { label: "Employer NI (15% above £5,000)", value: ni, format: "currency" },
-        { label: "Employer pension (3% minimum)", value: pension, format: "currency" },
+        { label: "Employer pension (3% qualifying earnings)", value: pension, format: "currency" },
         { label: "Total employment cost", value: gross + ni + pension, format: "currency" },
       ];
     }
@@ -311,6 +340,31 @@ export function calculate(
         { label: "Employee NI", value: ni, format: "currency" },
         { label: "Take-home pay (annual)", value: net, format: "currency" },
         { label: "Take-home pay (monthly)", value: net / 12, format: "currency" },
+      ];
+    }
+    case "nhs-take-home-pay": {
+      const gross = n("annualSalary");
+      const pension = gross * (Math.max(0, n("pensionPercent")) / 100);
+      const taxablePay = Math.max(0, gross - pension);
+      const tax = incomeTaxRuk(taxablePay);
+      const ni = employeeNi(gross);
+      const studentLoan = Math.max(0, n("studentLoanMonthly")) * 12;
+      const net = gross - pension - tax - ni - studentLoan;
+      return [
+        { label: "NHS pension deduction", value: pension, format: "currency" },
+        { label: "Income tax", value: tax, format: "currency" },
+        { label: "Employee NI", value: ni, format: "currency" },
+        { label: "Estimated take-home pay (monthly)", value: net / 12, format: "currency" },
+      ];
+    }
+    case "nhs-pay-comparison": {
+      const annualA = n("salaryA") * n("fteA");
+      const annualB = n("salaryB") * n("fteB");
+      return [
+        { label: "Scenario A annual pay", value: annualA, format: "currency" },
+        { label: "Scenario B annual pay", value: annualB, format: "currency" },
+        { label: "Annual difference", value: annualB - annualA, format: "currency" },
+        { label: "Monthly difference", value: (annualB - annualA) / 12, format: "currency" },
       ];
     }
     case "annual-leave":

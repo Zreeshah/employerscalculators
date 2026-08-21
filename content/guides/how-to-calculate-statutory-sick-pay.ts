@@ -60,6 +60,18 @@ export default guide({
       body:
         "The weekly SSP rate is the same for everyone, but the daily rate depends on how many days a week the employee is contracted to work. A part-time worker on three days a week receives more per day than a full-time worker on five days, because the same weekly SSP total is spread over fewer qualifying days.\n\n:::table\n| Qualifying days per week | Daily SSP rate | Weekly SSP (full £123.25 rate) |\n|---|---|---|\n| 7 | £17.61 | £123.25 |\n| 6 | £20.55 | £123.25 |\n| 5 | £24.65 | £123.25 |\n| 4 | £30.81 | £123.25 |\n| 3 | £41.08 | £123.25 |\n| 2 | £61.63 | £123.25 |\n| 1 | £123.25 | £123.25 |\n:::\n\nWhere 80% of average weekly earnings is lower than £123.25, the lower figure is used across the week. A low earner on £120 a week AWE, for example, would receive £96 a week in SSP — or £19.20 per day on a five-day pattern.",
     },
+    {
+      "heading": "SSP edge-case decision tree",
+      "body": "Start with worker status and earnings. If the person is an employee and average weekly earnings meet the Lower Earnings Limit, check whether there is a period of incapacity for work and identify qualifying days. Then check linked periods, maximum entitlement used, fit-note evidence and exclusions. Pregnancy-related sickness, new starters, TUPE transfers, hospitalisation and employees with more than one job can all need extra checks before payroll finalises SSP."
+    },
+    {
+      "heading": "Notification, fit note and payroll records",
+      "body": "Employees must tell the employer they are sick within the employer’s notice rules, or within seven days if there is no rule. A fit note is usually needed after seven calendar days. Employers should keep absence dates, qualifying days, SSP paid, linked periods, reasons for non-payment, and copies of SSP1 where issued. Good records protect both payroll and HR if the employee challenges the calculation."
+    },
+    {
+      "heading": "Low earner examples and the 80% cap",
+      "body": "Where 80% of average weekly earnings is below the statutory weekly SSP rate, the lower 80% amount applies. For example, if average weekly earnings are £140, 80% is £112, so the weekly SSP payable is £112 rather than the headline statutory rate. This matters for part-time and low-paid workers and should be checked before using a standard daily SSP rate."
+    },
   ],
   faq: [
     {
@@ -126,6 +138,18 @@ export default guide({
       question: "Can employers reclaim SSP from HMRC?",
       answer:
         "No. Employers bear the full cost of SSP — there is no statutory recovery scheme, unlike Statutory Maternity Pay, where 92% (or 109% for small employers with total Class 1 NI ≤ £45,000) can be reclaimed through PAYE.",
+    },
+    {
+      "question": "Does SSP start from day one?",
+      "answer": "For the 2026/27 assumptions used on this site, SSP is modelled from day one of eligible sickness. Always check the current GOV.UK rules before processing payroll."
+    },
+    {
+      "question": "What if an employee has two jobs?",
+      "answer": "Each employment is considered separately. The employee may qualify for SSP from more than one employer if the conditions are met in each job."
+    },
+    {
+      "question": "When should SSP1 be issued?",
+      "answer": "Issue SSP1 when SSP is not payable or when entitlement ends, so the employee can consider benefit support."
     },
   ],
   relatedSlugs: [

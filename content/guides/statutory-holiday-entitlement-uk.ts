@@ -50,6 +50,18 @@ export default guide({
       body:
         "A week's holiday pay should reflect what the worker would normally have earned. Following case law and GOV.UK guidance, for the **first 4 weeks of statutory leave** this includes **regular overtime, commission and certain allowances** — not just basic salary. The remaining 1.6 weeks can be paid at the basic rate, though many employers pay everything at the normal rate to keep payroll simple.\n\nFor staff with variable pay, a week's pay is usually averaged over the **previous 52 paid weeks**, ignoring any weeks with no pay. Getting holiday pay wrong can lead to back-pay claims, so build the average-pay check into your payroll process each time leave is taken.\n\n:::callout tip\n**Use our holiday entitlement calculator** to work out the correct pay for any working pattern, including regular overtime and commission.\n:::",
     },
+    {
+      "heading": "Worker-status checks before calculating holiday",
+      "body": "Holiday entitlement applies to workers, not only employees. Before calculating days or hours, confirm whether the person is an employee, a limb-b worker, an agency worker, an irregular-hours worker, a part-year worker or genuinely self-employed. The calculation method and holiday-pay reference period can change depending on that status. If status is uncertain, resolve it before relying on a rounded holiday figure."
+    },
+    {
+      "heading": "Holiday pay, overtime and commission examples",
+      "body": "Holiday entitlement answers how much leave someone gets; holiday pay answers what that leave is worth. Regular overtime, commission and allowances may need to be reflected in holiday pay, commonly using a 52-week paid-weeks reference period. For example, a worker with basic weekly pay of £500 and regular commission averaging £80 a week should not normally have holiday pay calculated on basic pay alone. The correct approach is to identify normal remuneration, exclude unpaid weeks where required, and keep a clear audit trail."
+    },
+    {
+      "heading": "Starting, leaving and mid-year changes",
+      "body": "When someone starts or leaves part-way through a leave year, calculate entitlement for the portion of the leave year worked. If hours or days change mid-year, split the year into periods and calculate each pattern separately rather than averaging everything into one figure. This prevents underpayment for workers who move from part-time to full-time or vice versa during the year."
+    },
   ],
   faq: [
     {
@@ -116,6 +128,18 @@ export default guide({
       question: "What is rolled-up holiday pay?",
       answer:
         "Rolled-up holiday pay means paying an extra 12.07% on top of normal pay each pay period instead of paying holiday when leave is taken. It is only legal for irregular-hours/part-year workers from 1 April 2024, must be shown separately on the payslip, and workers must still be allowed to take their leave unpaid.",
+    },
+    {
+      "question": "Do part-year workers still get 5.6 weeks holiday?",
+      "answer": "They remain entitled to statutory paid holiday, but the way entitlement and pay are calculated depends on the working pattern and current holiday-pay rules. Avoid simply using 12.07% without checking whether the worker is irregular-hours or part-year."
+    },
+    {
+      "question": "Should bank holidays be included in the 28 days?",
+      "answer": "They can be included in the statutory 5.6 weeks. The contract decides whether bank holidays are part of the entitlement or provided on top."
+    },
+    {
+      "question": "How should holiday be rounded?",
+      "answer": "Employers can round entitlement up, but should not round down below the statutory minimum. For hourly workers, keep enough decimal precision to avoid short-changing leave."
     },
   ],
   relatedSlugs: [

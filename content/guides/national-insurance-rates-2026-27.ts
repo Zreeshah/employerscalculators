@@ -55,6 +55,18 @@ export default guide({
       body:
         "The 2026/27 figures are **unchanged from 2025/26**, which was the second year in a row the main rates were held:\n\n- **Employee NI:** 8% (£12,570–£50,270), 2% above £50,270 — unchanged since 2025/26\n- **Employer NI:** 15% above £5,000 — unchanged since April 2025\n- **Secondary threshold:** £5,000 — unchanged since April 2025\n- **Primary threshold:** £12,570 — frozen since 2021/22\n- **Upper Earnings Limit:** £50,270 — frozen since 2021/22\n- **Lower Earnings Limit:** £129/week (£6,708/year) — unchanged\n- **Employment Allowance:** £10,500 — unchanged\n- **Upper secondary threshold (under-21s/apprentices):** £50,270 — unchanged\n\nBefore April 2025, the employer rate was **13.8%** and the secondary threshold was **£9,100**. The current figures represent a **1.2 percentage-point rate increase** and a **£4,100 threshold reduction**, materially raising employer NI.\n\n:::callout tip\n**For 2024/25, 2025/26, and 2026/27 the figures are identical.** Most employers should reconcile their current payroll against the 15% × (£pay − £5,000) formula and not assume a change. Major rate changes tend to come alongside the Autumn Budget, not the start of the tax year.\n:::",
     },
+    {
+      "heading": "Director NI: annual method versus alternative method",
+      "body": "Directors are different because National Insurance is assessed on an annual earnings period. Payroll may use the annual method from the start of the year or the alternative method during the year with a final annual recalculation. This matters for directors paid irregularly, through bonuses or with low monthly salary plus dividends. Employee NI and employer NI can appear low early in the year and then catch up when cumulative earnings pass the annual thresholds."
+    },
+    {
+      "heading": "NI category letters and employer reliefs",
+      "body": "The standard employee often uses category A, but payroll must choose the correct category letter. Under-21 employees, apprentices under 25, qualifying veterans and Freeport or Investment Zone employees can have different employer NI treatment up to special thresholds. Category errors can overstate or understate employer cost, so the employer NI calculator should be paired with a category-letter check before payroll is finalised."
+    },
+    {
+      "heading": "Multiple employments, deferment and benefits",
+      "body": "An employee with more than one job can pay NI separately in each employment, unlike income tax which is coordinated through tax codes. Deferment may apply in some multi-employment cases. Benefits in kind are normally not employee Class 1 NI, but employers may pay Class 1A NI on P11D benefits. Student loans are separate from NI and should not be mixed into NI rate calculations."
+    },
   ],
   faq: [
     {
@@ -136,6 +148,18 @@ export default guide({
       question: "What are the NI category letters for 2026/27?",
       answer:
         "Most employees use category A. Under-21s use M, apprentices under 25 use H, veterans use V, Freeport workers use F, Investment Zone workers use N. These categories affect employer NI (0% up to higher thresholds), not employee NI rates.",
+    },
+    {
+      "question": "Do directors pay NI differently?",
+      "answer": "Yes. Directors are normally assessed on an annual earnings period, even if payroll uses an alternative method during the year."
+    },
+    {
+      "question": "Is Scottish income tax the same as National Insurance?",
+      "answer": "No. Scotland has different income-tax bands, but National Insurance is UK-wide for employees."
+    },
+    {
+      "question": "Are benefits in kind subject to employee NI?",
+      "answer": "Usually no employee Class 1 NI is due on P11D benefits, but employer Class 1A NI may be due."
     },
   ],
   relatedSlugs: [

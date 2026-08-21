@@ -38,6 +38,18 @@ export default calculator({
       body:
         "Two numbers in, four numbers out. Enter the annual gross salary and the sacrifice percentage. The salary sacrifice calculator returns the sacrificed amount, the reduced gross salary, the employee NI saving and the employer NI saving, using the 2026/27 NI rates applied to the before-and-after gross. Use the reduced gross as the new baseline for pension contributions, statutory pay and benefits in kind.\n\nFor pension-specific modelling — where income tax relief on the sacrificed amount is included — use the salary sacrifice pension calculator.",
     },
+    {
+      "heading": "Salary sacrifice schemes this calculator can support",
+      "body": "Salary sacrifice is most often used for pension contributions, cycle-to-work, electric vehicles and some benefit schemes. The tax result depends on the scheme. Pension sacrifice normally reduces taxable pay and NI-able pay. Electric vehicle schemes can create a benefit-in-kind charge. Cycle-to-work has its own conditions. Always identify the scheme type before assuming the full sacrifice becomes a saving."
+    },
+    {
+      "heading": "Threshold crossings and statutory-pay warnings",
+      "body": "A sacrifice that looks attractive can cause problems if it takes pay below National Minimum Wage, affects maternity pay average weekly earnings, reduces mortgage affordability, changes life-cover multiples or pushes taxable pay around a student-loan or pension threshold. Employers should model the before-and-after payslip and keep written employee consent before changing contractual salary."
+    },
+    {
+      "heading": "Passing employer NI saving into pension",
+      "body": "Some employers keep their employer NI saving; others pass all or part of it into the employee pension. Passing the saving into pension can turn every £1 sacrificed into more than £1 of pension contribution, because the employer adds the NI saving on top. This is one of the strongest reasons to compare pension salary sacrifice with ordinary personal pension contributions."
+    },
   ],
   faq: [
     {
@@ -64,6 +76,18 @@ export default calculator({
       question: "Does salary sacrifice affect income tax?",
       answer:
         "For pension salary sacrifice, the sacrificed amount is also free of income tax, which is where most of the employee saving comes from. For cycle-to-work and electric car schemes, the income tax treatment depends on the benefit. This calculator shows the NI savings specifically, because income tax relief depends on the individual's tax band and the type of benefit.",
+    },
+    {
+      "question": "Can salary sacrifice reduce pay below minimum wage?",
+      "answer": "No. A salary sacrifice arrangement must not reduce cash pay below the National Minimum Wage or National Living Wage for the pay period."
+    },
+    {
+      "question": "Does salary sacrifice affect SMP or SSP?",
+      "answer": "It can. Statutory payments often use actual pay in a reference period, so a reduced contractual salary may reduce average weekly earnings."
+    },
+    {
+      "question": "Who gets the employer NI saving?",
+      "answer": "The employer decides the policy. Some keep the saving, some share it, and some add all of it to the pension contribution."
     },
   ],
   relatedSlugs: [],

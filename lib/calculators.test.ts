@@ -5,6 +5,7 @@ import {
   employerNi,
   employerNiForCategory,
   employerNiWithAllowance,
+  employerPensionContribution,
   incomeTaxRuk,
   takeHome,
 } from "./calculators.ts";
@@ -57,12 +58,38 @@ test("employment allowance offsets employer NI up to the annual cap", () => {
   });
 });
 
+test("employer pension contribution supports qualifying and total earnings", () => {
+  assert.equal(employerPensionContribution(30000, 3, "qualifying"), 712.8);
+  assert.equal(employerPensionContribution(30000, 5, "total"), 1500);
+});
+
 test("income tax on £30,000 (rUK) is 20% above the £12,570 PA", () => {
   assert.equal(incomeTaxRuk(30000), 3486);
 });
 
 test("take-home on £30,000 deducts tax and NI", () => {
   assert.equal(takeHome(30000), 30000 - 3486 - 1394.4);
+});
+
+test("NHS take-home pay deducts pension before tax and NI from gross", () => {
+  const result = calculate("nhs-take-home-pay", {
+    annualSalary: 38682,
+    pensionPercent: 9.8,
+    studentLoanMonthly: 0,
+  });
+  assert.ok(Math.abs(result[0].value - 3790.836) < 0.001);
+  assert.ok(result[3].value > 2300 && result[3].value < 2400);
+});
+
+test("NHS pay comparison calculates FTE scenario difference", () => {
+  const result = calculate("nhs-pay-comparison", {
+    salaryA: 31049,
+    fteA: 1,
+    salaryB: 38682,
+    fteB: 0.8,
+  });
+  assert.equal(result[0].value, 31049);
+  assert.equal(result[1].value, 30945.600000000002);
 });
 
 test("SSP daily rate uses qualifying days, capped at 28 weeks", () => {

@@ -43,7 +43,9 @@ export const relatedMap: Record<string, string[]> = {
   ],
   "bradford-factor-calculator": ["ssp-calculator", "ssp-vs-company-sick-pay", "annual-leave-calculator"],
   "net-to-gross-calculator": ["take-home-pay-calculator", "employer-ni-calculator", "ir35-calculator"],
-  "take-home-pay-calculator": ["net-to-gross-calculator", "national-insurance-rates-2026-27", "ir35-calculator"],
+  "take-home-pay-calculator": ["net-to-gross-calculator", "national-insurance-rates-2026-27", "ir35-calculator", "nhs-take-home-pay"],
+  "nhs-take-home-pay": ["nhs-pay-comparison", "take-home-pay-calculator", "pro-rata-calculator"],
+  "nhs-pay-comparison": ["nhs-take-home-pay", "take-home-pay-calculator", "pro-rata-calculator"],
   "annual-leave-calculator": [
     "holiday-entitlement-calculator",
     "statutory-holiday-entitlement-uk",
@@ -73,7 +75,7 @@ export const relatedMap: Record<string, string[]> = {
 };
 
 // NHS matrix pages share one default set
-const nhsRelated = ["employee-cost-calculator", "take-home-pay-calculator"];
+const nhsRelated = ["nhs-take-home-pay", "nhs-pay-comparison", "employee-cost-calculator", "take-home-pay-calculator"];
 
 export function relatedFor(slug: string): string[] {
   if (slug.startsWith("nhs-band-")) return nhsRelated;

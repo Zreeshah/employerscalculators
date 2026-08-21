@@ -38,6 +38,18 @@ export default calculator({
       body:
         "Two numbers in, one number out. Enter the annual gross salary and the days of sickness. The company sick pay calculator returns the **2026/27 SSP floor of £123.25 a week**, which is the minimum every contractual scheme must match in any week of paid sickness. Use that figure as the benchmark when setting, reviewing, or challenging a contractual scheme — for the full SSP calculation with daily rates and the 28-week cap, use the Statutory Sick Pay calculator.\n\n:::callout tip\n**Source the figures from HMRC.** The SSP rate and the removal of waiting days are confirmed in the [HMRC rates and thresholds for employers 2026 to 2027](https://www.gov.uk/guidance/rates-and-thresholds-for-employers-2026-to-2027) on GOV.UK.\n:::",
     },
+    {
+      "heading": "Company sick pay policy modelling",
+      "body": "Company sick pay can be full pay, half pay, a fixed weekly amount, SSP-only or a staged policy such as four weeks full pay followed by four weeks half pay. To model it properly, separate the statutory SSP floor from the contractual top-up. A good policy states waiting rules, qualifying service, evidence requirements, maximum entitlement, whether SSP is included in full pay, and what happens when an absence links to an earlier absence."
+    },
+    {
+      "heading": "Absence history and remaining entitlement",
+      "body": "Enhanced sick pay often depends on sickness history in the previous 12 months, while SSP has a 28-week maximum for a period of incapacity and rules for linked periods. Employers should track absence dates, qualifying days, SSP weeks used, company sick pay used and the date entitlement resets. Without that history, the next absence may be overpaid or underpaid."
+    },
+    {
+      "heading": "Payroll timeline for a sickness absence",
+      "body": "A practical timeline is: employee reports absence, employer records qualifying days, fit note is requested when required, SSP eligibility is checked, company sick pay policy is applied, payroll processes the payment, and HR reviews return-to-work actions. If SSP is not due or stops, issue SSP1 so the employee can consider benefit support."
+    },
   ],
   faq: [
     {
@@ -64,6 +76,18 @@ export default calculator({
       question: "Can employers reclaim SSP from HMRC?",
       answer:
         "No. There is no general rebate scheme — employers bear the cost of SSP themselves. The old Percentage Threshold Scheme was abolished in 2014, and the temporary COVID-19 rebate scheme has also closed.",
+    },
+    {
+      "question": "Is company sick pay paid on top of SSP?",
+      "answer": "It depends on the policy. Many policies include SSP inside full pay rather than paying it as an extra amount."
+    },
+    {
+      "question": "Can enhanced sick pay run out?",
+      "answer": "Yes. Policies normally cap entitlement by weeks, days, service length or a rolling period such as 12 months."
+    },
+    {
+      "question": "Should sickness absence link to Bradford Factor?",
+      "answer": "Bradford Factor can help monitor absence patterns, but it should not replace fair process, disability considerations or medical context."
     },
   ],
   relatedSlugs: [],

@@ -7,8 +7,10 @@ import {
   calculatorInputs,
   employerNiCategoryThresholds,
   employerNiWithAllowance,
+  employerPensionContribution,
   type CalculatorKind,
   type EmployerNiCategory,
+  type PensionSchemeType,
 } from "@/lib/calculators";
 
 const unitLabels: Record<string, string> = {
@@ -45,6 +47,7 @@ export default function CalculatorForm({
   defaults?: Record<string, number>;
 }) {
   if (kind === "employer-ni") return <EmployerNiCalculator defaults={defaults} />;
+  if (kind === "employee-cost") return <EmployeeCostCalculator defaults={defaults} />;
   return <GenericCalculatorForm kind={kind} defaults={defaults} />;
 }
 
@@ -443,6 +446,415 @@ function EmployerNiCalculator({ defaults }: { defaults?: Record<string, number> 
           </div>
           <p className="text-xs leading-relaxed text-ink/60">
             This is an estimate for planning. Payroll software should apply the exact pay-period rules, NI category letter and Employment Allowance eligibility for the employer.
+          </p>
+        </div>
+      </details>
+    </div>
+  );
+}
+
+const pensionSchemeLabels: Record<PensionSchemeType, string> = {
+  qualifying: "Qualifying Earnings",
+  total: "Total Earnings",
+};
+
+const employeeCostChartColours = {
+  salary: "#CBD5E1",
+  ni: "#15803D",
+  pension: "#22C55E",
+  additional: "#A3E635",
+};
+
+function EmployeeCostCalculator({ defaults }: { defaults?: Record<string, number> }) {
+  const initialSalary = defaults?.annualSalary ?? 30000;
+  const [salary, setSalary] = useState(initialSalary);
+  const [category, setCategory] = useState<EmployerNiCategory>("standard");
+  const [applyAllowance, setApplyAllowance] = useState(false);
+  const [includePension, setIncludePension] = useState(true);
+  const [pensionScheme, setPensionScheme] = useState<PensionSchemeType>("qualifying");
+  const [pensionRate, setPensionRate] = useState(currentRates.pension.employerMinPercent);
+  const [additionalCosts, setAdditionalCosts] = useState(0);
+  const [period, setPeriod] = useState<Period>("annual");
+  const [copied, setCopied] = useState(false);
+
+  const calculation = useMemo(() => {
+    const safeSalary = Number.isFinite(salary) ? Math.max(0, salary) : 0;
+    const safePensionRate = Number.isFinite(pensionRate) ? Math.max(0, pensionRate) : 0;
+    const safeAdditionalCosts = Number.isFinite(additionalCosts) ? Math.max(0, additionalCosts) : 0;
+    const ni = employerNiWithAllowance(safeSalary, category, applyAllowance);
+    const pensionContribution = includePension
+      ? employerPensionContribution(safeSalary, safePensionRate, pensionScheme)
+      : 0;
+    const divisor = periodDivisors[period];
+    const totalEmploymentCost = safeSalary + ni.payableNi + pensionContribution + safeAdditionalCosts;
+    const totalOnCosts = ni.payableNi + pensionContribution + safeAdditionalCosts;
+    const costPercent = safeSalary > 0 ? (totalOnCosts / safeSalary) * 100 : 0;
+    const pensionBase = pensionScheme === "qualifying"
+      ? Math.max(
+          0,
+          Math.min(safeSalary, currentRates.pension.qualifyingUpperLimit) - currentRates.pension.qualifyingLowerLimit,
+        )
+      : safeSalary;
+    const segments = [
+      { key: "salary", label: "Gross salary", value: safeSalary, colour: employeeCostChartColours.salary },
+      { key: "ni", label: "Employer NI", value: ni.payableNi, colour: employeeCostChartColours.ni },
+      { key: "pension", label: "Pension", value: pensionContribution, colour: employeeCostChartColours.pension },
+      { key: "additional", label: "Additional", value: safeAdditionalCosts, colour: employeeCostChartColours.additional },
+    ].map((segment) => ({
+      ...segment,
+      share: totalEmploymentCost > 0 ? segment.value / totalEmploymentCost : 0,
+    }));
+
+    return {
+      salary: safeSalary,
+      rawNi: ni.rawNi,
+      allowanceSaving: ni.allowanceSaving,
+      payableNi: ni.payableNi,
+      pensionContribution,
+      additionalCosts: safeAdditionalCosts,
+      totalEmploymentCost,
+      costPercent,
+      pensionBase,
+      displayTotalCost: totalEmploymentCost / divisor,
+      displayNi: ni.payableNi / divisor,
+      displayPension: pensionContribution / divisor,
+      displayAdditionalCosts: safeAdditionalCosts / divisor,
+      segments,
+    };
+  }, [salary, category, applyAllowance, includePension, pensionScheme, pensionRate, additionalCosts, period]);
+
+  const categoryHelp = employerNiCategories.find((item) => item.value === category)?.help;
+  const circumference = 2 * Math.PI * 42;
+  let dashOffset = 0;
+  const chartSegments = calculation.segments.map((segment) => {
+    const dash = segment.share * circumference;
+    const item = { ...segment, dash, offset: dashOffset };
+    dashOffset -= dash;
+    return item;
+  });
+
+  function resetCalculator() {
+    setSalary(initialSalary);
+    setCategory("standard");
+    setApplyAllowance(false);
+    setIncludePension(true);
+    setPensionScheme("qualifying");
+    setPensionRate(currentRates.pension.employerMinPercent);
+    setAdditionalCosts(0);
+    setPeriod("annual");
+    setCopied(false);
+  }
+
+  async function copyResult() {
+    const label = periodLabels[period];
+    const value = gbp.format(calculation.displayTotalCost);
+    const text = `${value} ${label} total employment cost. Employer NI: ${gbp.format(calculation.displayNi)} ${label}. Pension: ${gbp.format(calculation.displayPension)} ${label}.`;
+    try {
+      await navigator.clipboard.writeText(text);
+      setCopied(true);
+      window.setTimeout(() => setCopied(false), 1600);
+    } catch {
+      setCopied(false);
+    }
+  }
+
+  return (
+    <div className="space-y-6">
+      <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.05fr)]">
+        <form className="card space-y-6 bg-white p-6 shadow-sm" aria-label="Employee cost inputs">
+          <div>
+            <h2 className="text-2xl font-semibold">Employment cost inputs</h2>
+            <p className="mt-2 text-sm text-ink/60">Results update as you type.</p>
+          </div>
+
+          <div>
+            <label htmlFor="employee-cost-salary" className="mb-1.5 block text-sm font-medium">
+              Annual salary <span className="text-accent-strong">*</span>
+              <span className="ml-1 font-normal text-ink/70">(£)</span>
+            </label>
+            <input
+              id="employee-cost-salary"
+              type="number"
+              inputMode="decimal"
+              min={0}
+              step="any"
+              value={salary === 0 ? "" : salary}
+              onChange={(e) => setSalary(Number(e.target.value))}
+              className="tabular w-full rounded-lg border border-ink/15 bg-white px-3 py-2.5 text-base transition-colors hover:border-ink/30 focus:border-accent-strong focus:ring-2 focus:ring-accent/20 focus:outline-none"
+            />
+          </div>
+
+          <div>
+            <label htmlFor="employee-cost-category" className="mb-1.5 block text-sm font-medium">
+              Employee age or NI category
+            </label>
+            <select
+              id="employee-cost-category"
+              value={category}
+              onChange={(e) => setCategory(e.target.value as EmployerNiCategory)}
+              className="w-full rounded-lg border border-ink/15 bg-white px-3 py-2.5 text-base transition-colors hover:border-ink/30 focus:border-accent-strong focus:ring-2 focus:ring-accent/20 focus:outline-none"
+            >
+              {employerNiCategories.map((item) => (
+                <option key={item.value} value={item.value}>{item.label}</option>
+              ))}
+            </select>
+            <p className="mt-2 text-xs leading-relaxed text-ink/60">{categoryHelp}</p>
+          </div>
+
+          <label className="flex gap-3 rounded-lg border border-ink/10 bg-paper/60 p-4 text-sm">
+            <input
+              type="checkbox"
+              checked={applyAllowance}
+              onChange={(e) => setApplyAllowance(e.target.checked)}
+              className="mt-1 h-4 w-4 rounded border-ink/30 accent-accent-strong"
+            />
+            <span>
+              <span className="block font-medium text-ink">Apply Employment Allowance</span>
+              <span className="mt-1 block text-ink/60">
+                Reduces employer NI by up to {wholeGbp.format(currentRates.employerNi.employmentAllowance)} per year for eligible employers.
+              </span>
+            </span>
+          </label>
+
+          <fieldset className="space-y-4 rounded-2xl border border-ink/10 bg-paper/60 p-4">
+            <legend className="px-1 text-sm font-semibold text-ink">Pension settings</legend>
+            <label className="flex gap-3 text-sm">
+              <input
+                type="checkbox"
+                checked={includePension}
+                onChange={(e) => setIncludePension(e.target.checked)}
+                className="mt-1 h-4 w-4 rounded border-ink/30 accent-accent-strong"
+              />
+              <span>
+                <span className="block font-medium text-ink">Include Workplace Pension</span>
+                <span className="mt-1 block text-ink/60">Add employer pension contributions to the full employment cost.</span>
+              </span>
+            </label>
+
+            {includePension && (
+              <div className="grid gap-4 sm:grid-cols-2">
+                <div>
+                  <label htmlFor="employee-cost-pension-scheme" className="mb-1.5 block text-sm font-medium">
+                    Pension scheme type
+                  </label>
+                  <select
+                    id="employee-cost-pension-scheme"
+                    value={pensionScheme}
+                    onChange={(e) => setPensionScheme(e.target.value as PensionSchemeType)}
+                    className="w-full rounded-lg border border-ink/15 bg-white px-3 py-2.5 text-base transition-colors hover:border-ink/30 focus:border-accent-strong focus:ring-2 focus:ring-accent/20 focus:outline-none"
+                  >
+                    {Object.entries(pensionSchemeLabels).map(([value, label]) => (
+                      <option key={value} value={value}>{label}</option>
+                    ))}
+                  </select>
+                </div>
+                <div>
+                  <label htmlFor="employee-cost-pension-rate" className="mb-1.5 block text-sm font-medium">
+                    Employer pension rate (%)
+                  </label>
+                  <input
+                    id="employee-cost-pension-rate"
+                    type="number"
+                    inputMode="decimal"
+                    min={0}
+                    step="0.1"
+                    value={pensionRate === 0 ? "" : pensionRate}
+                    onChange={(e) => setPensionRate(Number(e.target.value))}
+                    className="tabular w-full rounded-lg border border-ink/15 bg-white px-3 py-2.5 text-base transition-colors hover:border-ink/30 focus:border-accent-strong focus:ring-2 focus:ring-accent/20 focus:outline-none"
+                  />
+                </div>
+              </div>
+            )}
+          </fieldset>
+
+          <div>
+            <label htmlFor="employee-cost-additional-costs" className="mb-1.5 block text-sm font-medium">
+              Additional annual costs <span className="ml-1 font-normal text-ink/70">(£)</span>
+            </label>
+            <input
+              id="employee-cost-additional-costs"
+              type="number"
+              inputMode="decimal"
+              min={0}
+              step="any"
+              placeholder="0"
+              value={additionalCosts === 0 ? "" : additionalCosts}
+              onChange={(e) => setAdditionalCosts(Number(e.target.value))}
+              className="tabular w-full rounded-lg border border-ink/15 bg-white px-3 py-2.5 text-base transition-colors hover:border-ink/30 focus:border-accent-strong focus:ring-2 focus:ring-accent/20 focus:outline-none"
+            />
+            <p className="mt-2 text-xs leading-relaxed text-ink/60">
+              Add insurance, software, equipment, recruitment, workspace or other annual employer costs.
+            </p>
+          </div>
+
+          <button
+            type="button"
+            onClick={resetCalculator}
+            className="w-full rounded-lg border border-ink/15 px-4 py-2.5 text-sm font-semibold transition-colors hover:border-accent-strong hover:text-accent-strong"
+          >
+            Reset
+          </button>
+        </form>
+
+        <div className="space-y-4 min-w-0" aria-live="polite">
+          <section className="card min-w-0 bg-paper/70 p-6 shadow-sm">
+            <div className="flex flex-wrap items-start justify-between gap-4">
+              <div className="min-w-0">
+                <h2 className="text-2xl font-semibold">Total employment cost</h2>
+                <p className="mt-2 text-sm text-ink/60">
+                  {calculation.costPercent.toFixed(1)}% above salary, including selected on-costs
+                </p>
+              </div>
+              <div className="inline-flex rounded-xl border border-ink/10 bg-white p-1 text-sm shadow-sm">
+                {(["annual", "monthly", "weekly"] as Period[]).map((item) => (
+                  <button
+                    key={item}
+                    type="button"
+                    onClick={() => setPeriod(item)}
+                    className={`rounded-lg px-3 py-1.5 font-medium transition-colors ${
+                      period === item ? "bg-accent-strong text-white shadow-sm" : "text-ink/60 hover:text-accent-strong"
+                    }`}
+                  >
+                    {item[0].toUpperCase() + item.slice(1)}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <div className="mt-8 min-w-0 rounded-2xl border border-ink/10 bg-white p-6 text-center">
+              <button
+                type="button"
+                onClick={copyResult}
+                className="tabular break-words text-[clamp(2.25rem,8vw,4rem)] font-semibold leading-tight text-accent-strong transition-colors hover:text-accent"
+                aria-label={`Copy ${period} total employment cost`}
+              >
+                {gbp.format(calculation.displayTotalCost)}
+              </button>
+              <p className="mt-2 text-sm text-ink/60">{periodLabels[period]}</p>
+              <p className="mt-2 text-xs font-medium text-accent-strong">{copied ? "Copied" : "Click figure to copy"}</p>
+            </div>
+
+            <dl className="mt-5 grid gap-3 sm:grid-cols-2">
+              <div className="min-w-0 rounded-xl border border-ink/10 bg-white p-4">
+                <dt className="text-xs uppercase tracking-widest text-ink/55">Employer NI</dt>
+                <dd className="tabular mt-1 break-words text-lg font-semibold text-accent-strong">{gbp.format(calculation.displayNi)}</dd>
+              </div>
+              <div className="min-w-0 rounded-xl border border-ink/10 bg-white p-4">
+                <dt className="text-xs uppercase tracking-widest text-ink/55">Pension</dt>
+                <dd className="tabular mt-1 break-words text-lg font-semibold text-accent-strong">{gbp.format(calculation.displayPension)}</dd>
+              </div>
+              <div className="min-w-0 rounded-xl border border-ink/10 bg-white p-4">
+                <dt className="text-xs uppercase tracking-widest text-ink/55">Additional costs</dt>
+                <dd className="tabular mt-1 break-words text-lg font-semibold text-accent-strong">{gbp.format(calculation.displayAdditionalCosts)}</dd>
+              </div>
+              <div className="min-w-0 rounded-xl border border-accent-strong/20 bg-accent/[0.06] p-4">
+                <dt className="text-xs uppercase tracking-widest text-ink/55">Above salary</dt>
+                <dd className="tabular mt-1 break-words text-lg font-semibold text-accent-strong">{calculation.costPercent.toFixed(1)}%</dd>
+              </div>
+            </dl>
+          </section>
+        </div>
+      </div>
+
+      <section className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="card min-w-0 bg-white p-6 shadow-sm">
+          <p className="text-sm text-ink/60">Base salary</p>
+          <p className="tabular mt-2 break-words text-[clamp(1.75rem,5vw,2.5rem)] font-semibold leading-tight text-accent-strong">{gbp.format(calculation.salary)}</p>
+        </div>
+        <div className="card min-w-0 bg-white p-6 shadow-sm">
+          <p className="text-sm text-ink/60">Employer NI</p>
+          <p className="tabular mt-2 break-words text-[clamp(1.75rem,5vw,2.5rem)] font-semibold leading-tight text-accent-strong">{gbp.format(calculation.payableNi)}</p>
+        </div>
+        <div className="card min-w-0 bg-white p-6 shadow-sm">
+          <p className="text-sm text-ink/60">Pension contribution</p>
+          <p className="tabular mt-2 break-words text-[clamp(1.75rem,5vw,2.5rem)] font-semibold leading-tight text-accent-strong">{gbp.format(calculation.pensionContribution)}</p>
+          <p className="mt-1 text-sm text-ink/60">{includePension ? pensionSchemeLabels[pensionScheme] : "Not included"}</p>
+        </div>
+        <div className="card min-w-0 bg-white p-6 shadow-sm">
+          <p className="text-sm text-ink/60">Additional costs</p>
+          <p className="tabular mt-2 break-words text-[clamp(1.75rem,5vw,2.5rem)] font-semibold leading-tight text-accent-strong">{gbp.format(calculation.additionalCosts)}</p>
+        </div>
+      </section>
+
+      {applyAllowance && (
+        <section className="grid gap-4 sm:grid-cols-2">
+          <div className="card min-w-0 bg-white p-6 shadow-sm">
+            <p className="text-sm text-ink/60">Employer NI before allowance</p>
+            <p className="tabular mt-2 break-words text-3xl font-semibold text-ink">{gbp.format(calculation.rawNi)}</p>
+          </div>
+          <div className="card min-w-0 bg-white p-6 shadow-sm">
+            <p className="text-sm text-ink/60">Employment Allowance saving</p>
+            <p className="tabular mt-2 break-words text-3xl font-semibold text-accent-strong">{gbp.format(calculation.allowanceSaving)}</p>
+          </div>
+        </section>
+      )}
+
+      <section className="card bg-white p-6 shadow-sm">
+        <h2 className="text-2xl font-semibold">Cost breakdown</h2>
+        <div className="mt-6 grid items-center gap-6 md:grid-cols-[minmax(180px,240px)_minmax(0,1fr)]">
+          <div className="mx-auto w-full max-w-[240px]">
+            <svg viewBox="0 0 120 120" role="img" aria-label="Cost breakdown chart" className="w-full">
+              <circle cx="60" cy="60" r="42" fill="none" strokeWidth="16" stroke={employeeCostChartColours.salary} opacity="0.35" />
+              {chartSegments.map((segment) => (
+                segment.value > 0 ? (
+                  <circle
+                    key={segment.key}
+                    cx="60"
+                    cy="60"
+                    r="42"
+                    fill="none"
+                    strokeWidth="16"
+                    strokeLinecap="butt"
+                    stroke={segment.colour}
+                    className="origin-center -rotate-90"
+                    style={{
+                      strokeDasharray: `${segment.dash} ${circumference - segment.dash}`,
+                      strokeDashoffset: segment.offset,
+                    }}
+                  />
+                ) : null
+              ))}
+              <text x="60" y="55" textAnchor="middle" className="fill-ink text-[10px] font-semibold">
+                {gbp.format(calculation.totalEmploymentCost)}
+              </text>
+              <text x="60" y="70" textAnchor="middle" className="fill-ink/60 text-[7px]">total</text>
+            </svg>
+          </div>
+
+          <dl className="min-w-0 space-y-4">
+            {calculation.segments.map((segment) => (
+              <div key={segment.key} className="flex items-center justify-between gap-4">
+                <dt className="flex items-center gap-3 text-sm font-medium">
+                  <span className="h-3 w-3 rounded-full" style={{ backgroundColor: segment.colour }} />
+                  {segment.label}
+                </dt>
+                <dd className="tabular min-w-0 break-words text-right font-semibold">
+                  {gbp.format(segment.value)} <span className="font-normal text-ink/60">({Math.round(segment.share * 100)}%)</span>
+                </dd>
+              </div>
+            ))}
+            <div className="flex items-center justify-between border-t border-ink/10 pt-4">
+              <dt className="text-lg font-semibold">Total</dt>
+              <dd className="tabular min-w-0 break-words text-right text-2xl font-semibold text-accent-strong">
+                {gbp.format(calculation.totalEmploymentCost)}
+              </dd>
+            </div>
+          </dl>
+        </div>
+      </section>
+
+      <details className="card overflow-hidden bg-white shadow-sm" open>
+        <summary className="cursor-pointer list-none px-6 py-4 text-lg font-semibold">How this is calculated</summary>
+        <div className="space-y-4 border-t border-ink/10 bg-paper/50 p-6">
+          <p className="leading-relaxed text-ink/75">
+            Total employment cost = {gbp.format(calculation.salary)} salary + {gbp.format(calculation.payableNi)} employer NI + {gbp.format(calculation.pensionContribution)} pension + {gbp.format(calculation.additionalCosts)} additional costs = {gbp.format(calculation.totalEmploymentCost)}.
+          </p>
+          <p className="leading-relaxed text-ink/75">
+            Pension uses {includePension ? pensionSchemeLabels[pensionScheme] : "no pension contribution"}
+            {includePension && `: ${gbp.format(calculation.pensionBase)} × ${pensionRate}% = ${gbp.format(calculation.pensionContribution)}`}.
+          </p>
+          <p className="text-xs leading-relaxed text-ink/60">
+            This is an estimate for planning. Payroll software should apply the exact pay-period rules, NI category letter, pension scheme rules and Employment Allowance eligibility for the employer.
           </p>
         </div>
       </details>

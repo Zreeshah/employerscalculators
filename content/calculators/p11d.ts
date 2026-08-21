@@ -55,6 +55,18 @@ export default calculator({
       heading: "Summary: how to use this P11D calculator",
       body: "Enter the cash equivalent value, pick the employee's marginal rate, and read off the employee tax and employer Class 1A NI. Use the figures to plan payroll, register for payrolling if appropriate, and complete the P11D and P11D(b) at year end. For a quick comparison of the same perk under different rates, adjust the rate selector — the **Class 1A NI** figure stays at 15% of the cash equivalent regardless of the employee.",
     },
+    {
+      "heading": "P11D benefit basket: why one benefit is not enough",
+      "body": "A real P11D often contains more than one benefit. Private medical insurance, beneficial loans, gym memberships, living accommodation, vans, fuel and other taxable benefits can all sit on the same employee record. Use the calculator for one benefit at a time, then add the taxable values together to estimate the employee tax and employer Class 1A NI. A multi-benefit checklist is safer than treating the largest benefit as the whole P11D exposure."
+    },
+    {
+      "heading": "P11D filing calendar and employer actions",
+      "body": "The employer should identify taxable benefits during the tax year, confirm whether benefits are payrolled or reported on P11D, reconcile employee contributions, prepare P11D forms after year end, submit the P11D(b), pay Class 1A National Insurance by the deadline, and give employees their benefit details. The most common failure is leaving the P11D review until after payroll year end, when employee contributions and private-use records are harder to verify."
+    },
+    {
+      "heading": "Payrolling benefits versus filing P11D",
+      "body": "Payrolling benefits taxes the employee through PAYE during the year instead of reporting most benefits on a P11D after year end. It can reduce surprise tax-code changes, but the employer still needs accurate benefit values and still files P11D(b) for Class 1A NI. Company cars, medical insurance and recurring benefits are good candidates for payrolling; one-off or uncertain benefits often need extra review."
+    },
   ],
   faq: [
     {
@@ -86,6 +98,18 @@ export default calculator({
       question: "When is the P11D filing deadline?",
       answer:
         "Forms P11D and P11D(b) for a tax year ending on 5 April must reach HMRC by **6 July** of the same year. Class 1A NI payment is due by 22 July (or 19 July for non-electronic payments). Late filing or payment triggers automatic penalties and interest under HMRC rules.",
+    },
+    {
+      "question": "Can I calculate several P11D benefits together?",
+      "answer": "Calculate each taxable benefit value separately, subtract any employee contribution where allowed, then add the taxable values together before applying the employee tax rate and employer Class 1A NI."
+    },
+    {
+      "question": "Who pays the Class 1A NI on P11D benefits?",
+      "answer": "The employer pays Class 1A National Insurance on taxable benefits. The employee pays income tax on the benefit value, usually through a tax-code adjustment or payrolling."
+    },
+    {
+      "question": "Does an employee contribution reduce the P11D value?",
+      "answer": "Often yes, but only where the contribution is made for the private use of that benefit and the specific benefit rules allow it. Keep evidence of the contribution."
     },
   ],
   relatedSlugs: [],

@@ -55,6 +55,18 @@ export default calculator({
       heading: "Summary: how to use this salary sacrifice pension calculator",
       body: "Enter the gross salary and the sacrifice percentage to see the reduced gross and the employee and employer NI savings. Use the figures to size the sacrifice, plan the employer contribution, and check the post-sacrifice cash pay does not breach the National Living Wage. The workplace pension calculator is a useful companion for the total pension contribution on the same salary.",
     },
+    {
+      "heading": "Salary sacrifice pension versus relief at source",
+      "body": "Relief at source gives basic-rate tax relief through the pension provider and higher-rate taxpayers may claim extra relief. Salary sacrifice works differently: the employee gives up salary and the employer pays pension instead. That can reduce employee NI and employer NI as well as income tax. The best option depends on pension scheme type, tax band, employer policy and whether the employer shares its NI saving."
+    },
+    {
+      "heading": "The £1 sacrificed test",
+      "body": "A useful way to explain salary sacrifice pension is to ask what happens to each £1 of salary. Without sacrifice, some of that £1 may be lost to tax and employee NI before a personal contribution is made. With sacrifice, the £1 can go straight into pension as employer contribution, and the employer may add some or all of its NI saving. That is why pension sacrifice can feel more powerful than an ordinary net pay contribution."
+    },
+    {
+      "heading": "Minimum-wage and statutory-payment safeguards",
+      "body": "Do not sacrifice salary below minimum wage, and be careful before sacrificing during periods used to calculate SMP, SSP, redundancy pay, mortgage affordability or benefit entitlement. Employers should provide illustrations, obtain written consent and give employees a route to vary or stop sacrifice after lifestyle events."
+    },
   ],
   faq: [
     {
@@ -81,6 +93,18 @@ export default calculator({
       question: "Is there a limit on how much can be sacrificed into a pension?",
       answer:
         "The main ceiling is the pension **annual allowance of £60,000** in 2026/27 across all contributions (employee, employer and tax relief). The National Living Wage floor also caps the practical sacrifice for lower-paid staff. Check GOV.UK for tapered rules affecting high earners.",
+    },
+    {
+      "question": "Is salary sacrifice pension always better?",
+      "answer": "Not always. It often saves NI, but it can affect statutory pay, borrowing, salary-linked benefits and minimum-wage compliance."
+    },
+    {
+      "question": "Can the employer add its NI saving to my pension?",
+      "answer": "Yes, if the employer policy allows it. Some employers add all or part of the employer NI saving as an extra pension contribution."
+    },
+    {
+      "question": "Does salary sacrifice reduce taxable income?",
+      "answer": "Yes, the sacrificed salary is removed from taxable pay and replaced with employer pension contribution, subject to a valid arrangement."
     },
   ],
   relatedSlugs: [],

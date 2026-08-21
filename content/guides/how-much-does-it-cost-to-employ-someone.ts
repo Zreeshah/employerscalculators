@@ -42,6 +42,18 @@ export default guide({
       heading: "Common mistakes when costing a hire",
       body: "The errors we see most often:\n\n- Budgeting only for the gross salary and being caught out by the NI and pension on top\n- Forgetting that employer NI has no upper earnings cap, so senior hires cost proportionally more\n- Missing the auto-enrolment trigger: once an employee earns £10,000 or more, pension duties apply\n- Assuming the Employment Allowance applies automatically — it must be claimed and some employers are excluded\n- Ignoring part-year costs like statutory sick pay, maternity cover and holiday cover\n\nGetting the number right upfront avoids painful surprises in month one of payroll.",
     },
+    {
+      "heading": "Fully itemised hiring scenarios",
+      "body": "A useful hiring budget separates statutory payroll costs from role overheads. For a £30,000 office employee, start with salary, employer NI and pension. Add recruitment cost, equipment, software, payroll administration, training time and workspace. For a remote employee, workspace may be lower but software, security and onboarding can be higher. For a field role, vehicle, tools, insurance and travel can dominate the non-payroll cost."
+    },
+    {
+      "heading": "First employee versus additional employee",
+      "body": "The first employee often costs more than the second because the business may need payroll software, employer’s liability insurance, HR documents, onboarding process and management time for the first time. An additional employee may share those systems, but still creates salary, employer NI, pension, equipment and training costs. Model first-hire setup separately from recurring per-employee cost."
+    },
+    {
+      "heading": "Employee versus contractor decision matrix",
+      "body": "An employee can be cheaper or more expensive than a contractor depending on utilisation, supervision, equipment, IR35 risk and continuity. Employees bring control, retention and availability, but add statutory costs and management duties. Contractors can flex capacity, but day rates are higher and disguised-employment risk must be managed. Compare annual contractor spend with total employee cost plus recruitment and ramp-up before deciding."
+    },
   ],
   faq: [
     {
@@ -68,6 +80,18 @@ export default guide({
       question: "What pension contribution must an employer make?",
       answer:
         "Under auto-enrolment, eligible staff — those earning at least £10,000 a year — must receive total minimum contributions of 8% of qualifying earnings, with the employer paying at least 3%. Many schemes base this on a qualifying earnings band rather than full salary; check the current band on GOV.UK.",
+    },
+    {
+      "question": "Is holiday pay an extra cost on top of salary?",
+      "answer": "For salaried employees, paid holiday is usually already inside the salary, but it still affects productive working time and cover planning."
+    },
+    {
+      "question": "Should payroll software be included in employment cost?",
+      "answer": "Yes for business budgeting. It is not a statutory per-employee deduction, but it is a real cost of employing staff."
+    },
+    {
+      "question": "How do I budget for a first hire?",
+      "answer": "Add salary, employer NI, pension, insurance, payroll setup, contracts, equipment, training and management time. First-year cost is usually higher than steady-state cost."
     },
   ],
   relatedSlugs: [

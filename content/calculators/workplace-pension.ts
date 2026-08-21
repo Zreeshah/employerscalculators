@@ -55,6 +55,18 @@ export default calculator({
       heading: "Summary: how to use this workplace pension calculator",
       body: "Enter the gross salary and the employee and employer percentages to read off each side's annual contribution and the total. Compare with the 2026/27 **auto-enrolment minimums of 3% and 5%** to check you are meeting the legal floor, and check your scheme's basis if the figures look off. The employer National Insurance calculator can also help you see how the on-cost of an employee is split between NI and pension.",
     },
+    {
+      "heading": "Qualifying earnings versus total earnings",
+      "body": "Workplace pension contributions may be calculated on qualifying earnings or on total pensionable pay. Qualifying earnings use only pay within the statutory band, while total earnings apply the selected percentage to the whole salary. This distinction is why two employers can both say they pay 3% but produce different annual pension amounts. When comparing providers or payroll output, check the contribution basis before comparing the percentage."
+    },
+    {
+      "heading": "Net pay, relief at source and salary sacrifice",
+      "body": "Tax relief can be delivered through net pay, relief at source or salary sacrifice. Net pay reduces taxable pay before tax is calculated. Relief at source deducts contribution after tax and the provider claims basic-rate relief. Salary sacrifice reduces contractual salary in exchange for employer pension contribution, which can save employee and employer NI. The calculator gives contribution amounts; the salary sacrifice pension calculator shows the NI-saving effect."
+    },
+    {
+      "heading": "Auto-enrolment eligibility checks",
+      "body": "Before treating a pension contribution as compulsory, check age, earnings, worker status and postponement. Eligible jobholders must be automatically enrolled. Non-eligible jobholders and entitled workers have different rights to opt in or join. Employers should keep records of assessment, postponement notices, opt-outs and re-enrolment dates because pension duties are enforced separately from payroll tax."
+    },
   ],
   faq: [
     {
@@ -86,6 +98,18 @@ export default calculator({
       question: "What is the auto-enrolment earnings trigger?",
       answer:
         "The auto-enrolment trigger is **£10,000 a year** in 2026/27. Workers earning above this in a single employment, aged 22 to State Pension age and working in the UK must be auto-enrolled. The trigger is reviewed periodically by the government.",
+    },
+    {
+      "question": "Why is my payroll pension lower than salary times 3%?",
+      "answer": "Your scheme may use qualifying earnings rather than total earnings. Contributions are then calculated only on pay inside the qualifying earnings band."
+    },
+    {
+      "question": "Can employer pension contributions be more than 3%?",
+      "answer": "Yes. 3% is the minimum employer contribution for qualifying auto-enrolment schemes. Many employers pay 4%, 5% or more for recruitment and retention."
+    },
+    {
+      "question": "Does salary sacrifice change workplace pension contributions?",
+      "answer": "It can. The employee gives up salary and the employer pays an increased employer pension contribution. This can reduce NI but must be documented and cannot reduce pay below minimum wage."
     },
   ],
   relatedSlugs: [],

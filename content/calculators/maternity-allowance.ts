@@ -38,6 +38,18 @@ export default calculator({
       body:
         "Two numbers in, two numbers out. Enter the average weekly earnings over the qualifying 66-week period and the number of weeks being claimed (up to 39). The maternity allowance calculator returns the weekly MA rate — the lower of £194.32 or 90% of average weekly earnings — and the total amount payable. Use the SMP calculator to compare the figure the employee would have received if they had qualified for SMP.",
     },
+    {
+      "heading": "Maternity Allowance eligibility decision tree",
+      "body": "Maternity Allowance is usually considered when SMP is not available. Check whether the claimant was employed or self-employed for enough weeks in the test period, whether they earned enough in at least 13 weeks, and whether Class 2 National Insurance has been paid if self-employed. If an employer refuses SMP, form SMP1 is an important part of the evidence trail for the Maternity Allowance claim."
+    },
+    {
+      "heading": "Maternity Allowance versus SMP",
+      "body": "SMP is paid by the employer through payroll and can be reclaimed by the employer. Maternity Allowance is paid by DWP directly to the claimant. The weekly maximum may look similar, but the eligibility route, evidence, payment source and payroll treatment are different. Maternity Allowance is not paid through the employer’s PAYE, so it does not appear as normal salary on the payslip."
+    },
+    {
+      "heading": "Payment schedule and claim timing",
+      "body": "A claim can normally be prepared before maternity leave starts, but payment timing depends on the chosen start date and DWP processing. Keep a schedule of expected weekly payments across the maximum 39 weeks, especially where household budgets depend on a change from earnings to statutory support. Claimants should keep payslips or self-employment evidence for the 13 weeks used to calculate entitlement."
+    },
   ],
   faq: [
     {
@@ -64,6 +76,18 @@ export default calculator({
       question: "How do you claim Maternity Allowance?",
       answer:
         "Claim using form MA1, available on GOV.UK, from 26 weeks of pregnancy onwards. You will need proof of pregnancy (such as form MAT B1), evidence of earnings or Class 2 National Insurance payments, and — if you were employed — form SMP1 from the employer confirming why SMP cannot be paid.",
+    },
+    {
+      "question": "Do self-employed people qualify for Maternity Allowance?",
+      "answer": "They can, if they meet the work and earnings conditions and have the required Class 2 National Insurance record or are treated as having paid it."
+    },
+    {
+      "question": "Can I get Maternity Allowance and SMP at the same time?",
+      "answer": "No. Maternity Allowance is normally for people who do not qualify for SMP."
+    },
+    {
+      "question": "What evidence is needed for Maternity Allowance?",
+      "answer": "Common evidence includes payslips, proof of self-employment earnings, MATB1 and SMP1 if SMP was refused."
     },
   ],
   relatedSlugs: [],

@@ -67,6 +67,22 @@ export default calculator({
       heading: "Summary: how to use this SMP calculator",
       body: "Enter the **weeks of maternity leave** and the employee's **average weekly earnings**, and the calculator shows the weekly rate for each tier and the total SMP payable.\n\nThe figures use the 2026/27 statutory weekly rate of £194.32 and the 90% AWE rules set out by HMRC. The total is gross — deduct income tax and employee NI in the normal payroll run to get the net figure on the payslip.",
     },
+    {
+      "heading": "SMP eligibility decision tree for payroll",
+      "body": "Use the calculator after you have checked eligibility. The practical decision tree is: first confirm the employee is employed in the qualifying week, then confirm 26 weeks of continuous service by the end of the 15th week before the expected week of childbirth, then check average weekly earnings against the Lower Earnings Limit, then check notice and MATB1 evidence. If any step fails, issue SMP1 promptly and point the employee towards Maternity Allowance. This decision-tree approach prevents the common error of calculating a payment before confirming the legal right to SMP."
+    },
+    {
+      "heading": "Week-by-week SMP payment schedule",
+      "body": "For a 39-week claim, the schedule has three clear phases. Weeks 1 to 6 pay 90% of average weekly earnings. Weeks 7 to 39 pay the lower of the statutory weekly rate and 90% of average weekly earnings. Weeks 40 to 52 of statutory maternity leave are unpaid unless the employer offers enhanced maternity pay. Payroll teams should keep a schedule showing the start date, paid weeks used, rate per week, gross amount, tax and NI deductions, and any employer top-up."
+    },
+    {
+      "heading": "Reclaiming SMP and small employer relief",
+      "body": "Most employers can reclaim 92% of SMP through HMRC. Small employers may recover the enhanced small-employer relief rate where their prior-year Class 1 NI liability is within the relief threshold. Treat the reclaim as a payroll funding calculation, not as a reduction in the employee payment. The employee still receives gross SMP through payroll, while the employer adjusts PAYE payments using the Employer Payment Summary."
+    },
+    {
+      "heading": "Operational checklist before the first SMP payment",
+      "body": "Before paying SMP, keep the MATB1 or equivalent evidence, record the qualifying week, calculate average weekly earnings, confirm the maternity leave start date, document any enhanced maternity-pay policy, create the payment schedule, and diary the final paid SMP week. If the employee resigns, is made redundant, receives a bonus, or changes salary around the reference period, check HMRC guidance carefully because those events can change the calculation or the payroll treatment."
+    },
   ],
   faq: [
     {
@@ -103,6 +119,18 @@ export default calculator({
       question: "Does SMP affect other benefits like holiday accrual?",
       answer:
         "Statutory maternity leave is treated as continuous employment for accrual purposes. Employees continue to build up their statutory 5.6-week holiday entitlement during paid and unpaid maternity leave, and may carry it over to the next leave year.",
+    },
+    {
+      "question": "Can an employee choose actual AWE instead of annual salary for SMP?",
+      "answer": "SMP is based on actual average weekly earnings in the statutory reference period, not annual salary. Annual salary is useful for estimating, but payroll should use the real gross pay in the eight-week or two-payday reference window."
+    },
+    {
+      "question": "Does a bonus count in SMP average weekly earnings?",
+      "answer": "Yes, if the bonus is paid in the statutory earnings reference period. Overtime, commission and other taxable earnings paid in that window can also increase AWE."
+    },
+    {
+      "question": "What should an employer do if SMP is not payable?",
+      "answer": "Issue form SMP1 within the required timescale and explain the reason. The employee may be able to claim Maternity Allowance instead."
     },
   ],
   relatedSlugs: [

@@ -38,6 +38,18 @@ export default guide({
       heading: "Common mistakes and how to avoid them",
       body: "The errors that most often cost employers this relief:\n\n- assuming the claim rolls over — it must be made fresh each tax year\n- more than one connected company in a group each claiming the full allowance\n- sole-director companies claiming when no other employee is paid above the secondary threshold\n- forgetting the de minimis state aid rules, which cap total aid for businesses in certain sectors and require you to keep records\n- not checking the claim actually reduced the liability shown on the EPS and HMRC account\n\nIf you discover an incorrect claim, correct it through your payroll software promptly — HMRC treats overclaimed allowance as unpaid NI.",
     },
+    {
+      "heading": "Employment Allowance decision tree",
+      "body": "Check whether the business has employer Class 1 secondary NI, then check exclusions: single-director companies with no other employees, certain public-sector bodies, domestic staff and connected-company restrictions. If more than one connected company could claim, choose one claimant. If de minimis state-aid rules apply, check the relevant sector ceiling before making the declaration in payroll software."
+    },
+    {
+      "heading": "When the allowance runs out",
+      "body": "Employment Allowance reduces the employer NI bill until the annual allowance is used. A small employer may have no employer NI to pay for several months, while a larger employer may use the allowance quickly and then pay employer NI as normal. For budgeting, calculate employer NI before allowance, then track how much allowance remains across the whole payroll rather than attaching it permanently to one employee."
+    },
+    {
+      "heading": "Backdated and mid-year claims",
+      "body": "Employers can often claim Employment Allowance during the tax year through payroll software and may be able to claim for previous years if eligible. A mid-year claim normally offsets future PAYE liabilities first and may create a credit. Keep evidence of eligibility, connected-company decisions and de minimis declarations in case HMRC asks for support."
+    },
   ],
   faq: [
     {
@@ -64,6 +76,18 @@ export default guide({
       question: "Does the Employment Allowance reduce employee NI?",
       answer:
         "No. It only reduces employer (secondary) Class 1 NI. Employees still pay their own NI at 8% between £12,570 and £50,270 and 2% above that in 2026/27, deducted through PAYE as normal.",
+    },
+    {
+      "question": "Can a company with one director claim Employment Allowance?",
+      "answer": "A company where the only employee paid above the secondary threshold is a single director usually cannot claim. The rule can change if there are other eligible employees."
+    },
+    {
+      "question": "Can connected companies all claim?",
+      "answer": "No. Where connected companies are eligible, only one company in the group can normally claim the allowance."
+    },
+    {
+      "question": "Does Employment Allowance reduce employee NI?",
+      "answer": "No. It reduces employer Class 1 secondary NI only. Employee NI deductions are unaffected."
     },
   ],
   relatedSlugs: [
