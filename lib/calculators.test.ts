@@ -2,6 +2,8 @@ import assert from "node:assert/strict";
 import test from "node:test";
 import {
   calculate,
+  calculateMaternityAllowance,
+  calculateSalarySacrificeImpact,
   employerNi,
   employerNiForCategory,
   employerNiWithAllowance,
@@ -107,6 +109,58 @@ test("SMP first 6 weeks at 90% AWE, then flat rate", () => {
   assert.equal(w1.value, 360);
   assert.equal(w2.value, 194.32);
   assert.equal(total.value, 6 * 360 + 33 * 194.32);
+});
+
+test("Maternity Allowance self-employed with Class 2 NI paid gets standard rate", () => {
+  const result = calculateMaternityAllowance({
+    situation: "self-employed",
+    averageWeeklyEarnings: 500,
+    paidClass2Ni: true,
+  });
+  assert.equal(result.eligible, true);
+  assert.equal(result.status, "standard");
+  assert.equal(result.weeklyRate, 194.32);
+  assert.equal(result.totalPayable, 194.32 * 39);
+});
+
+test("Maternity Allowance self-employed without Class 2 NI shows may-not-qualify state", () => {
+  const result = calculateMaternityAllowance({
+    situation: "self-employed",
+    averageWeeklyEarnings: 500,
+    paidClass2Ni: false,
+  });
+  assert.equal(result.eligible, false);
+  assert.equal(result.status, "may-not-qualify");
+  assert.equal(result.weeklyRate, 0);
+  assert.match(result.message, /paid Class 2 NI/);
+});
+
+test("Maternity Allowance employed claims cap at lower of flat rate and 90% AWE", () => {
+  const result = calculateMaternityAllowance({
+    situation: "employed-no-smp",
+    averageWeeklyEarnings: 100,
+    paidClass2Ni: false,
+  });
+  assert.equal(result.eligible, true);
+  assert.equal(result.weeklyRate, 90);
+  assert.equal(result.totalPayable, 90 * 39);
+});
+
+test("salary sacrifice impact separates tax, employee NI and employer NI savings", () => {
+  const result = calculateSalarySacrificeImpact(30000, 5, false);
+  assert.equal(result.sacrificed, 1500);
+  assert.equal(result.reducedSalary, 28500);
+  assert.ok(result.incomeTaxSaving > 0);
+  assert.ok(result.employeeNiSaving > 0);
+  assert.equal(result.employerNiSaving, employerNi(30000) - employerNi(28500));
+  assert.equal(result.netEmployeeCost, result.sacrificed - result.incomeTaxSaving - result.employeeNiSaving);
+});
+
+test("salary sacrifice pension can add employer NI top-up", () => {
+  const withoutTopUp = calculateSalarySacrificeImpact(30000, 5, false);
+  const withTopUp = calculateSalarySacrificeImpact(30000, 5, true);
+  assert.equal(withTopUp.pensionContributionWithEmployerTopUp, withoutTopUp.sacrificed + withoutTopUp.employerNiSaving);
+  assert.equal(withTopUp.tenYearPensionValue, withTopUp.pensionContributionWithEmployerTopUp * 10);
 });
 
 test("net-to-gross inverts take-home within pennies", () => {

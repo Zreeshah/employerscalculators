@@ -11,7 +11,7 @@ export default calculator({
   intro:
     "Estimate Maternity Allowance (MA) for people who do not qualify for Statutory Maternity Pay in 2026/27. This UK maternity allowance calculator is built for self-employed claimants, recently employed workers, and employers checking what an ineligible employee should claim instead. For 2026/27 Maternity Allowance is £194.32 a week, or 90% of average weekly earnings if lower, paid for up to 39 weeks.",
   formulaExplainer:
-    ":::callout info\n**Maternity Allowance formula (2026/27):** weekly MA = lower of **£194.32** or **90% of average weekly earnings**. Total MA = weekly MA × weeks claimed, capped at **39 weeks**.\n\nThe average weekly earnings should be calculated over the relevant test period: the 66 weeks ending with the week before the baby is due, ignoring the earliest 6 weeks. The calculator applies the cap of 39 weeks to any figure entered.\n:::",
+    ":::callout info\n**Maternity Allowance formula (2026/27):** weekly MA is normally **£194.32** a week for self-employed claimants with enough Class 2 NI, or the lower of **£194.32** and **90% of average weekly earnings** for employed or recently stopped working claims. Total MA is weekly MA × **39 weeks** for a full claim.\n\nThe calculator checks the claimant route, average weekly earnings and the self-employed Class 2 NI condition so the result shows either an eligible standard-rate estimate or a may-not-qualify warning.\n:::",
   sections: [
     {
       heading: "What is Maternity Allowance?",
@@ -36,7 +36,7 @@ export default calculator({
     {
       heading: "Summary: how to use this calculator",
       body:
-        "Two numbers in, two numbers out. Enter the average weekly earnings over the qualifying 66-week period and the number of weeks being claimed (up to 39). The maternity allowance calculator returns the weekly MA rate — the lower of £194.32 or 90% of average weekly earnings — and the total amount payable. Use the SMP calculator to compare the figure the employee would have received if they had qualified for SMP.",
+        "Choose the claimant route first: self-employed, employed but not eligible for SMP, or recently stopped working. Enter average weekly earnings from the relevant 66-week test period. If the claimant is self-employed, tick whether Class 2 NI has been paid for at least 13 weeks. The calculator then shows eligibility, the weekly amount, the 39-week total, an approximate monthly equivalent, MA versus SMP notes, and claim steps. Use the SMP calculator to compare the figure the employee would have received if they had qualified for SMP.",
     },
     {
       "heading": "Maternity Allowance eligibility decision tree",

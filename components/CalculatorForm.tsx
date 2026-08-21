@@ -5,11 +5,14 @@ import { currentRates } from "@/data/rates";
 import {
   calculate,
   calculatorInputs,
+  calculateMaternityAllowance,
+  calculateSalarySacrificeImpact,
   employerNiCategoryThresholds,
   employerNiWithAllowance,
   employerPensionContribution,
   type CalculatorKind,
   type EmployerNiCategory,
+  type MaternityAllowanceSituation,
   type PensionSchemeType,
 } from "@/lib/calculators";
 
@@ -48,6 +51,11 @@ export default function CalculatorForm({
 }) {
   if (kind === "employer-ni") return <EmployerNiCalculator defaults={defaults} />;
   if (kind === "employee-cost") return <EmployeeCostCalculator defaults={defaults} />;
+  if (kind === "maternity-allowance") return <MaternityAllowanceCalculator defaults={defaults} />;
+  if (kind === "workplace-pension") return <WorkplacePensionCalculator defaults={defaults} />;
+  if (kind === "salary-sacrifice" || kind === "salary-sacrifice-pension") {
+    return <SalarySacrificeCalculator defaults={defaults} pensionMode={kind === "salary-sacrifice-pension"} />;
+  }
   return <GenericCalculatorForm kind={kind} defaults={defaults} />;
 }
 
@@ -446,6 +454,191 @@ function EmployerNiCalculator({ defaults }: { defaults?: Record<string, number> 
           </div>
           <p className="text-xs leading-relaxed text-ink/60">
             This is an estimate for planning. Payroll software should apply the exact pay-period rules, NI category letter and Employment Allowance eligibility for the employer.
+          </p>
+        </div>
+      </details>
+    </div>
+  );
+}
+
+const maternitySituationLabels: Record<MaternityAllowanceSituation, string> = {
+  "self-employed": "Self-employed or freelancer",
+  "employed-no-smp": "Employed but do not qualify for SMP",
+  "recently-stopped": "Recently stopped working",
+};
+
+function MaternityAllowanceCalculator({ defaults }: { defaults?: Record<string, number> }) {
+  const initialAverageWeeklyEarnings = defaults?.averageWeeklyEarnings ?? 500;
+  const [situation, setSituation] = useState<MaternityAllowanceSituation>("self-employed");
+  const [averageWeeklyEarnings, setAverageWeeklyEarnings] = useState(initialAverageWeeklyEarnings);
+  const [paidClass2Ni, setPaidClass2Ni] = useState(true);
+
+  const calculation = useMemo(
+    () => calculateMaternityAllowance({ situation, averageWeeklyEarnings, paidClass2Ni }),
+    [situation, averageWeeklyEarnings, paidClass2Ni],
+  );
+
+  const isSelfEmployed = situation === "self-employed";
+  const statusClasses = calculation.eligible
+    ? "border-accent-strong/30 bg-accent/[0.08] text-ink"
+    : "border-red-300 bg-red-50 text-ink";
+
+  function resetCalculator() {
+    setSituation("self-employed");
+    setAverageWeeklyEarnings(initialAverageWeeklyEarnings);
+    setPaidClass2Ni(true);
+  }
+
+  return (
+    <div className="space-y-6">
+      <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.05fr)]">
+        <form className="card space-y-6 bg-white p-6 shadow-sm" aria-label="Maternity Allowance inputs">
+          <div>
+            <h2 className="text-2xl font-semibold">Your situation</h2>
+            <p className="mt-2 text-sm text-ink/60">Enter your details to check Maternity Allowance eligibility.</p>
+          </div>
+
+          <div>
+            <label htmlFor="ma-situation" className="mb-1.5 block text-sm font-medium">
+              Which applies to you?
+            </label>
+            <select
+              id="ma-situation"
+              value={situation}
+              onChange={(e) => setSituation(e.target.value as MaternityAllowanceSituation)}
+              className="w-full rounded-lg border border-ink/15 bg-white px-3 py-2.5 text-base transition-colors hover:border-ink/30 focus:border-accent-strong focus:ring-2 focus:ring-accent/20 focus:outline-none"
+            >
+              {Object.entries(maternitySituationLabels).map(([value, label]) => (
+                <option key={value} value={value}>{label}</option>
+              ))}
+            </select>
+          </div>
+
+          <div>
+            <label htmlFor="ma-awe" className="mb-1.5 block text-sm font-medium">
+              Average weekly earnings <span className="text-accent-strong">*</span>
+              <span className="ml-1 font-normal text-ink/70">(£)</span>
+            </label>
+            <input
+              id="ma-awe"
+              type="number"
+              inputMode="decimal"
+              min={0}
+              step="any"
+              value={averageWeeklyEarnings === 0 ? "" : averageWeeklyEarnings}
+              onChange={(e) => setAverageWeeklyEarnings(Number(e.target.value))}
+              className="tabular w-full rounded-lg border border-ink/15 bg-white px-3 py-2.5 text-base transition-colors hover:border-ink/30 focus:border-accent-strong focus:ring-2 focus:ring-accent/20 focus:outline-none"
+            />
+            <p className="mt-2 text-xs leading-relaxed text-ink/60">
+              Use average weekly earnings from the best 13 weeks in the 66-week test period before the expected week of birth.
+            </p>
+          </div>
+
+          {isSelfEmployed && (
+            <label className="flex gap-3 rounded-lg border border-ink/10 bg-paper/60 p-4 text-sm">
+              <input
+                type="checkbox"
+                checked={paidClass2Ni}
+                onChange={(e) => setPaidClass2Ni(e.target.checked)}
+                className="mt-1 h-4 w-4 rounded border-ink/30 accent-accent-strong"
+              />
+              <span>
+                <span className="block font-medium text-ink">Paid Class 2 NI for at least 13 weeks</span>
+                <span className="mt-1 block text-ink/60">
+                  In the 66 weeks before your expected week of birth. Required to claim MA as self-employed.
+                </span>
+              </span>
+            </label>
+          )}
+
+          <button
+            type="button"
+            onClick={resetCalculator}
+            className="w-full rounded-lg border border-ink/15 px-4 py-2.5 text-sm font-semibold transition-colors hover:border-accent-strong hover:text-accent-strong"
+          >
+            Reset
+          </button>
+        </form>
+
+        <div className="space-y-4 min-w-0" aria-live="polite">
+          <section className={`card p-6 shadow-sm ${statusClasses}`}>
+            <h2 className="text-2xl font-semibold">
+              <span aria-hidden="true">{calculation.eligible ? "✓" : "×"}</span> {calculation.title}
+            </h2>
+            <p className="mt-6 leading-relaxed text-ink/70">{calculation.message}</p>
+            <p className="mt-4 font-semibold leading-relaxed">{calculation.action}</p>
+          </section>
+
+          {calculation.eligible ? (
+            <section className="card number-box min-w-0 border-accent-strong/30 bg-paper/70 p-6 text-center shadow-sm">
+              <h2 className="text-2xl font-semibold">Maternity Allowance payable</h2>
+              <p className="tabular safe-number mt-8 font-semibold text-accent-strong">
+                {gbp.format(calculation.totalPayable)}
+              </p>
+              <p className="mt-2 text-sm text-ink/60">over {calculation.weeks} weeks</p>
+              <p className="tabular safe-number-sm mt-5 font-semibold text-ink">
+                {gbp.format(calculation.weeklyRate)}/week
+              </p>
+              <p className="mt-1 text-sm text-ink/60">≈ {gbp.format(calculation.monthlyEquivalent)}/month</p>
+            </section>
+          ) : (
+            <section className="card border-amber-300 bg-amber-50 p-6 shadow-sm">
+              <h2 className="text-xl font-semibold text-amber-900">You may be able to pay voluntary Class 2 NI</h2>
+              <p className="mt-4 leading-relaxed text-amber-900/80">
+                If you have not yet paid 13 weeks of Class 2 NI, you may be able to make voluntary contributions before you claim. Contact HMRC to check your NI record.
+              </p>
+            </section>
+          )}
+        </div>
+      </div>
+
+      <section className="grid gap-6 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)]">
+        <div className="card bg-white p-6 shadow-sm">
+          <h2 className="text-2xl font-semibold">MA vs SMP at a glance</h2>
+          <dl className="mt-6 grid grid-cols-[minmax(0,1fr)_auto_auto] gap-x-4 gap-y-4 text-sm">
+            <dt className="font-semibold text-ink/60"> </dt>
+            <dd className="font-semibold">MA</dd>
+            <dd className="font-semibold">SMP</dd>
+            <dt className="text-ink/70">Who pays</dt>
+            <dd>DWP</dd>
+            <dd>Employer</dd>
+            <dt className="text-ink/70">Weeks 1 to 6</dt>
+            <dd>Flat rate</dd>
+            <dd>90% AWE</dd>
+            <dt className="text-ink/70">Weeks 7 to 39</dt>
+            <dd>Flat rate</dd>
+            <dd>{gbp.format(currentRates.smp.weeklyRate)}</dd>
+            <dt className="text-ink/70">Self-employed</dt>
+            <dd>✓</dd>
+            <dd>×</dd>
+          </dl>
+        </div>
+
+        <div className="card bg-white p-6 shadow-sm">
+          <h2 className="text-2xl font-semibold">How to claim</h2>
+          <ul className="mt-5 space-y-3 text-sm leading-relaxed text-ink/75">
+            <li>Maternity Allowance is claimed from DWP, not your employer.</li>
+            <li>Download form MA1 from GOV.UK or request it from Jobcentre Plus.</li>
+            <li>Claim from 26 weeks pregnant, not earlier.</li>
+            <li>Include evidence of earnings. If employed, include form SMP1 from your employer.</li>
+            <li>MA can start from 11 weeks before your expected week of birth, or earlier if you stop work.</li>
+          </ul>
+        </div>
+      </section>
+
+      <details className="card overflow-hidden bg-white shadow-sm" open>
+        <summary className="cursor-pointer list-none px-6 py-4 text-lg font-semibold">How this is calculated</summary>
+        <div className="space-y-4 border-t border-ink/10 bg-paper/50 p-6">
+          <p className="leading-relaxed text-ink/75">
+            The standard weekly rate is {gbp.format(currentRates.maternityAllowance.weeklyRate)} for up to {currentRates.maternityAllowance.totalWeeks} weeks. For employed or recently stopped working claims, the weekly amount is the lower of {gbp.format(currentRates.maternityAllowance.weeklyRate)} and 90% of average weekly earnings.
+          </p>
+          {isSelfEmployed && (
+            <p className="leading-relaxed text-ink/75">
+              For self-employed claims, this calculator checks whether Class 2 NI has been paid for at least {currentRates.maternityAllowance.requiredClass2NiWeeks} of the {currentRates.maternityAllowance.qualifyingPeriodWeeks} weeks before the expected week of birth.
+            </p>
+          )}
+          <p className="text-xs leading-relaxed text-ink/60">
+            This is an estimate for planning. DWP confirms final entitlement after reviewing the MA1 claim and evidence.
           </p>
         </div>
       </details>
@@ -855,6 +1048,369 @@ function EmployeeCostCalculator({ defaults }: { defaults?: Record<string, number
           </p>
           <p className="text-xs leading-relaxed text-ink/60">
             This is an estimate for planning. Payroll software should apply the exact pay-period rules, NI category letter, pension scheme rules and Employment Allowance eligibility for the employer.
+          </p>
+        </div>
+      </details>
+    </div>
+  );
+}
+
+
+type SalarySacrificeCalculatorProps = {
+  defaults?: Record<string, number>;
+  pensionMode: boolean;
+};
+
+function SalarySacrificeCalculator({ defaults, pensionMode }: SalarySacrificeCalculatorProps) {
+  const initialSalary = defaults?.annualSalary ?? 30000;
+  const [salary, setSalary] = useState(initialSalary);
+  const [sacrificePercent, setSacrificePercent] = useState(defaults?.sacrificePercent ?? 5);
+  const [employerTopUp, setEmployerTopUp] = useState(pensionMode);
+
+  const calculation = useMemo(
+    () => calculateSalarySacrificeImpact(salary, sacrificePercent, pensionMode && employerTopUp),
+    [salary, sacrificePercent, pensionMode, employerTopUp],
+  );
+
+  const scenarioPercents = [3, 5, 8];
+  const scenarios = scenarioPercents.map((percent) => ({
+    percent,
+    impact: calculateSalarySacrificeImpact(salary, percent, pensionMode && employerTopUp),
+  }));
+
+  function resetCalculator() {
+    setSalary(initialSalary);
+    setSacrificePercent(defaults?.sacrificePercent ?? 5);
+    setEmployerTopUp(pensionMode);
+  }
+
+  return (
+    <div className="space-y-6">
+      <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.05fr)]">
+        <form className="card space-y-6 bg-white p-6 shadow-sm" aria-label="Salary sacrifice inputs">
+          <div>
+            <h2 className="text-2xl font-semibold">Salary sacrifice inputs</h2>
+            <p className="mt-2 text-sm text-ink/60">See the tax, NI and take-home effect as you type.</p>
+          </div>
+
+          <div>
+            <label htmlFor="sacrifice-salary" className="mb-1.5 block text-sm font-medium">
+              Annual gross salary <span className="text-accent-strong">*</span>
+              <span className="ml-1 font-normal text-ink/70">(£)</span>
+            </label>
+            <input
+              id="sacrifice-salary"
+              type="number"
+              inputMode="decimal"
+              min={0}
+              step="any"
+              value={salary === 0 ? "" : salary}
+              onChange={(e) => setSalary(Number(e.target.value))}
+              className="tabular w-full rounded-lg border border-ink/15 bg-white px-3 py-2.5 text-base transition-colors hover:border-ink/30 focus:border-accent-strong focus:ring-2 focus:ring-accent/20 focus:outline-none"
+            />
+          </div>
+
+          <div>
+            <label htmlFor="sacrifice-percent" className="mb-1.5 block text-sm font-medium">
+              Salary sacrificed <span className="ml-1 font-normal text-ink/70">(%)</span>
+            </label>
+            <input
+              id="sacrifice-percent"
+              type="number"
+              inputMode="decimal"
+              min={0}
+              max={100}
+              step="0.1"
+              value={sacrificePercent === 0 ? "" : sacrificePercent}
+              onChange={(e) => setSacrificePercent(Number(e.target.value))}
+              className="tabular w-full rounded-lg border border-ink/15 bg-white px-3 py-2.5 text-base transition-colors hover:border-ink/30 focus:border-accent-strong focus:ring-2 focus:ring-accent/20 focus:outline-none"
+            />
+            <p className="mt-2 text-xs leading-relaxed text-ink/60">
+              This reduces contractual gross pay, so income tax and employee NI usually fall.
+            </p>
+          </div>
+
+          {pensionMode && (
+            <label className="flex gap-3 rounded-lg border border-ink/10 bg-paper/60 p-4 text-sm">
+              <input
+                type="checkbox"
+                checked={employerTopUp}
+                onChange={(e) => setEmployerTopUp(e.target.checked)}
+                className="mt-1 h-4 w-4 rounded border-ink/30 accent-accent-strong"
+              />
+              <span>
+                <span className="block font-medium text-ink">Add employer NI saving to pension</span>
+                <span className="mt-1 block text-ink/60">Some employers pass their NI saving into the pension contribution.</span>
+              </span>
+            </label>
+          )}
+
+          <button
+            type="button"
+            onClick={resetCalculator}
+            className="w-full rounded-lg border border-ink/15 px-4 py-2.5 text-sm font-semibold transition-colors hover:border-accent-strong hover:text-accent-strong"
+          >
+            Reset
+          </button>
+        </form>
+
+        <div className="space-y-4 min-w-0" aria-live="polite">
+          <section className="card number-box min-w-0 bg-paper/70 p-6 text-center shadow-sm">
+            <h2 className="text-2xl font-semibold">Net employee cost</h2>
+            <p className="mt-2 text-sm text-ink/60">What the sacrifice costs after tax and NI savings</p>
+            <p className="tabular safe-number mt-8 font-semibold text-accent-strong">
+              {gbp.format(calculation.netEmployeeCost)}
+            </p>
+            <p className="mt-2 text-sm text-ink/60">{gbp.format(calculation.monthlyNetCost)} per month</p>
+          </section>
+
+          <dl className="grid gap-3 sm:grid-cols-2">
+            <div className="card number-box min-w-0 bg-white p-4 shadow-sm">
+              <dt className="text-xs uppercase tracking-widest text-ink/55">Salary sacrificed</dt>
+              <dd className="tabular safe-number-sm mt-1 font-semibold text-accent-strong">{gbp.format(calculation.sacrificed)}</dd>
+            </div>
+            <div className="card number-box min-w-0 bg-white p-4 shadow-sm">
+              <dt className="text-xs uppercase tracking-widest text-ink/55">Reduced gross salary</dt>
+              <dd className="tabular safe-number-sm mt-1 font-semibold text-accent-strong">{gbp.format(calculation.reducedSalary)}</dd>
+            </div>
+            <div className="card number-box min-w-0 bg-white p-4 shadow-sm">
+              <dt className="text-xs uppercase tracking-widest text-ink/55">Income tax saving</dt>
+              <dd className="tabular safe-number-sm mt-1 font-semibold text-accent-strong">{gbp.format(calculation.incomeTaxSaving)}</dd>
+            </div>
+            <div className="card number-box min-w-0 bg-white p-4 shadow-sm">
+              <dt className="text-xs uppercase tracking-widest text-ink/55">Employee NI saving</dt>
+              <dd className="tabular safe-number-sm mt-1 font-semibold text-accent-strong">{gbp.format(calculation.employeeNiSaving)}</dd>
+            </div>
+            <div className="card number-box min-w-0 bg-white p-4 shadow-sm">
+              <dt className="text-xs uppercase tracking-widest text-ink/55">Employer NI saving</dt>
+              <dd className="tabular safe-number-sm mt-1 font-semibold text-accent-strong">{gbp.format(calculation.employerNiSaving)}</dd>
+            </div>
+            <div className="card number-box min-w-0 bg-accent/[0.06] p-4 shadow-sm">
+              <dt className="text-xs uppercase tracking-widest text-ink/55">Combined tax and NI saving</dt>
+              <dd className="tabular safe-number-sm mt-1 font-semibold text-accent-strong">{gbp.format(calculation.combinedTaxNiSaving)}</dd>
+            </div>
+          </dl>
+        </div>
+      </div>
+
+      {pensionMode && (
+        <section className="grid gap-4 sm:grid-cols-2">
+          <div className="card number-box min-w-0 bg-white p-6 shadow-sm">
+            <p className="text-sm text-ink/60">Annual pension contribution</p>
+            <p className="tabular safe-number-md mt-2 font-semibold text-accent-strong">
+              {gbp.format(calculation.pensionContributionWithEmployerTopUp)}
+            </p>
+            <p className="mt-1 text-sm text-ink/60">Includes selected employer NI top-up</p>
+          </div>
+          <div className="card number-box min-w-0 bg-white p-6 shadow-sm">
+            <p className="text-sm text-ink/60">10-year contribution projection</p>
+            <p className="tabular safe-number-md mt-2 font-semibold text-accent-strong">
+              {gbp.format(calculation.tenYearPensionValue)}
+            </p>
+            <p className="mt-1 text-sm text-ink/60">Before investment growth or charges</p>
+          </div>
+        </section>
+      )}
+
+      <section className="card bg-white p-6 shadow-sm">
+        <h2 className="text-2xl font-semibold">Compare sacrifice rates</h2>
+        <div className="mt-5 grid gap-3 md:grid-cols-3">
+          {scenarios.map(({ percent, impact }) => (
+            <button
+              key={percent}
+              type="button"
+              onClick={() => setSacrificePercent(percent)}
+              className="number-box min-w-0 rounded-2xl border border-ink/10 bg-paper/60 p-4 text-left transition-colors hover:border-accent-strong"
+            >
+              <span className="block text-sm font-semibold">{percent}% sacrifice</span>
+              <span className="tabular safe-number-sm mt-2 block font-semibold text-accent-strong">{gbp.format(impact.sacrificed)}</span>
+              <span className="mt-1 block text-xs text-ink/60">Net cost {gbp.format(impact.netEmployeeCost)} per year</span>
+            </button>
+          ))}
+        </div>
+      </section>
+
+      <details className="card overflow-hidden bg-white shadow-sm" open>
+        <summary className="cursor-pointer list-none px-6 py-4 text-lg font-semibold">How this is calculated</summary>
+        <div className="space-y-4 border-t border-ink/10 bg-paper/50 p-6">
+          <p className="leading-relaxed text-ink/75">
+            Net employee cost = salary sacrificed minus income tax saving and employee NI saving. Employer NI saving is shown separately because the employer decides whether to keep it or add it to the pension.
+          </p>
+          <p className="leading-relaxed text-ink/75">
+            Your calculation: {gbp.format(calculation.sacrificed)} sacrificed - {gbp.format(calculation.incomeTaxSaving)} tax saving - {gbp.format(calculation.employeeNiSaving)} employee NI saving = {gbp.format(calculation.netEmployeeCost)} net employee cost.
+          </p>
+        </div>
+      </details>
+    </div>
+  );
+}
+
+function WorkplacePensionCalculator({ defaults }: { defaults?: Record<string, number> }) {
+  const initialSalary = defaults?.annualSalary ?? 30000;
+  const [salary, setSalary] = useState(initialSalary);
+  const [employeePercent, setEmployeePercent] = useState(defaults?.employeePercent ?? currentRates.pension.employeeMinPercent);
+  const [employerPercent, setEmployerPercent] = useState(defaults?.employerPercent ?? currentRates.pension.employerMinPercent);
+  const [scheme, setScheme] = useState<PensionSchemeType>("qualifying");
+
+  const calculation = useMemo(() => {
+    const safeSalary = Number.isFinite(salary) ? Math.max(0, salary) : 0;
+    const pensionablePay = scheme === "qualifying"
+      ? Math.max(0, Math.min(safeSalary, currentRates.pension.qualifyingUpperLimit) - currentRates.pension.qualifyingLowerLimit)
+      : safeSalary;
+    const employeeContribution = pensionablePay * (Math.max(0, employeePercent) / 100);
+    const employerContribution = pensionablePay * (Math.max(0, employerPercent) / 100);
+    return {
+      salary: safeSalary,
+      pensionablePay,
+      employeeContribution,
+      employerContribution,
+      totalContribution: employeeContribution + employerContribution,
+      monthlyEmployeeContribution: employeeContribution / 12,
+      monthlyEmployerContribution: employerContribution / 12,
+      aboveAutoEnrolmentTrigger: safeSalary >= currentRates.pension.autoEnrolmentTrigger,
+    };
+  }, [salary, employeePercent, employerPercent, scheme]);
+
+  function resetCalculator() {
+    setSalary(initialSalary);
+    setEmployeePercent(defaults?.employeePercent ?? currentRates.pension.employeeMinPercent);
+    setEmployerPercent(defaults?.employerPercent ?? currentRates.pension.employerMinPercent);
+    setScheme("qualifying");
+  }
+
+  return (
+    <div className="space-y-6">
+      <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.05fr)]">
+        <form className="card space-y-6 bg-white p-6 shadow-sm" aria-label="Workplace pension inputs">
+          <div>
+            <h2 className="text-2xl font-semibold">Workplace pension inputs</h2>
+            <p className="mt-2 text-sm text-ink/60">Choose qualifying earnings or total earnings, then adjust contribution rates.</p>
+          </div>
+
+          <div>
+            <label htmlFor="pension-salary" className="mb-1.5 block text-sm font-medium">
+              Annual gross salary <span className="text-accent-strong">*</span>
+              <span className="ml-1 font-normal text-ink/70">(£)</span>
+            </label>
+            <input
+              id="pension-salary"
+              type="number"
+              inputMode="decimal"
+              min={0}
+              step="any"
+              value={salary === 0 ? "" : salary}
+              onChange={(e) => setSalary(Number(e.target.value))}
+              className="tabular w-full rounded-lg border border-ink/15 bg-white px-3 py-2.5 text-base transition-colors hover:border-ink/30 focus:border-accent-strong focus:ring-2 focus:ring-accent/20 focus:outline-none"
+            />
+          </div>
+
+          <div>
+            <label htmlFor="pension-scheme" className="mb-1.5 block text-sm font-medium">Contribution basis</label>
+            <select
+              id="pension-scheme"
+              value={scheme}
+              onChange={(e) => setScheme(e.target.value as PensionSchemeType)}
+              className="w-full rounded-lg border border-ink/15 bg-white px-3 py-2.5 text-base transition-colors hover:border-ink/30 focus:border-accent-strong focus:ring-2 focus:ring-accent/20 focus:outline-none"
+            >
+              <option value="qualifying">Qualifying earnings</option>
+              <option value="total">Total earnings</option>
+            </select>
+            <p className="mt-2 text-xs leading-relaxed text-ink/60">
+              Qualifying earnings uses the band from {gbp.format(currentRates.pension.qualifyingLowerLimit)} to {gbp.format(currentRates.pension.qualifyingUpperLimit)}.
+            </p>
+          </div>
+
+          <div className="grid gap-4 sm:grid-cols-2">
+            <div>
+              <label htmlFor="pension-employee-percent" className="mb-1.5 block text-sm font-medium">Employee contribution (%)</label>
+              <input
+                id="pension-employee-percent"
+                type="number"
+                inputMode="decimal"
+                min={0}
+                step="0.1"
+                value={employeePercent === 0 ? "" : employeePercent}
+                onChange={(e) => setEmployeePercent(Number(e.target.value))}
+                className="tabular w-full rounded-lg border border-ink/15 bg-white px-3 py-2.5 text-base transition-colors hover:border-ink/30 focus:border-accent-strong focus:ring-2 focus:ring-accent/20 focus:outline-none"
+              />
+            </div>
+            <div>
+              <label htmlFor="pension-employer-percent" className="mb-1.5 block text-sm font-medium">Employer contribution (%)</label>
+              <input
+                id="pension-employer-percent"
+                type="number"
+                inputMode="decimal"
+                min={0}
+                step="0.1"
+                value={employerPercent === 0 ? "" : employerPercent}
+                onChange={(e) => setEmployerPercent(Number(e.target.value))}
+                className="tabular w-full rounded-lg border border-ink/15 bg-white px-3 py-2.5 text-base transition-colors hover:border-ink/30 focus:border-accent-strong focus:ring-2 focus:ring-accent/20 focus:outline-none"
+              />
+            </div>
+          </div>
+
+          <button
+            type="button"
+            onClick={resetCalculator}
+            className="w-full rounded-lg border border-ink/15 px-4 py-2.5 text-sm font-semibold transition-colors hover:border-accent-strong hover:text-accent-strong"
+          >
+            Reset
+          </button>
+        </form>
+
+        <div className="space-y-4 min-w-0" aria-live="polite">
+          <section className="card number-box min-w-0 bg-paper/70 p-6 text-center shadow-sm">
+            <h2 className="text-2xl font-semibold">Total pension contribution</h2>
+            <p className="tabular safe-number mt-8 font-semibold text-accent-strong">
+              {gbp.format(calculation.totalContribution)}
+            </p>
+            <p className="mt-2 text-sm text-ink/60">per year</p>
+          </section>
+
+          <dl className="grid gap-3 sm:grid-cols-2">
+            <div className="card number-box min-w-0 bg-white p-4 shadow-sm">
+              <dt className="text-xs uppercase tracking-widest text-ink/55">Employee annual</dt>
+              <dd className="tabular safe-number-sm mt-1 font-semibold text-accent-strong">{gbp.format(calculation.employeeContribution)}</dd>
+              <dd className="mt-1 text-xs text-ink/60">{gbp.format(calculation.monthlyEmployeeContribution)} monthly</dd>
+            </div>
+            <div className="card number-box min-w-0 bg-white p-4 shadow-sm">
+              <dt className="text-xs uppercase tracking-widest text-ink/55">Employer annual</dt>
+              <dd className="tabular safe-number-sm mt-1 font-semibold text-accent-strong">{gbp.format(calculation.employerContribution)}</dd>
+              <dd className="mt-1 text-xs text-ink/60">{gbp.format(calculation.monthlyEmployerContribution)} monthly</dd>
+            </div>
+            <div className="card number-box min-w-0 bg-white p-4 shadow-sm">
+              <dt className="text-xs uppercase tracking-widest text-ink/55">Pensionable pay</dt>
+              <dd className="tabular safe-number-sm mt-1 font-semibold text-accent-strong">{gbp.format(calculation.pensionablePay)}</dd>
+            </div>
+            <div className="card number-box min-w-0 bg-white p-4 shadow-sm">
+              <dt className="text-xs uppercase tracking-widest text-ink/55">Auto-enrolment trigger</dt>
+              <dd className="mt-1 font-semibold text-accent-strong">{calculation.aboveAutoEnrolmentTrigger ? "Reached" : "Below trigger"}</dd>
+            </div>
+          </dl>
+        </div>
+      </div>
+
+      <section className="card bg-white p-6 shadow-sm">
+        <h2 className="text-2xl font-semibold">Salary sacrifice companion check</h2>
+        <p className="mt-3 leading-relaxed text-ink/70">
+          If pension contributions are made through salary sacrifice, employee and employer NI can fall. Use the salary sacrifice pension calculator to compare net cost and employer NI top-up.
+        </p>
+        <a
+          href={`/salary-sacrifice-pension-calculator/?salary=${Math.round(calculation.salary)}`}
+          className="mt-5 inline-flex rounded-lg bg-accent-strong px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-accent"
+        >
+          Compare salary sacrifice pension
+        </a>
+      </section>
+
+      <details className="card overflow-hidden bg-white shadow-sm" open>
+        <summary className="cursor-pointer list-none px-6 py-4 text-lg font-semibold">How this is calculated</summary>
+        <div className="space-y-4 border-t border-ink/10 bg-paper/50 p-6">
+          <p className="leading-relaxed text-ink/75">
+            Pensionable pay is {gbp.format(calculation.pensionablePay)} using the selected {scheme === "qualifying" ? "qualifying earnings" : "total earnings"} basis. Employee contribution is {employeePercent}% and employer contribution is {employerPercent}% of that pensionable pay.
+          </p>
+          <p className="text-xs leading-relaxed text-ink/60">
+            This is a planning estimate. Your pension scheme rules can use different definitions of pensionable pay.
           </p>
         </div>
       </details>

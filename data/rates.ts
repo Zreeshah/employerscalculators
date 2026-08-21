@@ -41,6 +41,10 @@ export const currentRates = {
   },
   maternityAllowance: {
     weeklyRate: 194.32, // or 90% AWE if lower, up to 39 weeks
+    lowerWeeklyRate: 27, // self-employed fallback/low Class 2 NI rate
+    totalWeeks: 39,
+    qualifyingPeriodWeeks: 66,
+    requiredClass2NiWeeks: 13,
   },
   pension: {
     employerMinPercent: 3, // auto-enrolment minimum employer contribution

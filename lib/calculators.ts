@@ -38,6 +38,39 @@ export interface ResultLine {
 
 export type EmployerNiCategory = "standard" | "under21" | "apprentice" | "veteran" | "freeport";
 export type PensionSchemeType = "qualifying" | "total";
+export type MaternityAllowanceSituation = "self-employed" | "employed-no-smp" | "recently-stopped";
+
+export interface MaternityAllowanceResult {
+  situation: MaternityAllowanceSituation;
+  eligible: boolean;
+  status: "standard" | "lower-rate" | "may-not-qualify";
+  title: string;
+  message: string;
+  action: string;
+  weeklyRate: number;
+  monthlyEquivalent: number;
+  totalPayable: number;
+  weeks: number;
+}
+
+export interface SalarySacrificeImpact {
+  grossSalary: number;
+  sacrificed: number;
+  reducedSalary: number;
+  originalTax: number;
+  reducedTax: number;
+  incomeTaxSaving: number;
+  originalEmployeeNi: number;
+  reducedEmployeeNi: number;
+  employeeNiSaving: number;
+  employerNiSaving: number;
+  employeeTotalSaving: number;
+  netEmployeeCost: number;
+  monthlyNetCost: number;
+  combinedTaxNiSaving: number;
+  pensionContributionWithEmployerTopUp: number;
+  tenYearPensionValue: number;
+}
 
 export const employerNiCategoryThresholds: Record<EmployerNiCategory, number> = {
   standard: currentRates.employerNi.secondaryThreshold,
@@ -80,6 +113,115 @@ export function employerPensionContribution(
     Math.min(safeGross, currentRates.pension.qualifyingUpperLimit) - currentRates.pension.qualifyingLowerLimit,
   );
   return qualifyingPay * rate;
+}
+
+export function calculateSalarySacrificeImpact(
+  grossSalary: number,
+  sacrificePercent: number,
+  employerNiTopUp = false,
+): SalarySacrificeImpact {
+  const gross = Number.isFinite(grossSalary) ? Math.max(0, grossSalary) : 0;
+  const percent = Number.isFinite(sacrificePercent) ? Math.max(0, Math.min(100, sacrificePercent)) : 0;
+  const sacrificed = gross * (percent / 100);
+  const reducedSalary = Math.max(0, gross - sacrificed);
+  const originalTax = incomeTaxRuk(gross);
+  const reducedTax = incomeTaxRuk(reducedSalary);
+  const incomeTaxSaving = originalTax - reducedTax;
+  const originalEmployeeNi = employeeNi(gross);
+  const reducedEmployeeNi = employeeNi(reducedSalary);
+  const employeeNiSaving = originalEmployeeNi - reducedEmployeeNi;
+  const employerNiSaving = employerNi(gross) - employerNi(reducedSalary);
+  const employeeTotalSaving = incomeTaxSaving + employeeNiSaving;
+  const netEmployeeCost = Math.max(0, sacrificed - employeeTotalSaving);
+  const pensionContributionWithEmployerTopUp = sacrificed + (employerNiTopUp ? employerNiSaving : 0);
+
+  return {
+    grossSalary: gross,
+    sacrificed,
+    reducedSalary,
+    originalTax,
+    reducedTax,
+    incomeTaxSaving,
+    originalEmployeeNi,
+    reducedEmployeeNi,
+    employeeNiSaving,
+    employerNiSaving,
+    employeeTotalSaving,
+    netEmployeeCost,
+    monthlyNetCost: netEmployeeCost / 12,
+    combinedTaxNiSaving: employeeTotalSaving + employerNiSaving,
+    pensionContributionWithEmployerTopUp,
+    tenYearPensionValue: pensionContributionWithEmployerTopUp * 10,
+  };
+}
+
+export function calculateMaternityAllowance({
+  situation,
+  averageWeeklyEarnings,
+  paidClass2Ni,
+}: {
+  situation: MaternityAllowanceSituation;
+  averageWeeklyEarnings: number;
+  paidClass2Ni: boolean;
+}): MaternityAllowanceResult {
+  const rates = currentRates.maternityAllowance;
+  const awe = Number.isFinite(averageWeeklyEarnings) ? Math.max(0, averageWeeklyEarnings) : 0;
+  const weeks = rates.totalWeeks;
+  const standardWeeklyRate = situation === "self-employed"
+    ? rates.weeklyRate
+    : Math.min(rates.weeklyRate, awe * 0.9);
+
+  if (situation === "self-employed" && !paidClass2Ni) {
+    return {
+      situation,
+      eligible: false,
+      status: "may-not-qualify",
+      title: "May Not Qualify",
+      message: `To qualify for Maternity Allowance as self-employed, you must have paid Class 2 NI for at least ${rates.requiredClass2NiWeeks} of the ${rates.qualifyingPeriodWeeks} weeks before the expected week of birth.`,
+      action: "You may be able to pay voluntary Class 2 NI before you claim. Contact HMRC to check your NI record.",
+      weeklyRate: 0,
+      monthlyEquivalent: 0,
+      totalPayable: 0,
+      weeks,
+    };
+  }
+
+  if (situation !== "self-employed" && awe <= 0) {
+    return {
+      situation,
+      eligible: false,
+      status: "may-not-qualify",
+      title: "May Not Qualify",
+      message: "Average weekly earnings must be above £0 for employed or recently stopped working claims.",
+      action: "Check the best 13 weeks of earnings in the 66-week test period before you claim.",
+      weeklyRate: 0,
+      monthlyEquivalent: 0,
+      totalPayable: 0,
+      weeks,
+    };
+  }
+
+  const weeklyRate = standardWeeklyRate > 0 ? standardWeeklyRate : rates.lowerWeeklyRate;
+  const selfEmployedMessage = "Self-employed with Class 2 NI paid and earnings above the minimum threshold.";
+  const employedMessage = "Employed but does not qualify for SMP. Eligible for MA based on average weekly earnings.";
+  const stoppedMessage = "Recently stopped working. Eligible for MA at standard rate based on previous earnings.";
+
+  return {
+    situation,
+    eligible: true,
+    status: weeklyRate === rates.lowerWeeklyRate ? "lower-rate" : "standard",
+    title: weeklyRate === rates.lowerWeeklyRate ? "Eligible — Lower Rate" : "Eligible — Standard Rate",
+    message: situation === "self-employed"
+      ? selfEmployedMessage
+      : situation === "employed-no-smp"
+        ? employedMessage
+        : stoppedMessage,
+    action: "Claim directly from DWP — your employer is not involved.",
+    weeklyRate,
+    monthlyEquivalent: (weeklyRate * weeks) / 9,
+    totalPayable: weeklyRate * weeks,
+    weeks,
+  };
 }
 
 export const calculatorInputs: Record<CalculatorKind, InputSpec[]> = {
@@ -295,7 +437,7 @@ export function calculate(
     }
     case "maternity-allowance": {
       const weekly = Math.min(r.maternityAllowance.weeklyRate, 0.9 * n("averageWeeklyEarnings"));
-      const weeks = Math.min(Math.max(n("weeksClaimed"), 0), 39);
+      const weeks = Math.min(Math.max(n("weeksClaimed"), 0), r.maternityAllowance.totalWeeks);
       return [
         { label: "Weekly Maternity Allowance", value: weekly, format: "currency" },
         { label: "Total Maternity Allowance", value: weekly * weeks, format: "currency" },
