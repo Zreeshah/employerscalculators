@@ -46,6 +46,8 @@ export const currentRates = {
     employerMinPercent: 3, // auto-enrolment minimum employer contribution
     employeeMinPercent: 5, // auto-enrolment minimum employee contribution (incl. tax relief)
     autoEnrolmentTrigger: 10000, // annual earnings trigger
+    qualifyingLowerLimit: 6240, // annual lower qualifying earnings band
+    qualifyingUpperLimit: 50270, // annual upper qualifying earnings band
   },
   nationalMinimumWage: {
     // From 1 April 2026
@@ -77,8 +79,8 @@ export const rateRows: RateRow[] = [
   { label: "Basic income tax rate", value: fmtPct(currentRates.incomeTax.basicRate) },
   { label: "SSP weekly rate", value: fmtGbp(currentRates.ssp.weeklyRate) },
   { label: "SMP weekly rate (flat weeks)", value: fmtGbp(currentRates.smp.weeklyRate) },
-  { label: "Auto-enrolment employer minimum", value: fmtPct(currentRates.pension.employerMinPercent) },
-  { label: "Auto-enrolment employee minimum", value: fmtPct(currentRates.pension.employeeMinPercent) },
+  { label: "Auto-enrolment employer minimum", value: fmtPercentPoints(currentRates.pension.employerMinPercent) },
+  { label: "Auto-enrolment employee minimum", value: fmtPercentPoints(currentRates.pension.employeeMinPercent) },
   { label: "National Living Wage (21+, per hour)", value: fmtGbp(currentRates.nationalMinimumWage.over21) },
 ];
 
@@ -92,4 +94,8 @@ function fmtGbp(n: number) {
 
 function fmtPct(n: number) {
   return `${(n * 100).toFixed(2).replace(/\.00$/, "")}%`;
+}
+
+function fmtPercentPoints(n: number) {
+  return `${n.toFixed(2).replace(/\.00$/, "")}%`;
 }

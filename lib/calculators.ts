@@ -35,6 +35,7 @@ export interface ResultLine {
 }
 
 export type EmployerNiCategory = "standard" | "under21" | "apprentice" | "veteran" | "freeport";
+export type PensionSchemeType = "qualifying" | "total";
 
 export const employerNiCategoryThresholds: Record<EmployerNiCategory, number> = {
   standard: currentRates.employerNi.secondaryThreshold,
@@ -62,6 +63,21 @@ export function employerNiWithAllowance(
     ? Math.min(rawNi, currentRates.employerNi.employmentAllowance)
     : 0;
   return { rawNi, allowanceSaving, payableNi: rawNi - allowanceSaving };
+}
+
+export function employerPensionContribution(
+  gross: number,
+  ratePercent = currentRates.pension.employerMinPercent,
+  scheme: PensionSchemeType = "qualifying",
+): number {
+  const safeGross = Math.max(0, gross);
+  const rate = Math.max(0, ratePercent) / 100;
+  if (scheme === "total") return safeGross * rate;
+  const qualifyingPay = Math.max(
+    0,
+    Math.min(safeGross, currentRates.pension.qualifyingUpperLimit) - currentRates.pension.qualifyingLowerLimit,
+  );
+  return qualifyingPay * rate;
 }
 
 export const calculatorInputs: Record<CalculatorKind, InputSpec[]> = {

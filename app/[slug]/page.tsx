@@ -22,9 +22,13 @@ export function generateStaticParams() {
   return [...calculatorBySlug.keys(), ...simplePages.map((p) => p.slug)].map((slug) => ({ slug }));
 }
 
+type SlugPageProps = {
+  params: Promise<{ slug: string }>;
+};
+
 export async function generateMetadata({
   params,
-}: PageProps<"/[slug]">): Promise<Metadata> {
+}: SlugPageProps): Promise<Metadata> {
   const { slug } = await params;
   const calc = calculatorBySlug.get(slug);
   const page = simplePageBySlug.get(slug);
@@ -37,7 +41,7 @@ export async function generateMetadata({
   });
 }
 
-export default async function SlugPage({ params }: PageProps<"/[slug]">) {
+export default async function SlugPage({ params }: SlugPageProps) {
   const { slug } = await params;
   const calc = calculatorBySlug.get(slug);
   const simple = simplePageBySlug.get(slug);

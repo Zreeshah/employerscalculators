@@ -19,9 +19,13 @@ export function generateStaticParams() {
 
 const slugify = (s: string) => s.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
 
+type GuidePageProps = {
+  params: Promise<{ slug: string }>;
+};
+
 export async function generateMetadata({
   params,
-}: PageProps<"/guides/[slug]">): Promise<Metadata> {
+}: GuidePageProps): Promise<Metadata> {
   const { slug } = await params;
   const guide = guideBySlug.get(slug);
   if (!guide) return {};
@@ -32,7 +36,7 @@ export async function generateMetadata({
   });
 }
 
-export default async function GuidePage({ params }: PageProps<"/guides/[slug]">) {
+export default async function GuidePage({ params }: GuidePageProps) {
   const { slug } = await params;
   const guide = guideBySlug.get(slug);
   if (!guide) notFound();

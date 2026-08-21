@@ -7,8 +7,10 @@ import {
   calculatorInputs,
   employerNiCategoryThresholds,
   employerNiWithAllowance,
+  employerPensionContribution,
   type CalculatorKind,
   type EmployerNiCategory,
+  type PensionSchemeType,
 } from "@/lib/calculators";
 
 const unitLabels: Record<string, string> = {
@@ -167,22 +169,60 @@ const employerNiCategories: Array<{
   },
 ];
 
+const pensionSchemeLabels: Record<PensionSchemeType, string> = {
+  qualifying: "Qualifying Earnings",
+  total: "Total Earnings",
+};
+
+const chartColours = {
+  salary: "#CBD5E1",
+  ni: "#15803D",
+  pension: "#22C55E",
+  additional: "#A3E635",
+};
+
 function EmployerNiCalculator({ defaults }: { defaults?: Record<string, number> }) {
   const initialSalary = defaults?.annualSalary ?? 30000;
   const [salary, setSalary] = useState(initialSalary);
   const [category, setCategory] = useState<EmployerNiCategory>("standard");
   const [applyAllowance, setApplyAllowance] = useState(false);
+  const [includePension, setIncludePension] = useState(true);
+  const [pensionScheme, setPensionScheme] = useState<PensionSchemeType>("qualifying");
+  const [pensionRate, setPensionRate] = useState(currentRates.pension.employerMinPercent);
+  const [additionalCosts, setAdditionalCosts] = useState(0);
   const [period, setPeriod] = useState<Period>("annual");
+  const [copied, setCopied] = useState(false);
 
   const calculation = useMemo(() => {
     const safeSalary = Number.isFinite(salary) ? Math.max(0, salary) : 0;
+    const safePensionRate = Number.isFinite(pensionRate) ? Math.max(0, pensionRate) : 0;
+    const safeAdditionalCosts = Number.isFinite(additionalCosts) ? Math.max(0, additionalCosts) : 0;
     const ni = employerNiWithAllowance(safeSalary, category, applyAllowance);
+    const pensionContribution = includePension
+      ? employerPensionContribution(safeSalary, safePensionRate, pensionScheme)
+      : 0;
     const threshold = employerNiCategoryThresholds[category];
     const divisor = periodDivisors[period];
-    const totalEmploymentCost = safeSalary + ni.payableNi;
-    const niShare = totalEmploymentCost > 0 ? ni.payableNi / totalEmploymentCost : 0;
-    const salaryShare = totalEmploymentCost > 0 ? safeSalary / totalEmploymentCost : 0;
-    const costPercent = safeSalary > 0 ? (ni.payableNi / safeSalary) * 100 : 0;
+    const totalEmploymentCost = safeSalary + ni.payableNi + pensionContribution + safeAdditionalCosts;
+    const totalOnCosts = ni.payableNi + pensionContribution + safeAdditionalCosts;
+    const costPercent = safeSalary > 0 ? (totalOnCosts / safeSalary) * 100 : 0;
+    const niPercentOfSalary = safeSalary > 0 ? (ni.payableNi / safeSalary) * 100 : 0;
+    const pensionBase = pensionScheme === "qualifying"
+      ? Math.max(
+          0,
+          Math.min(safeSalary, currentRates.pension.qualifyingUpperLimit) - currentRates.pension.qualifyingLowerLimit,
+        )
+      : safeSalary;
+
+    const segments = [
+      { key: "salary", label: "Gross salary", value: safeSalary, colour: chartColours.salary },
+      { key: "ni", label: "Employer NI", value: ni.payableNi, colour: chartColours.ni },
+      { key: "pension", label: "Pension", value: pensionContribution, colour: chartColours.pension },
+      { key: "additional", label: "Additional", value: safeAdditionalCosts, colour: chartColours.additional },
+    ].map((segment) => ({
+      ...segment,
+      share: totalEmploymentCost > 0 ? segment.value / totalEmploymentCost : 0,
+    }));
 
     return {
       salary: safeSalary,
@@ -190,22 +230,58 @@ function EmployerNiCalculator({ defaults }: { defaults?: Record<string, number> 
       rawNi: ni.rawNi,
       allowanceSaving: ni.allowanceSaving,
       payableNi: ni.payableNi,
+      pensionContribution,
+      additionalCosts: safeAdditionalCosts,
+      totalEmploymentCost,
+      totalOnCosts,
+      costPercent,
+      niPercentOfSalary,
+      pensionBase,
       displayNi: ni.payableNi / divisor,
+      displayTotalCost: totalEmploymentCost / divisor,
       displayRawNi: ni.rawNi / divisor,
       displaySaving: ni.allowanceSaving / divisor,
-      totalEmploymentCost,
-      niShare,
-      salaryShare,
-      costPercent,
+      displayPension: pensionContribution / divisor,
+      displayAdditionalCosts: safeAdditionalCosts / divisor,
       taxableEarnings: Math.max(0, safeSalary - threshold),
+      segments,
     };
-  }, [salary, category, applyAllowance, period]);
+  }, [salary, category, applyAllowance, includePension, pensionScheme, pensionRate, additionalCosts, period]);
 
   const categoryHelp = employerNiCategories.find((item) => item.value === category)?.help;
   const circumference = 2 * Math.PI * 42;
-  const niDash = calculation.niShare * circumference;
-  const salaryPercent = Math.round(calculation.salaryShare * 100);
-  const niPercent = Math.round(calculation.niShare * 100);
+  let dashOffset = 0;
+  const chartSegments = calculation.segments.map((segment) => {
+    const dash = segment.share * circumference;
+    const item = { ...segment, dash, offset: dashOffset };
+    dashOffset -= dash;
+    return item;
+  });
+
+  function resetCalculator() {
+    setSalary(initialSalary);
+    setCategory("standard");
+    setApplyAllowance(false);
+    setIncludePension(true);
+    setPensionScheme("qualifying");
+    setPensionRate(currentRates.pension.employerMinPercent);
+    setAdditionalCosts(0);
+    setPeriod("annual");
+    setCopied(false);
+  }
+
+  async function copyResult() {
+    const label = periodLabels[period];
+    const value = gbp.format(calculation.displayTotalCost);
+    const text = `${value} ${label} total employment cost. Employer NI: ${gbp.format(calculation.displayNi)} ${label}.`;
+    try {
+      await navigator.clipboard.writeText(text);
+      setCopied(true);
+      window.setTimeout(() => setCopied(false), 1600);
+    } catch {
+      setCopied(false);
+    }
+  }
 
   return (
     <div className="space-y-6">
@@ -267,14 +343,83 @@ function EmployerNiCalculator({ defaults }: { defaults?: Record<string, number> 
             </span>
           </label>
 
+          <fieldset className="space-y-4 rounded-2xl border border-ink/10 bg-paper/60 p-4">
+            <legend className="px-1 text-sm font-semibold text-ink">Pension settings</legend>
+            <label className="flex gap-3 text-sm">
+              <input
+                type="checkbox"
+                checked={includePension}
+                onChange={(e) => setIncludePension(e.target.checked)}
+                className="mt-1 h-4 w-4 rounded border-ink/30 accent-accent-strong"
+              />
+              <span>
+                <span className="block font-medium text-ink">Include Workplace Pension</span>
+                <span className="mt-1 block text-ink/60">Add employer pension contributions to the full employment cost.</span>
+              </span>
+            </label>
+
+            {includePension && (
+              <div className="grid gap-4 sm:grid-cols-2">
+                <div>
+                  <label htmlFor="pension-scheme" className="mb-1.5 block text-sm font-medium">
+                    Pension scheme type
+                  </label>
+                  <select
+                    id="pension-scheme"
+                    value={pensionScheme}
+                    onChange={(e) => setPensionScheme(e.target.value as PensionSchemeType)}
+                    className="w-full rounded-lg border border-ink/15 bg-white px-3 py-2.5 text-base transition-colors hover:border-ink/30 focus:border-accent-strong focus:ring-2 focus:ring-accent/20 focus:outline-none"
+                  >
+                    {Object.entries(pensionSchemeLabels).map(([value, label]) => (
+                      <option key={value} value={value}>
+                        {label}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                <div>
+                  <label htmlFor="pension-rate" className="mb-1.5 block text-sm font-medium">
+                    Employer pension rate (%)
+                  </label>
+                  <input
+                    id="pension-rate"
+                    type="number"
+                    inputMode="decimal"
+                    min={0}
+                    step="0.1"
+                    value={pensionRate === 0 ? "" : pensionRate}
+                    onChange={(e) => setPensionRate(Number(e.target.value))}
+                    className="tabular w-full rounded-lg border border-ink/15 bg-white px-3 py-2.5 text-base transition-colors hover:border-ink/30 focus:border-accent-strong focus:ring-2 focus:ring-accent/20 focus:outline-none"
+                  />
+                </div>
+              </div>
+            )}
+          </fieldset>
+
+          <div>
+            <label htmlFor="additional-costs" className="mb-1.5 block text-sm font-medium">
+              Additional annual costs <span className="ml-1 font-normal text-ink/70">(£)</span>
+            </label>
+            <input
+              id="additional-costs"
+              type="number"
+              inputMode="decimal"
+              min={0}
+              step="any"
+              placeholder="0"
+              value={additionalCosts === 0 ? "" : additionalCosts}
+              onChange={(e) => setAdditionalCosts(Number(e.target.value))}
+              className="tabular w-full rounded-lg border border-ink/15 bg-white px-3 py-2.5 text-base transition-colors hover:border-ink/30 focus:border-accent-strong focus:ring-2 focus:ring-accent/20 focus:outline-none"
+            />
+            <p className="mt-2 text-xs leading-relaxed text-ink/60">
+              Add insurance, software, equipment, recruitment, workspace or other annual employer costs.
+            </p>
+          </div>
+
           <button
             type="button"
-            onClick={() => {
-              setSalary(initialSalary);
-              setCategory("standard");
-              setApplyAllowance(false);
-              setPeriod("annual");
-            }}
+            onClick={resetCalculator}
             className="w-full rounded-lg border border-ink/15 px-4 py-2.5 text-sm font-semibold transition-colors hover:border-accent-strong hover:text-accent-strong"
           >
             Reset
@@ -285,9 +430,9 @@ function EmployerNiCalculator({ defaults }: { defaults?: Record<string, number> 
           <section className="card bg-paper/70 p-6 shadow-sm">
             <div className="flex flex-wrap items-start justify-between gap-4">
               <div>
-                <h2 className="text-2xl font-semibold">Employer NI cost</h2>
+                <h2 className="text-2xl font-semibold">Total employment cost</h2>
                 <p className="mt-2 text-sm text-ink/60">
-                  {calculation.costPercent.toFixed(1)}% of salary after selected allowances
+                  {calculation.costPercent.toFixed(1)}% above salary, including selected on-costs
                 </p>
               </div>
               <div className="inline-flex rounded-xl border border-ink/10 bg-white p-1 text-sm shadow-sm">
@@ -309,24 +454,36 @@ function EmployerNiCalculator({ defaults }: { defaults?: Record<string, number> 
             </div>
 
             <div className="mt-8 rounded-2xl border border-ink/10 bg-white p-6 text-center">
-              <p className="tabular text-5xl font-semibold text-accent-strong sm:text-6xl">
-                {gbp.format(calculation.displayNi)}
-              </p>
+              <button
+                type="button"
+                onClick={copyResult}
+                className="tabular text-5xl font-semibold text-accent-strong transition-colors hover:text-accent sm:text-6xl"
+                aria-label={`Copy ${period} total employment cost`}
+              >
+                {gbp.format(calculation.displayTotalCost)}
+              </button>
               <p className="mt-2 text-sm text-ink/60">{periodLabels[period]}</p>
+              <p className="mt-2 text-xs font-medium text-accent-strong">{copied ? "Copied" : "Click figure to copy"}</p>
             </div>
 
-            {applyAllowance && (
-              <dl className="mt-5 grid gap-3 sm:grid-cols-2">
-                <div className="rounded-xl border border-ink/10 bg-white p-4">
-                  <dt className="text-xs uppercase tracking-widest text-ink/55">Before allowance</dt>
-                  <dd className="tabular mt-1 text-lg font-semibold text-ink">{gbp.format(calculation.displayRawNi)}</dd>
-                </div>
-                <div className="rounded-xl border border-accent-strong/20 bg-accent/[0.06] p-4">
-                  <dt className="text-xs uppercase tracking-widest text-ink/55">Allowance saving</dt>
-                  <dd className="tabular mt-1 text-lg font-semibold text-accent-strong">{gbp.format(calculation.displaySaving)}</dd>
-                </div>
-              </dl>
-            )}
+            <dl className="mt-5 grid gap-3 sm:grid-cols-2">
+              <div className="rounded-xl border border-ink/10 bg-white p-4">
+                <dt className="text-xs uppercase tracking-widest text-ink/55">Employer NI</dt>
+                <dd className="tabular mt-1 text-lg font-semibold text-accent-strong">{gbp.format(calculation.displayNi)}</dd>
+              </div>
+              <div className="rounded-xl border border-ink/10 bg-white p-4">
+                <dt className="text-xs uppercase tracking-widest text-ink/55">Pension</dt>
+                <dd className="tabular mt-1 text-lg font-semibold text-accent-strong">{gbp.format(calculation.displayPension)}</dd>
+              </div>
+              <div className="rounded-xl border border-ink/10 bg-white p-4">
+                <dt className="text-xs uppercase tracking-widest text-ink/55">Additional costs</dt>
+                <dd className="tabular mt-1 text-lg font-semibold text-accent-strong">{gbp.format(calculation.displayAdditionalCosts)}</dd>
+              </div>
+              <div className="rounded-xl border border-accent-strong/20 bg-accent/[0.06] p-4">
+                <dt className="text-xs uppercase tracking-widest text-ink/55">Above salary</dt>
+                <dd className="tabular mt-1 text-lg font-semibold text-accent-strong">{calculation.costPercent.toFixed(1)}%</dd>
+              </div>
+            </dl>
           </section>
 
           <a
@@ -334,30 +491,51 @@ function EmployerNiCalculator({ defaults }: { defaults?: Record<string, number> 
             className="card flex items-center justify-between gap-4 bg-white p-4 text-sm font-semibold shadow-sm transition-colors hover:border-accent-strong"
           >
             <span>
-              You will pay {gbp.format(calculation.payableNi)} in employer NI. See the full employment cost.
+              Employer NI alone is {gbp.format(calculation.payableNi)} per year. Use the full cost view for payroll planning.
             </span>
             <span aria-hidden="true" className="text-xl text-accent-strong">›</span>
           </a>
         </div>
       </div>
 
-      <section className="grid gap-4 sm:grid-cols-2">
+      <section className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <div className="card bg-white p-6 shadow-sm">
-          <p className="text-sm text-ink/60">Total employment cost</p>
-          <p className="tabular mt-2 text-4xl font-semibold text-accent-strong">{gbp.format(calculation.totalEmploymentCost)}</p>
-          <p className="mt-1 text-sm text-ink/60">Salary plus employer NI after selected allowance</p>
+          <p className="text-sm text-ink/60">Base salary</p>
+          <p className="tabular mt-2 text-3xl font-semibold text-accent-strong">{gbp.format(calculation.salary)}</p>
         </div>
         <div className="card bg-white p-6 shadow-sm">
-          <p className="text-sm text-ink/60">NI savings</p>
-          <p className="tabular mt-2 text-4xl font-semibold text-accent-strong">{gbp.format(calculation.allowanceSaving)}</p>
-          <p className="mt-1 text-sm text-ink/60">From Employment Allowance</p>
+          <p className="text-sm text-ink/60">Employer NI</p>
+          <p className="tabular mt-2 text-3xl font-semibold text-accent-strong">{gbp.format(calculation.payableNi)}</p>
+          <p className="mt-1 text-sm text-ink/60">{calculation.niPercentOfSalary.toFixed(1)}% of salary</p>
+        </div>
+        <div className="card bg-white p-6 shadow-sm">
+          <p className="text-sm text-ink/60">Pension contribution</p>
+          <p className="tabular mt-2 text-3xl font-semibold text-accent-strong">{gbp.format(calculation.pensionContribution)}</p>
+          <p className="mt-1 text-sm text-ink/60">{includePension ? pensionSchemeLabels[pensionScheme] : "Not included"}</p>
+        </div>
+        <div className="card bg-white p-6 shadow-sm">
+          <p className="text-sm text-ink/60">Additional costs</p>
+          <p className="tabular mt-2 text-3xl font-semibold text-accent-strong">{gbp.format(calculation.additionalCosts)}</p>
         </div>
       </section>
 
+      {applyAllowance && (
+        <section className="grid gap-4 sm:grid-cols-2">
+          <div className="card bg-white p-6 shadow-sm">
+            <p className="text-sm text-ink/60">Employer NI before allowance</p>
+            <p className="tabular mt-2 text-3xl font-semibold text-ink">{gbp.format(calculation.rawNi)}</p>
+          </div>
+          <div className="card bg-white p-6 shadow-sm">
+            <p className="text-sm text-ink/60">Employment Allowance saving</p>
+            <p className="tabular mt-2 text-3xl font-semibold text-accent-strong">{gbp.format(calculation.allowanceSaving)}</p>
+          </div>
+        </section>
+      )}
+
       <section className="card bg-white p-6 shadow-sm">
         <h2 className="text-2xl font-semibold">Cost breakdown</h2>
-        <div className="mt-6 grid items-center gap-6 md:grid-cols-[220px_1fr]">
-          <div className="mx-auto w-full max-w-[220px]">
+        <div className="mt-6 grid items-center gap-6 md:grid-cols-[240px_1fr]">
+          <div className="mx-auto w-full max-w-[240px]">
             <svg viewBox="0 0 120 120" role="img" aria-label="Cost breakdown chart" className="w-full">
               <circle
                 cx="60"
@@ -365,48 +543,49 @@ function EmployerNiCalculator({ defaults }: { defaults?: Record<string, number> 
                 r="42"
                 fill="none"
                 strokeWidth="16"
-                className="stroke-ink/10"
+                stroke={chartColours.salary}
+                opacity="0.35"
               />
-              {calculation.payableNi > 0 && (
-                <circle
-                  cx="60"
-                  cy="60"
-                  r="42"
-                  fill="none"
-                  strokeWidth="16"
-                  strokeLinecap="round"
-                  className="origin-center -rotate-90 stroke-accent-strong"
-                  style={{ strokeDasharray: `${niDash} ${circumference}` }}
-                />
-              )}
-              <text x="60" y="55" textAnchor="middle" className="fill-ink text-[11px] font-semibold">
-                {niPercent}%
+              {chartSegments.map((segment) => (
+                segment.value > 0 ? (
+                  <circle
+                    key={segment.key}
+                    cx="60"
+                    cy="60"
+                    r="42"
+                    fill="none"
+                    strokeWidth="16"
+                    strokeLinecap="butt"
+                    stroke={segment.colour}
+                    className="origin-center -rotate-90"
+                    style={{
+                      strokeDasharray: `${segment.dash} ${circumference - segment.dash}`,
+                      strokeDashoffset: segment.offset,
+                    }}
+                  />
+                ) : null
+              ))}
+              <text x="60" y="55" textAnchor="middle" className="fill-ink text-[10px] font-semibold">
+                {gbp.format(calculation.totalEmploymentCost)}
               </text>
               <text x="60" y="70" textAnchor="middle" className="fill-ink/60 text-[7px]">
-                employer NI
+                total
               </text>
             </svg>
           </div>
 
           <dl className="space-y-4">
-            <div className="flex items-center justify-between gap-4">
-              <dt className="flex items-center gap-3 text-sm font-medium">
-                <span className="h-3 w-3 rounded-full bg-ink/20" />
-                Gross salary
-              </dt>
-              <dd className="tabular text-right font-semibold">
-                {gbp.format(calculation.salary)} <span className="font-normal text-ink/60">({salaryPercent}%)</span>
-              </dd>
-            </div>
-            <div className="flex items-center justify-between gap-4">
-              <dt className="flex items-center gap-3 text-sm font-medium">
-                <span className="h-3 w-3 rounded-full bg-accent-strong" />
-                Employer NI
-              </dt>
-              <dd className="tabular text-right font-semibold">
-                {gbp.format(calculation.payableNi)} <span className="font-normal text-ink/60">({niPercent}%)</span>
-              </dd>
-            </div>
+            {calculation.segments.map((segment) => (
+              <div key={segment.key} className="flex items-center justify-between gap-4">
+                <dt className="flex items-center gap-3 text-sm font-medium">
+                  <span className="h-3 w-3 rounded-full" style={{ backgroundColor: segment.colour }} />
+                  {segment.label}
+                </dt>
+                <dd className="tabular text-right font-semibold">
+                  {gbp.format(segment.value)} <span className="font-normal text-ink/60">({Math.round(segment.share * 100)}%)</span>
+                </dd>
+              </div>
+            ))}
             <div className="flex items-center justify-between border-t border-ink/10 pt-4">
               <dt className="text-lg font-semibold">Total</dt>
               <dd className="tabular text-2xl font-semibold text-accent-strong">
@@ -423,20 +602,33 @@ function EmployerNiCalculator({ defaults }: { defaults?: Record<string, number> 
         </summary>
         <div className="space-y-4 border-t border-ink/10 bg-paper/50 p-6">
           <div>
-            <p className="text-xs font-semibold uppercase tracking-widest text-ink/60">Formula</p>
+            <p className="text-xs font-semibold uppercase tracking-widest text-ink/60">Employer NI formula</p>
             <pre className="mt-2 overflow-x-auto rounded-lg bg-white p-4 text-sm text-ink/85">
 {`Employer NI = max(Annual salary - ${wholeGbp.format(calculation.threshold)} threshold, 0) × 15%`}
             </pre>
           </div>
           <div>
-            <p className="text-xs font-semibold uppercase tracking-widest text-ink/60">Your calculation</p>
+            <p className="text-xs font-semibold uppercase tracking-widest text-ink/60">Your employer NI</p>
             <p className="mt-2 leading-relaxed text-ink/75">
               ({gbp.format(calculation.salary)} - {gbp.format(calculation.threshold)}) × 15% = {gbp.format(calculation.rawNi)} per year
               {applyAllowance && `, then minus ${gbp.format(calculation.allowanceSaving)} Employment Allowance saving = ${gbp.format(calculation.payableNi)} payable`}.
             </p>
           </div>
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-widest text-ink/60">Pension and extras</p>
+            <p className="mt-2 leading-relaxed text-ink/75">
+              Pension uses {includePension ? pensionSchemeLabels[pensionScheme] : "no pension contribution"}
+              {includePension && `: ${gbp.format(calculation.pensionBase)} × ${pensionRate}% = ${gbp.format(calculation.pensionContribution)}`}. Additional annual costs are {gbp.format(calculation.additionalCosts)}.
+            </p>
+          </div>
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-widest text-ink/60">Total employment cost</p>
+            <p className="mt-2 leading-relaxed text-ink/75">
+              {gbp.format(calculation.salary)} salary + {gbp.format(calculation.payableNi)} employer NI + {gbp.format(calculation.pensionContribution)} pension + {gbp.format(calculation.additionalCosts)} additional costs = {gbp.format(calculation.totalEmploymentCost)}.
+            </p>
+          </div>
           <p className="text-xs leading-relaxed text-ink/60">
-            This is an estimate for planning. Payroll software should apply the exact pay-period rules, NI category letter and Employment Allowance eligibility for the employer.
+            This is an estimate for planning. Payroll software should apply the exact pay-period rules, NI category letter, pension scheme rules and Employment Allowance eligibility for the employer.
           </p>
         </div>
       </details>

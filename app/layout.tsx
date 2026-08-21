@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import type { ReactNode } from "react";
 import "./globals.css";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
@@ -16,7 +17,7 @@ export const metadata: Metadata = {
   themeColor: THEME_COLOR,
 };
 
-export default function RootLayout({ children }: LayoutProps<"/">) {
+export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en-GB" className="h-full antialiased">
       <body className="flex min-h-full flex-col">
