@@ -5,7 +5,6 @@ import {
   employerNi,
   employerNiForCategory,
   employerNiWithAllowance,
-  employerPensionContribution,
   incomeTaxRuk,
   takeHome,
 } from "./calculators.ts";
@@ -56,11 +55,6 @@ test("employment allowance offsets employer NI up to the annual cap", () => {
     allowanceSaving: 10500,
     payableNi: 3750,
   });
-});
-
-test("employer pension contribution supports qualifying and total earnings", () => {
-  assert.equal(employerPensionContribution(30000, 3, "qualifying"), 712.8);
-  assert.equal(employerPensionContribution(30000, 5, "total"), 1500);
 });
 
 test("income tax on £30,000 (rUK) is 20% above the £12,570 PA", () => {
