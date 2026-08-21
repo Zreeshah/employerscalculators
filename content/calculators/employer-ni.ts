@@ -145,4 +145,7 @@ export default calculator({
     "employee-cost-calculator",
     "salary-sacrifice-pension-calculator",
   ],
+  defaults: {
+    annualSalary: 30000,
+  },
 });

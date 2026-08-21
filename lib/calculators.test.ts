@@ -1,6 +1,13 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { calculate, employerNi, incomeTaxRuk, takeHome } from "./calculators.ts";
+import {
+  calculate,
+  employerNi,
+  employerNiForCategory,
+  employerNiWithAllowance,
+  incomeTaxRuk,
+  takeHome,
+} from "./calculators.ts";
 
 test("pro rata scales salary by hours ratio", () => {
   const [r] = calculate("pro-rata", {
@@ -29,6 +36,25 @@ test("empty inputs are treated as zero, never NaN", () => {
 test("employer NI 2026/27: 15% above £5,000 secondary threshold", () => {
   assert.equal(employerNi(30000), 3750);
   assert.equal(employerNi(5000), 0);
+});
+
+test("employer NI category thresholds reduce liability for qualifying workers", () => {
+  assert.equal(employerNiForCategory(30000, "under21"), 0);
+  assert.equal(employerNiForCategory(60000, "apprentice"), 1459.5);
+  assert.equal(employerNiForCategory(30000, "freeport"), 750);
+});
+
+test("employment allowance offsets employer NI up to the annual cap", () => {
+  assert.deepEqual(employerNiWithAllowance(30000, "standard", true), {
+    rawNi: 3750,
+    allowanceSaving: 3750,
+    payableNi: 0,
+  });
+  assert.deepEqual(employerNiWithAllowance(100000, "standard", true), {
+    rawNi: 14250,
+    allowanceSaving: 10500,
+    payableNi: 3750,
+  });
 });
 
 test("income tax on £30,000 (rUK) is 20% above the £12,570 PA", () => {

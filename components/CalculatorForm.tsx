@@ -1,10 +1,14 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import { currentRates } from "@/data/rates";
 import {
   calculate,
   calculatorInputs,
+  employerNiCategoryThresholds,
+  employerNiWithAllowance,
   type CalculatorKind,
+  type EmployerNiCategory,
 } from "@/lib/calculators";
 
 const unitLabels: Record<string, string> = {
@@ -21,6 +25,12 @@ const gbp = new Intl.NumberFormat("en-GB", {
   maximumFractionDigits: 2,
 });
 
+const wholeGbp = new Intl.NumberFormat("en-GB", {
+  style: "currency",
+  currency: "GBP",
+  maximumFractionDigits: 0,
+});
+
 function formatValue(value: number, format: "currency" | "percent" | "number") {
   if (format === "currency") return gbp.format(value);
   if (format === "percent") return `${value.toFixed(1)}%`;
@@ -28,6 +38,17 @@ function formatValue(value: number, format: "currency" | "percent" | "number") {
 }
 
 export default function CalculatorForm({
+  kind,
+  defaults,
+}: {
+  kind: CalculatorKind;
+  defaults?: Record<string, number>;
+}) {
+  if (kind === "employer-ni") return <EmployerNiCalculator defaults={defaults} />;
+  return <GenericCalculatorForm kind={kind} defaults={defaults} />;
+}
+
+function GenericCalculatorForm({
   kind,
   defaults,
 }: {
@@ -94,6 +115,329 @@ export default function CalculatorForm({
           Estimates only, based on 2026/27 HMRC rates. Verify against GOV.UK before making payroll decisions.
         </p>
       </div>
+    </div>
+  );
+}
+
+type Period = "annual" | "monthly" | "weekly";
+
+const periodDivisors: Record<Period, number> = {
+  annual: 1,
+  monthly: 12,
+  weekly: 52,
+};
+
+const periodLabels: Record<Period, string> = {
+  annual: "per year",
+  monthly: "per month",
+  weekly: "per week",
+};
+
+const employerNiCategories: Array<{
+  value: EmployerNiCategory;
+  label: string;
+  help: string;
+}> = [
+  {
+    value: "standard",
+    label: "21 and over",
+    help: "Standard category A style calculation: 15% above the £5,000 secondary threshold.",
+  },
+  {
+    value: "under21",
+    label: "Under 21",
+    help: "0% employer NI up to the under-21 upper secondary threshold, then 15% above it.",
+  },
+  {
+    value: "apprentice",
+    label: "Apprentice under 25",
+    help: "0% employer NI up to the apprentice upper secondary threshold, then 15% above it.",
+  },
+  {
+    value: "veteran",
+    label: "Qualifying veteran",
+    help: "0% employer NI up to the veterans upper secondary threshold, then 15% above it.",
+  },
+  {
+    value: "freeport",
+    label: "Freeport or Investment Zone",
+    help: "0% employer NI up to the £25,000 Freeport or Investment Zone upper secondary threshold, then 15% above it.",
+  },
+];
+
+function EmployerNiCalculator({ defaults }: { defaults?: Record<string, number> }) {
+  const initialSalary = defaults?.annualSalary ?? 30000;
+  const [salary, setSalary] = useState(initialSalary);
+  const [category, setCategory] = useState<EmployerNiCategory>("standard");
+  const [applyAllowance, setApplyAllowance] = useState(false);
+  const [period, setPeriod] = useState<Period>("annual");
+
+  const calculation = useMemo(() => {
+    const safeSalary = Number.isFinite(salary) ? Math.max(0, salary) : 0;
+    const ni = employerNiWithAllowance(safeSalary, category, applyAllowance);
+    const threshold = employerNiCategoryThresholds[category];
+    const divisor = periodDivisors[period];
+    const totalEmploymentCost = safeSalary + ni.payableNi;
+    const niShare = totalEmploymentCost > 0 ? ni.payableNi / totalEmploymentCost : 0;
+    const salaryShare = totalEmploymentCost > 0 ? safeSalary / totalEmploymentCost : 0;
+    const costPercent = safeSalary > 0 ? (ni.payableNi / safeSalary) * 100 : 0;
+
+    return {
+      salary: safeSalary,
+      threshold,
+      rawNi: ni.rawNi,
+      allowanceSaving: ni.allowanceSaving,
+      payableNi: ni.payableNi,
+      displayNi: ni.payableNi / divisor,
+      displayRawNi: ni.rawNi / divisor,
+      displaySaving: ni.allowanceSaving / divisor,
+      totalEmploymentCost,
+      niShare,
+      salaryShare,
+      costPercent,
+      taxableEarnings: Math.max(0, safeSalary - threshold),
+    };
+  }, [salary, category, applyAllowance, period]);
+
+  const categoryHelp = employerNiCategories.find((item) => item.value === category)?.help;
+  const circumference = 2 * Math.PI * 42;
+  const niDash = calculation.niShare * circumference;
+  const salaryPercent = Math.round(calculation.salaryShare * 100);
+  const niPercent = Math.round(calculation.niShare * 100);
+
+  return (
+    <div className="space-y-6">
+      <div className="grid gap-6 lg:grid-cols-[1fr_1.05fr]">
+        <form className="card space-y-6 p-6" aria-label="Employer NI inputs">
+          <div>
+            <h2 className="text-2xl font-semibold">Employer NI inputs</h2>
+            <p className="mt-2 text-sm text-ink/60">Results update as you type.</p>
+          </div>
+
+          <div>
+            <label htmlFor="employer-ni-salary" className="mb-1.5 block text-sm font-medium">
+              Annual salary <span className="text-accent-strong">*</span>
+              <span className="ml-1 font-normal text-ink/70">(£)</span>
+            </label>
+            <input
+              id="employer-ni-salary"
+              type="number"
+              inputMode="decimal"
+              min={0}
+              step="any"
+              value={salary === 0 ? "" : salary}
+              onChange={(e) => setSalary(Number(e.target.value))}
+              className="tabular w-full rounded-lg border border-ink/15 bg-white px-3 py-2.5 text-base transition-colors hover:border-ink/30 focus:border-accent-strong focus:ring-2 focus:ring-accent/20 focus:outline-none"
+            />
+          </div>
+
+          <div>
+            <label htmlFor="employer-ni-category" className="mb-1.5 block text-sm font-medium">
+              Employee age or NI category
+            </label>
+            <select
+              id="employer-ni-category"
+              value={category}
+              onChange={(e) => setCategory(e.target.value as EmployerNiCategory)}
+              className="w-full rounded-lg border border-ink/15 bg-white px-3 py-2.5 text-base transition-colors hover:border-ink/30 focus:border-accent-strong focus:ring-2 focus:ring-accent/20 focus:outline-none"
+            >
+              {employerNiCategories.map((item) => (
+                <option key={item.value} value={item.value}>
+                  {item.label}
+                </option>
+              ))}
+            </select>
+            <p className="mt-2 text-xs leading-relaxed text-ink/60">{categoryHelp}</p>
+          </div>
+
+          <label className="flex gap-3 rounded-lg border border-ink/10 bg-paper/60 p-4 text-sm">
+            <input
+              type="checkbox"
+              checked={applyAllowance}
+              onChange={(e) => setApplyAllowance(e.target.checked)}
+              className="mt-1 h-4 w-4 rounded border-ink/30 accent-accent-strong"
+            />
+            <span>
+              <span className="block font-medium text-ink">Apply Employment Allowance</span>
+              <span className="mt-1 block text-ink/60">
+                Reduces employer NI by up to {wholeGbp.format(currentRates.employerNi.employmentAllowance)} per year for eligible employers.
+              </span>
+            </span>
+          </label>
+
+          <button
+            type="button"
+            onClick={() => {
+              setSalary(initialSalary);
+              setCategory("standard");
+              setApplyAllowance(false);
+              setPeriod("annual");
+            }}
+            className="w-full rounded-lg border border-ink/15 px-4 py-2.5 text-sm font-semibold transition-colors hover:border-accent-strong hover:text-accent-strong"
+          >
+            Reset
+          </button>
+        </form>
+
+        <div className="space-y-4" aria-live="polite">
+          <section className="rounded-2xl border border-ink bg-ink p-6 text-paper shadow-sm">
+            <div className="flex flex-wrap items-start justify-between gap-4">
+              <div>
+                <h2 className="text-2xl font-semibold">Employer NI cost</h2>
+                <p className="mt-2 text-sm text-paper/60">
+                  {calculation.costPercent.toFixed(1)}% of salary after selected allowances
+                </p>
+              </div>
+              <div className="inline-flex rounded-xl border border-paper/15 bg-paper/5 p-1 text-sm">
+                {(["annual", "monthly", "weekly"] as Period[]).map((item) => (
+                  <button
+                    key={item}
+                    type="button"
+                    onClick={() => setPeriod(item)}
+                    className={`rounded-lg px-3 py-1.5 font-medium transition-colors ${
+                      period === item
+                        ? "bg-paper text-ink"
+                        : "text-paper/70 hover:text-paper"
+                    }`}
+                  >
+                    {item[0].toUpperCase() + item.slice(1)}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <div className="mt-8 text-center">
+              <p className="tabular text-5xl font-semibold text-accent sm:text-6xl">
+                {gbp.format(calculation.displayNi)}
+              </p>
+              <p className="mt-2 text-sm text-paper/60">{periodLabels[period]}</p>
+            </div>
+
+            {applyAllowance && (
+              <dl className="mt-6 grid gap-3 border-t border-paper/10 pt-5 sm:grid-cols-2">
+                <div>
+                  <dt className="text-xs uppercase tracking-widest text-paper/50">Before allowance</dt>
+                  <dd className="tabular mt-1 text-lg font-semibold">{gbp.format(calculation.displayRawNi)}</dd>
+                </div>
+                <div>
+                  <dt className="text-xs uppercase tracking-widest text-paper/50">Allowance saving</dt>
+                  <dd className="tabular mt-1 text-lg font-semibold text-accent">{gbp.format(calculation.displaySaving)}</dd>
+                </div>
+              </dl>
+            )}
+          </section>
+
+          <a
+            href={`/employee-cost-calculator/?salary=${Math.round(calculation.salary)}`}
+            className="card flex items-center justify-between gap-4 p-4 text-sm font-semibold transition-colors hover:border-accent-strong"
+          >
+            <span>
+              You will pay {gbp.format(calculation.payableNi)} in employer NI. See the full employment cost.
+            </span>
+            <span aria-hidden="true" className="text-xl text-accent-strong">›</span>
+          </a>
+        </div>
+      </div>
+
+      <section className="grid gap-4 sm:grid-cols-2">
+        <div className="card p-6">
+          <p className="text-sm text-ink/60">Total employment cost</p>
+          <p className="tabular mt-2 text-4xl font-semibold">{gbp.format(calculation.totalEmploymentCost)}</p>
+          <p className="mt-1 text-sm text-ink/60">Salary plus employer NI after selected allowance</p>
+        </div>
+        <div className="card p-6">
+          <p className="text-sm text-ink/60">NI savings</p>
+          <p className="tabular mt-2 text-4xl font-semibold">{gbp.format(calculation.allowanceSaving)}</p>
+          <p className="mt-1 text-sm text-ink/60">From Employment Allowance</p>
+        </div>
+      </section>
+
+      <section className="card p-6">
+        <h2 className="text-2xl font-semibold">Cost breakdown</h2>
+        <div className="mt-6 grid items-center gap-6 md:grid-cols-[220px_1fr]">
+          <div className="mx-auto w-full max-w-[220px]">
+            <svg viewBox="0 0 120 120" role="img" aria-label="Cost breakdown chart" className="w-full">
+              <circle
+                cx="60"
+                cy="60"
+                r="42"
+                fill="none"
+                strokeWidth="16"
+                className="stroke-ink/10"
+              />
+              {calculation.payableNi > 0 && (
+                <circle
+                  cx="60"
+                  cy="60"
+                  r="42"
+                  fill="none"
+                  strokeWidth="16"
+                  strokeLinecap="round"
+                  className="origin-center -rotate-90 stroke-accent-strong"
+                  style={{ strokeDasharray: `${niDash} ${circumference}` }}
+                />
+              )}
+              <text x="60" y="55" textAnchor="middle" className="fill-ink text-[11px] font-semibold">
+                {niPercent}%
+              </text>
+              <text x="60" y="70" textAnchor="middle" className="fill-ink/60 text-[7px]">
+                employer NI
+              </text>
+            </svg>
+          </div>
+
+          <dl className="space-y-4">
+            <div className="flex items-center justify-between gap-4">
+              <dt className="flex items-center gap-3 text-sm font-medium">
+                <span className="h-3 w-3 rounded-full bg-ink/20" />
+                Gross salary
+              </dt>
+              <dd className="tabular text-right font-semibold">
+                {gbp.format(calculation.salary)} <span className="font-normal text-ink/60">({salaryPercent}%)</span>
+              </dd>
+            </div>
+            <div className="flex items-center justify-between gap-4">
+              <dt className="flex items-center gap-3 text-sm font-medium">
+                <span className="h-3 w-3 rounded-full bg-accent-strong" />
+                Employer NI
+              </dt>
+              <dd className="tabular text-right font-semibold">
+                {gbp.format(calculation.payableNi)} <span className="font-normal text-ink/60">({niPercent}%)</span>
+              </dd>
+            </div>
+            <div className="flex items-center justify-between border-t border-ink/10 pt-4">
+              <dt className="text-lg font-semibold">Total</dt>
+              <dd className="tabular text-2xl font-semibold text-accent-strong">
+                {gbp.format(calculation.totalEmploymentCost)}
+              </dd>
+            </div>
+          </dl>
+        </div>
+      </section>
+
+      <details className="card overflow-hidden" open>
+        <summary className="cursor-pointer list-none px-6 py-4 text-lg font-semibold">
+          How this is calculated
+        </summary>
+        <div className="space-y-4 border-t border-ink/10 bg-paper/50 p-6">
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-widest text-ink/60">Formula</p>
+            <pre className="mt-2 overflow-x-auto rounded-lg bg-white p-4 text-sm text-ink/85">
+{`Employer NI = max(Annual salary - ${wholeGbp.format(calculation.threshold)} threshold, 0) × 15%`}
+            </pre>
+          </div>
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-widest text-ink/60">Your calculation</p>
+            <p className="mt-2 leading-relaxed text-ink/75">
+              ({gbp.format(calculation.salary)} - {gbp.format(calculation.threshold)}) × 15% = {gbp.format(calculation.rawNi)} per year
+              {applyAllowance && `, then minus ${gbp.format(calculation.allowanceSaving)} Employment Allowance saving = ${gbp.format(calculation.payableNi)} payable`}.
+            </p>
+          </div>
+          <p className="text-xs leading-relaxed text-ink/60">
+            This is an estimate for planning. Payroll software should apply the exact pay-period rules, NI category letter and Employment Allowance eligibility for the employer.
+          </p>
+        </div>
+      </details>
     </div>
   );
 }

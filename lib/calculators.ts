@@ -34,6 +34,36 @@ export interface ResultLine {
   format: "currency" | "percent" | "number";
 }
 
+export type EmployerNiCategory = "standard" | "under21" | "apprentice" | "veteran" | "freeport";
+
+export const employerNiCategoryThresholds: Record<EmployerNiCategory, number> = {
+  standard: currentRates.employerNi.secondaryThreshold,
+  under21: currentRates.employeeNi.upperEarningsLimit,
+  apprentice: currentRates.employeeNi.upperEarningsLimit,
+  veteran: currentRates.employeeNi.upperEarningsLimit,
+  freeport: 25000,
+};
+
+export function employerNiForCategory(
+  gross: number,
+  category: EmployerNiCategory = "standard",
+): number {
+  const threshold = employerNiCategoryThresholds[category] ?? currentRates.employerNi.secondaryThreshold;
+  return Math.max(0, gross - threshold) * currentRates.employerNi.rate;
+}
+
+export function employerNiWithAllowance(
+  gross: number,
+  category: EmployerNiCategory = "standard",
+  applyEmploymentAllowance = false,
+): { rawNi: number; allowanceSaving: number; payableNi: number } {
+  const rawNi = employerNiForCategory(gross, category);
+  const allowanceSaving = applyEmploymentAllowance
+    ? Math.min(rawNi, currentRates.employerNi.employmentAllowance)
+    : 0;
+  return { rawNi, allowanceSaving, payableNi: rawNi - allowanceSaving };
+}
+
 export const calculatorInputs: Record<CalculatorKind, InputSpec[]> = {
   "pro-rata": [
     { name: "fullTimeSalary", label: "Full-time annual salary", unit: "currency" },
@@ -131,8 +161,7 @@ export function employeeNi(gross: number): number {
 }
 
 export function employerNi(gross: number): number {
-  const ni = currentRates.employerNi;
-  return Math.max(0, gross - ni.secondaryThreshold) * ni.rate;
+  return employerNiForCategory(gross, "standard");
 }
 
 export function takeHome(gross: number): number {
