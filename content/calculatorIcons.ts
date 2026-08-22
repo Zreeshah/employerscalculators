@@ -27,6 +27,8 @@ export const calculatorIconMap: Record<string, CalculatorIconMap> = {
   "bradford-factor-calculator": { icon: "alert" },
   "company-car-tax-calculator": { icon: "car" },
   "net-to-gross-calculator": { icon: "calculator" },
+  "two-jobs-tax-calculator": { icon: "users" },
+  "nhs-midwife-salary": { icon: "heart" },
   "take-home-pay-calculator": { icon: "pound" },
   "annual-leave-calculator": { icon: "calendar" },
   "holiday-entitlement-calculator": { icon: "calendar", featured: true, stat: "5.6", statCaption: "weeks" },

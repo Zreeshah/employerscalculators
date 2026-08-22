@@ -3,77 +3,87 @@ import { guide } from "../types";
 export default guide({
   type: "guide",
   slug: "ssp-vs-company-sick-pay",
-  title: "SSP vs Company Sick Pay: Differences Explained UK",
+  title: "SSP vs Company Sick Pay: UK Employer Guide",
   metaDescription:
-    "SSP vs company sick pay explained for UK employers: legal minimums, how the two interact, tax and NI treatment, worked examples and what to put in contracts.",
+    "Compare SSP vs company sick pay, including statutory and contractual rights, inclusive and additive policies, payroll treatment and worked examples",
   h1: "SSP vs Company Sick Pay",
   intro:
-    "Statutory Sick Pay (SSP) is the legal floor — £123.25 a week, or 80% of average weekly earnings if lower, for up to 28 weeks in 2026/27. Company sick pay (also called occupational or contractual sick pay) is anything you choose to pay above that floor. Understanding how the two fit together matters for your contracts, your payroll and your absence budget. This guide compares them and shows the numbers for each approach.",
+    "Statutory Sick Pay (SSP) is a legal minimum for eligible employees. Company sick pay, also called contractual or occupational sick pay, is an enhanced benefit set by the employment contract or policy. The critical policy choice is whether company sick pay includes SSP or is paid in addition to it. This guide owns that comparison and shows how each wording changes the payment.",
   sections: [
     {
-      heading: "What Statutory Sick Pay covers",
-      body: "SSP is the statutory minimum set by HMRC that almost every eligible employee is entitled to when off sick. For 2026/27:\n\n- £123.25 per week, or 80% of average weekly earnings if that is lower\n- payable from the first day of sickness — no waiting days from 2026/27\n- paid for up to 28 weeks, then the employee moves to form SSP1 and other support\n- funded entirely by the employer; unlike maternity pay, SSP cannot be reclaimed from HMRC\n\nSSP follows the employee's qualifying days, so the daily amount is the weekly rate divided by the days they normally work.",
+      heading: "What is the difference between SSP and company sick pay?",
+      body: "**SSP is statutory:** Parliament sets the eligibility rules, rate and maximum payment period, and an employer cannot contract out of an eligible employee's entitlement. **Company sick pay is contractual:** the employer chooses the rate, duration and qualifying conditions, provided the arrangement never delivers less than the statutory minimum when SSP is due.\n\nGOV.UK publishes the current SSP rules and rates. ACAS explains how statutory and contractual sick pay should appear in employment terms and absence policies. Company sick pay may be more generous, but calling it discretionary does not automatically remove contractual obligations created by clear wording or consistent practice.",
     },
     {
-      heading: "What company sick pay is",
-      body: "Company sick pay is any sick pay scheme you offer on top of the statutory minimum. It is entirely voluntary: there is no law requiring more than SSP. Typical designs include:\n\n- full pay for a set number of weeks, then half pay for a further period\n- a fixed number of paid sick days per year, often rising with service\n- SSP only, but with the first days topped up to normal pay\n\nWhatever you offer becomes contractual once it is in the contract of employment or a consistently applied written policy, so the wording matters as much as the generosity. The scheme rules you write — eligibility, duration, evidence required — are then enforceable by employees just like salary terms.",
+      heading: "Statutory and contractual sick pay compared",
+      body: ":::table\n| Question | Statutory Sick Pay | Company sick pay |\n|---|---|---|\n| Who sets the rules? | Legislation and GOV.UK guidance | Employment contract or policy |\n| Is it compulsory? | Yes, for eligible employees | Only if the employer has promised it |\n| How much is paid? | Statutory rate or applicable earnings-based limit | Normal pay, half pay or another stated amount |\n| How long can it run? | Up to the statutory maximum | The period stated by the scheme |\n| Can it have service rules? | Statutory eligibility applies | Yes, subject to law and clear wording |\n| Is it taxed? | Yes, through PAYE | Yes, through PAYE |\n:::\n\nThe rights can run at the same time. A company scheme does not switch SSP off; it must explain how the SSP element is treated within the promised payment.",
     },
     {
-      heading: "The key differences at a glance",
-      body: "- Who sets it: SSP rates and rules are fixed by law; company sick pay terms are set by you\n- Amount: SSP is £123.25 a week or 80% of earnings if lower; company pay is whatever your scheme promises, usually normal pay\n- Duration: SSP stops at 28 weeks; company schemes set their own limits\n- Eligibility: SSP applies to qualifying employees from day one of employment; company schemes often add service conditions\n- Funding: both are employer costs — neither SSP nor company sick pay can be recovered from HMRC\n- Tax: both are taxable earnings subject to PAYE and National Insurance\n\nThe two are not alternatives. Company sick pay sits on top of, or absorbs, the SSP entitlement.",
+      heading: "Inclusive versus additive company sick pay",
+      body: "An **inclusive policy** says the company sick pay amount includes any SSP due. If normal weekly pay is £600 and the policy promises full pay, payroll pays £600 in total and records the SSP element within it. This is the usual way to prevent double payment.\n\nAn **additive policy** says company sick pay is paid on top of SSP. If it promises £600 plus SSP, the total exceeds normal pay unless the wording adds a cap. Do not assume the scheme is inclusive because that is commercially convenient. State it expressly, for example: 'Company sick pay is inclusive of any SSP payable for the same absence.'",
     },
     {
-      heading: "How company sick pay and SSP interact",
-      body: "An employee never loses SSP because you also run a company scheme. The two entitlements usually combine in one of two ways, depending on your scheme wording:\n\n- Inclusive: the company payment includes the SSP element. Paying full salary of £500 in a week where £123.25 counts as SSP satisfies both obligations with one payment.\n- Additive: the scheme pays on top of SSP, so the employee gets the company amount plus £123.25.\n\nMost employers choose inclusive wording because it is cheaper and simpler. Whichever you use, payslips and records should still identify the SSP element, because SSP has its own record-keeping rules and 28-week cap that run in the background even during full-pay absence.",
+      heading: "Worked examples for the same two-week absence",
+      body: "Assume an eligible employee normally earns £600 a week and receives £246.50 SSP for two complete weeks under the 2026/27 rate used on this site.\n\n- **SSP only:** total gross sick pay is £246.50.\n- **Full pay, inclusive of SSP:** total gross pay is £1,200; £246.50 is the SSP element and £953.50 is the company top-up.\n- **Half pay, inclusive of SSP:** total gross pay is £600; £246.50 is SSP and £353.50 is the top-up.\n- **£600 company pay, additive:** total gross pay is £846.50 if the policy truly promises £600 plus SSP.\n\nThe numbers show why one word in the policy can materially change cost.",
     },
     {
-      heading: "Tax and National Insurance treatment",
-      body: "There is no difference in tax treatment: SSP and company sick pay are both earnings. Through payroll you deduct income tax and employee National Insurance — 8% between £12,570 and £50,270 and 2% above that in 2026/27 — and you pay employer NI at 15% on earnings above the £5,000 annual secondary threshold.\n\nEmployer NI on sick pay counts towards the liability that the Employment Allowance can offset. Eligible employers can reduce their employer NI bill by up to £10,500 in 2026/27, which for many small businesses effectively covers the NI cost of sick pay entirely. Our Employment Allowance guide explains who qualifies and how to claim.",
+      heading: "Edge cases when the two entitlements do not align",
+      body: "A company scheme can have different limits from SSP, so payroll needs two running balances. Company full pay might end after four weeks while SSP continues, or company pay might continue after the statutory entitlement has ended. A service requirement for enhanced pay does not remove SSP rights.\n\nAnother edge case is a company scheme with unpaid waiting days. If SSP is legally due for those qualifying days, the employer still pays SSP even though the contractual enhancement has not started. Where normal earnings are below a promised percentage or an absence links to an earlier spell, calculate the statutory position separately before applying the contractual top-up.",
     },
     {
-      heading: "Worked example: the same absence two ways",
-      body: "An employee on average weekly earnings of £400 works Monday to Friday and is off sick for two full weeks (10 qualifying days). 80% of £400 is £320, above £123.25, so SSP is the flat rate.\n\nSSP-only employer:\n\n- SSP due: 2 × £123.25 = £246.50 gross\n- Employee receives £246.50 before tax instead of £800 normal pay\n\nEmployer paying full salary for up to 4 weeks, inclusive of SSP:\n\n- Employee receives £800 gross, of which £246.50 is recorded as SSP\n- Employer cost is higher, but the employee sees no drop in income\n\nThe SSP calculator and employee cost calculator on this site let you model both scenarios for your own pay rates.",
+      heading: "Payroll, tax and sickness records",
+      body: "Both SSP and company sick pay are earnings processed through payroll, with PAYE income tax and National Insurance applied as appropriate. Keep the SSP calculation visible in payroll records even where the employee receives full contractual pay, because the statutory maximum and linked-absence rules continue in the background.\n\nGOV.UK sets out SSP record and notice requirements, including when form SSP1 is needed. ACAS recommends clear reporting procedures and consistent handling of fit notes and return-to-work arrangements. Reconcile the absence dates, qualifying days, statutory amount, contractual top-up and remaining entitlement rather than posting one unexplained sick-pay figure.",
     },
     {
-      heading: "Deciding whether to offer company sick pay",
-      body: "The case for going beyond SSP is commercial, not legal. Full or enhanced sick pay is a visible benefit in recruitment, reduces presenteeism (staff working while genuinely ill), and supports retention — especially once you compare it against the cost of hiring cover. With the National Living Wage at £12.71 an hour for workers aged 21 and over from 1 April 2026, £123.25 a week replaces well under half of a full-time minimum-wage income, which is a hard sell to staff.\n\nSet against that the direct cost and the admin. Use the Bradford Factor calculator alongside absence records to see whether enhanced pay changes absence patterns, and budget the scheme as a percentage of payroll before committing it to contracts.",
+      heading: "What a company sick pay policy should say",
+      body: "A workable policy states who qualifies, when entitlement starts, the rate and duration, and whether service affects the benefit. It should also cover: \n\n- whether company sick pay is **inclusive of SSP or additive**\n- notification, self-certification and fit-note requirements\n- treatment of recurring or linked absences\n- what happens when company pay or SSP runs out\n- interaction with phased returns, holidays and other leave\n- when the employer may withhold only the contractual enhancement\n\nMatch the contract, handbook and payroll configuration. If discretion is retained, describe its scope and apply it consistently to reduce breach-of-contract and discrimination risk.",
     },
     {
-      heading: "What to put in writing",
-      body: "A company sick pay policy only protects you if it is written down and applied consistently. Cover at least:\n\n- the rate and duration of company sick pay, and any service conditions\n- whether company pay is inclusive of SSP or paid on top of it\n- notification and evidence rules — self-certification up to 7 days, fit notes after that\n- what happens when the 28-week SSP maximum or the company scheme limit is reached\n- how part-years, return-to-work plans and phased returns are handled\n\nApply discretion carefully: inconsistent decisions between similar employees create discrimination and breach-of-contract risk. ACAS and GOV.UK both publish baseline guidance your policy should align with.",
+      heading: "Summary: choose and document the interaction",
+      body: "Start by calculating SSP under the current GOV.UK rules, then apply the contractual scheme. Use inclusive wording if the promised total already contains SSP; use additive wording only if the extra payment is genuinely intended on top. Test the policy against a new starter, a long absence, a linked absence and the point at which enhanced pay ends.\n\nThe SSP calculator can check the statutory element, while the sick pay calculator can model a broader employer payment. The comparison is complete only when the payslip total, SSP record and policy wording all tell the same story.",
     },
   ],
   faq: [
     {
-      question: "Can an employee get both SSP and company sick pay?",
+      question: "Can an employee receive SSP and company sick pay together?",
       answer:
-        "Yes. Most schemes pay company sick pay inclusive of SSP, so one payment covers both, with the SSP element identified in payroll records. Some schemes pay company sick pay on top of SSP instead — it depends on the wording of your contract or policy.",
+        "Yes. They usually run together, with SSP included within the total company sick pay. If the contract says company sick pay is additional to SSP, both amounts must be paid on top of each other.",
     },
     {
       question: "Is company sick pay a legal requirement?",
       answer:
-        "No. The only legal obligation is Statutory Sick Pay for eligible employees. Anything above SSP is voluntary — but once it is written into a contract or consistently applied policy, it becomes a contractual right the employee can enforce.",
+        "There is no general requirement to offer more than SSP. However, enhanced sick pay becomes enforceable when it is a contractual term, and an employer must follow any scheme it has promised.",
     },
     {
-      question: "Is company sick pay taxable?",
+      question: "What does inclusive of SSP mean?",
       answer:
-        "Yes. Company sick pay is treated exactly like normal wages: income tax and employee National Insurance are deducted through PAYE, and employer NI at 15% above the £5,000 secondary threshold applies in 2026/27.",
+        "It means the stated company sick pay total already contains any SSP due. If full pay is £600 and SSP is £123.25, payroll pays £600 in total rather than £723.25.",
     },
     {
-      question: "Can an employer pay less than SSP?",
+      question: "Can company sick pay be paid on top of SSP?",
       answer:
-        "No. If an employee qualifies for SSP, £123.25 a week (or 80% of average weekly earnings if lower) is the floor. A company scheme can pay more, but never less, and you cannot contract out of SSP.",
+        "Yes, if the contract or policy uses additive wording. Because this can take total sick pay above normal wages, the policy should state the intended amount and any overall cap clearly.",
     },
     {
-      question: "Does using SSP reduce a company sick pay entitlement?",
+      question: "What happens when company sick pay ends before SSP?",
       answer:
-        "Usually they run together rather than eating into each other: an inclusive scheme treats the SSP element as part of the company payment. However, the separate 28-week SSP cap keeps running during any sickness, so long absences can exhaust SSP even while company pay continues.",
+        "The employee moves to SSP only for as long as they remain eligible and have statutory entitlement left. Payroll should track the contractual and statutory limits separately.",
+    },
+    {
+      question: "Can a company scheme have waiting days when SSP does not?",
+      answer:
+        "A company can delay its contractual enhancement if the policy says so, but it cannot withhold SSP on a day for which SSP is legally payable. The statutory payment must be handled separately.",
+    },
+    {
+      question: "Are SSP and company sick pay taxable?",
+      answer:
+        "Yes. Both are treated as earnings and processed through PAYE, with income tax and National Insurance applied where due.",
     },
   ],
   relatedSlugs: [
     "ssp-calculator",
+    "sick-pay-calculator",
     "how-to-calculate-statutory-sick-pay",
-    "employee-cost-calculator",
     "bradford-factor-calculator",
   ],
 });

@@ -6,86 +6,128 @@ export default calculator({
   kind: "annual-leave",
   title: "Annual Leave Calculator UK 2026/27",
   metaDescription:
-    "Statutory annual leave in days: 5.6 weeks × days worked per week. Full-time, part-time and pro-rata holiday entitlement for UK workers",
+    "Track annual leave entitlement, date-sensitive accrual, leave taken and booked from your leave-year start, with UK statutory rules and edge cases",
   h1: "Annual Leave Calculator",
   intro:
-    "Almost all UK workers are legally entitled to 5.6 weeks of paid annual leave — 28 days for someone working five days a week, which can include bank holidays. This calculator works out the statutory entitlement in days for any working pattern, including part-time staff, by multiplying days worked per week by 5.6. Employers can offer more than the statutory minimum, but never less.",
+    "Track a worker's annual leave from the actual leave-year start date, including full-year entitlement, leave already taken and future leave booked. The planned calculator shows both the accrued position as of today and the projected balance for the complete leave year, so a future booking is not mistaken for leave already earned. It works with statutory or contractual entitlement entered in days.",
   formulaExplainer: `:::callout info
-**Statutory annual leave (days) = days worked per week × 5.6.** A five-day week gives 5 × 5.6 = 28 days; a part-time three-day week gives 3 × 5.6 = 16.8 days. The entitlement is capped at 28 days, so working six or seven days a week still gives 28.
-:::
+**Full-year remaining leave = max(0, annual entitlement − leave taken − leave booked).** **Accrued entitlement to date = annual entitlement × elapsed proportion of the leave year.** The calculator shows accrued balances after taken leave and after both taken and booked leave, with negative results displayed as zero.
 
-The rule comes from the Working Time Regulations 1998. The 5.6 weeks includes any bank holidays the employer counts towards the statutory minimum, unless the contract says bank holidays are paid on top.`,
+The leave-year start sets the 12-month period. The calculator measures calendar days from the first day of the selected start month, converts them to elapsed months and estimates the accrued fraction. Results remain subject to the employer's contractual rounding, bank-holiday and carry-over rules.
+:::`,
+  howToSteps: [
+    {
+      name: "Enter the annual entitlement",
+      text: "Use the worker's full entitlement for the leave year, including contractual extra days and bank holidays if the contract includes them in the stated total.",
+    },
+    {
+      name: "Set the leave-year start",
+      text: "Choose the first day of the employer's holiday year, such as 1 January or 1 April. This determines the exact accrual window.",
+    },
+    {
+      name: "Record leave already taken",
+      text: "Enter leave used on or before the calculation date. Keep sickness, family leave and other absence categories out of this figure unless they were booked as annual leave.",
+    },
+    {
+      name: "Add future leave booked",
+      text: "Enter approved leave after the calculation date separately. It reduces the projected full-year balance but should not be confused with leave taken to date.",
+    },
+    {
+      name: "Compare accrued and projected balances",
+      text: "Use the accrued figure for the position today and the projected figure for planning the rest of the leave year, subject to employer policy.",
+    },
+  ],
   sections: [
     {
-      heading: "What is statutory annual leave?",
-      body: `Statutory annual leave is the **paid holiday** that almost every UK worker is entitled to by law, set out in the Working Time Regulations 1998. The minimum is 5.6 weeks per year, which works out as 28 days for a five-day week. It applies to employees, including part-time and zero-hours staff, and the only common exclusion is the genuinely self-employed.
+      heading: "What does the annual leave calculator track?",
+      body: `This calculator is a **leave-year balance tracker**. It starts with the annual entitlement, anchors it to the employer's leave-year start, and separates leave already taken from leave booked for later. That distinction answers two different questions: how much leave has been earned by today, and how much remains for the whole year after approved bookings.
 
-The 5.6 weeks is a **floor, not a ceiling**. Many employers — particularly in finance, law and the public sector — give 25, 30 or even 33 days of contractual holiday on top of (or instead of) the statutory minimum. Anything above 5.6 weeks is governed by the employment contract, not the regulations.`,
+It can track a statutory 28-day allowance or a larger contractual allowance. It does not decide whether a request should be approved, calculate holiday pay, or replace the employer's HR record. Check that all inputs use the same unit, normally days.`,
     },
     {
-      heading: "How the 5.6 weeks entitlement works",
-      body: `The 5.6 weeks is converted to days by multiplying by the number of days worked per week, capped at 28 days. So a five-day week gives 28 days, a four-day week gives 22.4 days, a three-day week gives 16.8 days, and a one-day week gives 5.6 days. The cap at 28 days — which the Working Time Regulations confirm — means that working six or seven days a week does not produce more leave.
+      heading: "How date-sensitive accrual is calculated",
+      body: `The calculator measures calendar days from the first day of the selected **leave-year start month**, converts that span to elapsed months, and applies the proportion to the annual entitlement. A 28-day entitlement halfway through the leave year is about 14 days accrued, subject to rounding.
 
-For irregular-hours workers and part-year staff, this days-based entitlement does not apply. Instead, holiday accrues at **12.07% of hours worked** in each pay period, with rolled-up holiday pay allowed for those workers. Use the holiday entitlement calculator for an hours-based figure.`,
+This makes the result responsive to today's date rather than assuming a fixed manual month count, but it remains an estimate. Employer systems may use exact days, completed months or payroll periods under the contract. Accrual cannot exceed the entered annual entitlement. If the result looks wrong, check the selected start month and calculation date.`,
     },
     {
-      heading: "Annual leave for different working patterns",
-      body: `Below is the statutory entitlement at common working patterns in 2026/27. The figures are days, capped at 28 where the formula would otherwise exceed it.
+      heading: "Taken leave, booked leave and the available balance",
+      body: `**Taken leave** is time used on or before the calculation date. **Booked leave** is approved time later in the leave year. The full-year projected balance is entitlement minus both amounts. The accrued-to-date balance compares leave earned so far with leave taken so far; future bookings are shown separately so they do not make today's accrual look lower than it is.
 
-:::table
-| Working pattern | Days worked per week | Statutory annual leave (days) |
-|---|---|---|
-| Full-time | 5 | 28.0 |
-| Four-day week | 4 | 22.4 |
-| Part-time | 3 | 16.8 |
-| Part-time | 2 | 11.2 |
-| Part-time | 1 | 5.6 |
-:::
-
-A worker who moves from full-time to part-time, or who changes days per week, is entitled to leave pro-rata for the part of the leave year they have worked at each pattern. Treating part-timers less favourably than full-timers would breach the Part-time Workers Regulations 2000.`,
+If more leave has been taken than accrued, the displayed accrued balance stops at zero; the employer may still permit leave in advance. If taken and booked leave exceed the annual entitlement, the projected balance also stops at zero. Compare the input totals as well as the balance so an overbooking is not hidden by that floor.`,
     },
     {
-      heading: "Bank holidays and extra leave",
-      body: `The eight UK bank holidays can either sit **inside** the 28-day statutory minimum or be paid **on top** of it — the contract decides. For example, an employer who gives 28 days inclusive of bank holidays provides 20 days of discretionary leave plus the 8 bank holidays. An employer who gives 28 days plus bank holidays provides 36 days total.
+      heading: "UK statutory annual leave and contractual entitlement",
+      body: `Almost all UK workers are entitled to **5.6 weeks of paid annual leave** under the Working Time Regulations 1998. For someone working five days a week, that is 28 days. The statutory day-based entitlement is normally days worked each week × 5.6, capped at 28 days.
 
-Either approach is lawful, but the contract or written statement of employment particulars must say which one applies. If the contract is silent, ACAS recommends treating bank holidays as part of the 5.6 weeks, not on top of it.
-
-:::callout tip
-If your contract gives bank holidays on top of the 5.6 weeks, it is worth checking the wording carefully — some employers reserve the right to require you to work bank holidays where the business needs it, and to give a day in lieu instead.
-:::`,
+Employers can provide more than the statutory minimum. Enter the full contractual amount if you want the tracker to include those extra days. Contractual rules can differ for carrying over or selling the extra portion, but they cannot reduce statutory rights. Irregular-hours and part-year workers use the separate 12.07% accrual rules for qualifying leave years.`,
     },
     {
-      heading: "Summary: how to use this calculator",
-      body: `Enter the days you work per week to see your statutory annual leave in days, then multiply up by your daily rate if you want to value it in cash. For irregular-hours workers, switch to the holiday entitlement calculator for an hours-based accrual.
+      heading: "Bank holidays and the entitlement figure",
+      body: `There is no automatic right to paid time off on a bank holiday. An employer can include bank holidays within the statutory 5.6 weeks or provide them on top, and the employment contract should say which. Before entering 28 days, confirm whether that number already includes the relevant bank holidays.
 
-The statutory 5.6 weeks is the legal minimum — anything your employer offers above that is contractual, and the Working Time Regulations set the floor rather than the ceiling.`,
+Regional calendars differ across England and Wales, Scotland, and Northern Ireland, and a business can require work on a bank holiday with leave at another time. The tracker does not add regional bank holidays silently. Enter the contractual annual total so the balance does not double-count days that are already included.`,
+    },
+    {
+      heading: "New starters, leavers and working-pattern changes",
+      body: `A worker employed for only part of a leave year receives a **pro-rata entitlement**. For a new starter, use the employment start date and the employer's agreed part-year entitlement rather than assuming the full annual amount is immediately available. At termination, accrued statutory leave not taken is normally paid, while overtaken leave can be deducted only where the contract permits it.
+
+If working days or hours change during the year, split the calculation into periods at each pattern. Converting the balance to hours is often fairer when daily lengths vary. Do not overwrite earlier accrual with the new schedule for the whole year.`,
+    },
+    {
+      heading: "Carry-over, sickness and statutory leave edge cases",
+      body: `Annual leave continues to accrue during sickness absence and statutory family leave, including maternity leave. GOV.UK rules allow statutory leave to be carried over in specified circumstances, such as when sickness or family leave prevented it being taken, or when the employer did not give a reasonable opportunity to take it. Contractual extra leave can have different carry-over terms.
+
+Do not add carried leave to the annual entitlement unless the organisation records it that way. Keep it as a separate adjustment where possible, with an expiry date. Holiday taken during sickness, cancelled bookings and leave restored after illness should also be reconciled before trusting the balance.`,
+    },
+    {
+      heading: "Rounding and record-checking mistakes to avoid",
+      body: `GOV.UK and Acas guidance says employers must not round statutory entitlement down in a way that removes leave. During the first year, statutory monthly accrual rules can require a fraction to be rounded up to the nearest half day, while many systems retain hours or decimals to avoid repeated rounding errors.
+
+Common mistakes include using the calendar year instead of the contractual leave year, counting bank holidays twice, mixing hours and days, treating a pending request as booked, and subtracting the same cancelled leave twice. Reconcile the calculator with approved requests and payroll records before confirming a balance or termination payment.`,
+    },
+    {
+      heading: "Summary: track today and the full leave year",
+      body: `Start with the full annual entitlement, set the correct leave-year start, and enter 5 days taken and 3 days booked or replace those defaults with the worker's record. The calculator uses dates to estimate accrual as of today and separately shows the projected full-year balance.
+
+Check bank-holiday treatment, part-year service, changed working patterns, carry-over and contractual rounding before acting on the result. For irregular-hours or part-year workers covered by the post-April 2024 rules, use a 12.07% hours-based holiday entitlement calculation rather than treating this day tracker as the accrual method.`,
     },
   ],
   faq: [
     {
-      question: "How many days of annual leave are UK workers entitled to?",
+      question: "How much annual leave has accrued by today?",
       answer:
-        "5.6 weeks of paid leave per year. For a five-day week that is 28 days; part-time workers get 5.6 times their days worked per week. The statutory cap is 28 days, however many days a week are worked.",
+        "Multiply the annual entitlement by the proportion of the leave year elapsed, then compare it with leave already taken. Exact dates and the employer's rounding policy affect the result.",
     },
     {
-      question: "Do bank holidays count towards the 5.6 weeks?",
+      question: "What is the difference between taken and booked leave?",
       answer:
-        "They can. Employers may include the usual UK bank holidays within the 28-day statutory minimum, or give them on top — the employment contract should state which. Either approach is lawful.",
+        "Taken leave has happened on or before the calculation date; booked leave is approved for later. Both reduce the projected full-year balance, but only taken leave is compared with accrual to date.",
     },
     {
-      question: "How does annual leave work for part-time workers?",
+      question: "Do bank holidays come out of 28 days?",
       answer:
-        "Part-time workers get a pro-rata entitlement: days worked per week × 5.6. For example, three days a week gives 16.8 days. Treating part-timers less favourably than full-timers would breach the Part-time Workers Regulations.",
+        "They can. Employers may include bank holidays within the 5.6-week statutory entitlement or offer them on top, so check the contract before entering the annual total.",
     },
     {
-      question: "What about casual or irregular-hours workers?",
+      question: "Does annual leave accrue during sickness or maternity leave?",
       answer:
-        "For irregular-hours and part-year workers, holiday accrues at 12.07% of hours worked in each pay period (based on the 52-week reference), and rolled-up holiday pay is permitted for these workers. Use the holiday entitlement calculator for an hours-based figure.",
+        "Yes. Statutory annual leave continues to accrue during sickness absence and statutory family leave, including maternity leave.",
     },
     {
-      question: "Can an employer give more than 5.6 weeks?",
+      question: "Can an employee take more leave than they have accrued?",
       answer:
-        "Yes. Many employers offer contractual holiday above the statutory 5.6 weeks. The statutory minimum is a floor, not a ceiling — but anything above it is governed by the contract, not the Working Time Regulations.",
+        "An employer can allow leave in advance, so a negative accrued balance is not automatically an error. The full-year entitlement and approved bookings still limit the projected position.",
+    },
+    {
+      question: "How is leave calculated for a new starter?",
+      answer:
+        "A new starter receives the proportion of the leave year for which they are employed. Use the employment start date and the employer's pro-rata entitlement and rounding rules.",
+    },
+    {
+      question: "Can an employer round annual leave down?",
+      answer:
+        "An employer must not round down in a way that removes statutory entitlement. Keeping the balance in hours or decimals often avoids unfair loss from repeated rounding.",
     },
   ],
   relatedSlugs: [],

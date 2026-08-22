@@ -6,110 +6,124 @@ export default calculator({
   kind: "net-to-gross",
   title: "Net to Gross Salary Calculator UK 2026/27",
   metaDescription:
-    "Gross salary from a target take-home pay, using 2026/27 UK income tax and employee National Insurance. Free net-to-gross calculator",
+    "Convert monthly or yearly take-home pay to gross salary for 2026/27, with UK regions, tax codes, pensions, student loans and employer costs",
   h1: "Net to Gross Salary Calculator",
   intro:
-    "Enter the net (take-home) pay you want and this calculator finds the gross salary that produces it after 2026/27 income tax and employee National Insurance. It is useful for employees negotiating a salary, for contractors quoting a day rate, and for employers or accountants quoting a guaranteed net figure. Figures assume the standard £12,570 Personal Allowance and no pension, student loan or other deductions.",
+    "Start with the take-home pay you want and calculate the gross salary needed under 2026/27 PAYE rules. The planned calculator supports monthly or yearly targets, Scottish income tax, tax codes, pension methods, student and postgraduate loans, and an employer-cost view. It is useful for salary negotiations, net-pay agreements and payroll budgeting, but the final payslip remains the payroll record.",
   formulaExplainer: `:::callout info
-**Net to gross formula: find the gross where gross − income tax − employee NI equals the target net.** Income tax uses the £12,570 Personal Allowance (tapered above £100,000), 20% to £37,700 of taxable income, 40% to £125,140 and 45% above. Employee NI is 8% between £12,570 and £50,270, then 2% above.
-:::
+**Target net pay = gross pay − income tax − employee National Insurance − pension deductions − student loan deductions − postgraduate loan deductions.** The calculator works backwards to find the gross pay at which those deductions leave the selected monthly or yearly target.
 
-Rather than solve this with algebra, the calculator uses **binary search** — it tests a gross figure, checks the resulting take-home, and halves the gap until it converges on the gross that matches your target to within a few pence. The forward tax and NI rules are fixed by HMRC; the reverse is what the calculator is solving.`,
+Because tax bands, allowances, tax codes and loan thresholds make the equation piecewise, the calculator solves it iteratively rather than using one fixed multiplier. Employer cost is then calculated separately from gross salary, employer NI and any employer pension contribution.
+:::`,
   howToSteps: [
     {
-      name: "Enter your target take-home pay",
-      text: "Type the net (take-home) amount you want — usually the annual figure, but a monthly or weekly target works too once you multiply or divide by 12 or 52.",
+      name: "Choose monthly or yearly pay",
+      text: "Select the period that matches your target. A £2,500 monthly target is treated as the annual equivalent of £30,000 before the reverse calculation runs.",
     },
     {
-      name: "Run the calculation",
-      text: "The calculator works backwards from your target, applying 2026/27 income tax and employee National Insurance to find the gross salary that produces it.",
+      name: "Enter the target take-home pay",
+      text: "Use the amount that should remain after the deductions selected in the calculator, not the gross amount shown in an offer.",
     },
     {
-      name: "Read the gross salary and the tax breakdown",
-      text: "The result shows the gross salary required, alongside the income tax and employee NI that would be deducted from it at that gross.",
+      name: "Select the UK tax region and tax code",
+      text: "Choose Scotland or the rest of the UK and enter the PAYE tax code that should be modelled. Scottish non-savings income has different bands.",
     },
     {
-      name: "Adjust for other deductions",
-      text: "If pension contributions, student loan repayments or salary sacrifice apply, the gross needed will be higher. Use the take-home pay calculator separately to model those deductions.",
+      name: "Add pensions and education loans",
+      text: "Choose the pension deduction method and contribution, then select the applicable student loan plan and postgraduate loan if both are repaid.",
+    },
+    {
+      name: "Review gross pay and employer cost",
+      text: "Check the required gross salary, each employee deduction, and the employer's NI and pension costs. Re-run scenarios before agreeing a guaranteed net figure.",
     },
   ],
   sections: [
     {
-      heading: "What is a net to gross calculation?",
-      body: `A net to gross calculation reverses the normal payroll order: instead of deducting tax and NI from a known gross salary, you start with the net amount you want in your pocket and back-solve the gross. It is a common question for employees negotiating a salary, for contractors quoting a day rate, and for HR or payroll teams needing to guarantee a take-home figure in an offer letter.
+      heading: "What is a net-to-gross calculation?",
+      body: `A **net-to-gross calculation** reverses payroll. Instead of starting with salary and deducting PAYE, you specify the amount that should reach the employee's bank account and solve for the required gross pay. It is also called grossing up.
 
-The mathematics is harder than the forward take-home calculation because UK tax is **progressive** — the rate changes as income rises — so a simple division does not work. The calculator handles that by searching for the gross that fits, rather than trying to invert the bands by hand.`,
+There is no dependable single percentage because the answer can cross income tax, National Insurance and student loan thresholds. A pension can change taxable pay in one method but not another. The calculator repeatedly tests a gross figure against the full 2026/27 deduction calculation until the resulting net matches the target within payroll-style rounding.`,
     },
     {
-      heading: "How the net to gross calculator works",
-      body: `Under the bonnet, the calculator uses a binary search. It tests a guess at the gross salary, runs the standard take-home-pay formula (gross − income tax − employee NI) on that guess, and checks whether the result is above or below your target. It then halves the search range and tests again — repeating until the gross converges on the answer.
+      heading: "Monthly and yearly take-home targets",
+      body: `Choose **monthly** when you are matching a regular payslip or **yearly** when comparing salary packages. The calculator annualises a monthly target, solves the annual tax position, and displays both periods. For example, £2,500 net a month is a £30,000 yearly target.
 
-This is fast, deterministic, and gives the same result regardless of how large the target. The forward formula is fixed by HMRC's 2026/27 rates: £12,570 Personal Allowance, 20% basic rate, 40% higher rate and 45% additional rate on income tax, plus 8% employee NI between £12,570 and £50,270 and 2% above £50,270. The reverse of that formula is what the calculator is solving.`,
+Actual PAYE can differ between months because payroll works by pay period and may use cumulative tax, a week 1 or month 1 basis, bonuses or irregular earnings. A yearly result is best for salary planning. A monthly result is an equivalent average, not a promise that every payslip will be identical.`,
     },
     {
-      heading: "What gross salary gives a common take-home pay?",
-      body: `The figures below are illustrative for 2026/27 under the standard Personal Allowance with no other deductions. For an exact answer at your own target, use the calculator above.
+      heading: "2026/27 income tax regions and National Insurance",
+      body: `HMRC's 2026/27 thresholds published on GOV.UK give England, Wales and Northern Ireland a standard Personal Allowance of £12,570, followed by 20%, 40% and 45% income tax bands. The allowance tapers by £1 for every £2 of adjusted net income over £100,000 and is nil at £125,140.
 
-:::table
-| Target net (annual) | Approx. gross salary | Income tax | Employee NI |
-|---|---|---|---|
-| £20,000 | £22,890 | £2,064 | £826 |
-| £30,000 | £36,780 | £4,842 | £1,937 |
-| £40,000 | £50,760 | £7,736 | £3,026 |
-| £60,000 | £85,250 | £21,532 | £3,716 |
-| £100,000 | £146,360 | £51,852 | £4,508 |
-:::
-
-Above £50,270 gross, the calculation shifts: only the first £37,700 of taxable income is taxed at 20%, the rest is taxed at 40%, and the marginal NI rate drops from 8% to 2%. That is why the tax column jumps sharply between £40,000 and £60,000 net. Above £100,000 the Personal Allowance also starts tapering, which is why the £100,000 net target needs a gross of around £146,000 rather than a continuation of the previous trend.`,
+Scotland uses six rates on earnings and most pension income in 2026/27: 19%, 20%, 21%, 42%, 45% and 48%, with different thresholds. Employee Class 1 National Insurance is UK-wide: normally 8% between £12,570 and £50,270 and 2% above. Savings and dividend tax are outside this salary calculation.`,
     },
     {
-      heading: "Income tax and NI in 2026/27",
-      body: `Two HMRC rules drive the gross figure for any net target. The **Personal Allowance** of £12,570 is the amount you can earn before income tax starts; it is reduced by £1 for every £2 earned above £100,000, and disappears entirely at £125,140. That taper creates an effective 60% marginal tax rate in the band, which the calculator accounts for.
+      heading: "How tax codes change the gross salary needed",
+      body: `The standard tax code is often **1257L**, representing a £12,570 allowance, but the code on the P45 or HMRC notice should be used. An S prefix directs payroll to Scottish rates. Codes such as BR, D0, D1 or 0T can tax all pay at a specified rate or give no allowance; a K code can collect tax on untaxed income or benefits.
 
-**Employee National Insurance** uses different thresholds: 8% on earnings between £12,570 and £50,270 (the main rate) and 2% above £50,270 (the upper rate). NI thresholds are set independently of income tax, so the two deductions do not line up at the same boundary. Other deductions — pension contributions, student loan repayments, salary sacrifice — are not in this calculator and would each push the gross needed higher.`,
+A W1, M1 or X marker uses a non-cumulative basis, so a single payslip may not match an annual cumulative estimate. The code is an instruction to payroll, not a personal tax calculation, and HMRC can revise it during the year.`,
     },
     {
-      heading: "Summary: how to use this calculator",
-      body: `Enter the net pay you want, read the gross salary the calculator returns, and treat that as the headline figure you need to negotiate, quote or budget for. Use the take-home pay calculator in the other direction to check that gross figure end-to-end, and add any pension, student loan or salary sacrifice effects on top.
+      heading: "Pensions, student loans and postgraduate loans",
+      body: `Pension treatment materially changes grossing up. **Salary sacrifice** reduces contractual cash pay before income tax and NI. A net pay arrangement deducts the employee contribution before income tax but normally after NI. Relief at source deducts the contribution from net pay and the provider adds basic-rate relief; extra relief may need to be claimed.
 
-The result is an estimate based on HMRC's 2026/27 rates — for the actual figure on a payslip, the employer's payroll software is the source of truth.
+Student loan Plans 1, 2, 4 and 5 generally deduct 9% of pay above their plan threshold. A postgraduate loan deducts 6% above its separate threshold and can run at the same time as an undergraduate plan. The calculator applies the selected 2026/27 thresholds rather than treating loan repayments as tax.`,
+    },
+    {
+      heading: "Worked example: £30,000 yearly net pay",
+      body: `With a standard 1257L code, England, Wales or Northern Ireland rates, no pension and no education loan, a **£30,000 yearly net target** needs about £36,778 gross in 2026/27. Income tax is about £4,842 and employee NI about £1,937, leaving £30,000. The equivalent target is £2,500 net a month.
 
-:::callout tip
-If you need a guaranteed net figure in an offer or contract, build in a small buffer (around 5%) for rounding and any year-end tax code adjustments. The calculator gives an exact figure for the rates above, but real payslips vary slightly from period to period.
-:::`,
+This example changes if you select Scotland, a non-standard code, pension contributions or a loan. It also assumes steady earnings for a full tax year. Starting part-way through the year, receiving a bonus or having earlier pay and tax can alter the amount withheld on individual payslips.`,
+    },
+    {
+      heading: "Employer cost is higher than the gross salary",
+      body: `The amount an employer budgets is not just the gross salary. In 2026/27, standard employer Class 1 NI is **15% above the £5,000 annual secondary threshold**, subject to category letters and reliefs. Employer pension contributions, benefits, levy costs and payroll overhead can add more.
+
+On gross pay of about £36,778, standard employer NI is roughly £4,767 before any Employment Allowance. A 3% employer pension on qualifying earnings adds another cost. The employer-cost result keeps these amounts separate so a guaranteed net package can be compared with the employee's gross salary and the organisation's total cash commitment.`,
+    },
+    {
+      heading: "Summary: build a complete gross-up scenario",
+      body: `Enter the target as monthly or yearly take-home pay, then select the correct tax region and PAYE code. Add the actual pension method, student loan plan and postgraduate loan before relying on the required gross figure. The £30,000 default is an annual equivalent, not £30,000 per month.
+
+Use the employer-cost panel when budgeting an offer, because employer NI and pension sit on top of gross salary. Treat the output as an estimate: taxable benefits, benefits in kind, prior pay, court orders, child maintenance and payroll rounding can all change the real payslip.`,
     },
   ],
   faq: [
     {
-      question: "How do I convert net pay to gross salary in the UK?",
+      question: "What gross salary gives £2,500 net per month in 2026/27?",
       answer:
-        "Find the gross figure that, after the £12,570 Personal Allowance, the 20%/40%/45% income tax bands, and 8%/2% employee NI, leaves the net amount you want. This calculator does that automatically for 2026/27 rates.",
+        "With a standard 1257L code, rest-of-UK tax rates, no pension and no student loan, £2,500 net a month requires about £36,778 gross a year. Scotland and other deductions change the answer.",
     },
     {
-      question: "What gross salary gives £2,000 net per month in 2026/27?",
+      question: "Does the calculator support Scottish income tax?",
       answer:
-        "£2,000 a month is £24,000 a year. Under 2026/27 rates (standard Personal Allowance, no other deductions) that takes a gross salary of roughly £28,450. Use the calculator above for your exact target.",
+        "Yes. Scottish earnings use the 2026/27 starter, basic, intermediate, higher, advanced and top rates, while employee National Insurance remains UK-wide.",
     },
     {
-      question: "Does this include pension contributions or student loans?",
+      question: "Why does my tax code affect net-to-gross pay?",
       answer:
-        "No. The calculation covers only income tax and employee National Insurance. Pension contributions, student loan repayments and salary sacrifice will all change the gross needed for a given net figure.",
+        "A tax code tells payroll how much allowance and which special treatment to apply. A code such as BR, 0T, K or an emergency M1 code can produce a different gross requirement from standard 1257L.",
     },
     {
-      question: "What are the 2026/27 tax rates used here?",
+      question: "How are pension contributions handled?",
       answer:
-        "Personal Allowance £12,570 (reduced by £1 for every £2 earned above £100,000). Taxable income is taxed at 20% up to £37,700, 40% up to £125,140, then 45%. Employee NI is 8% between £12,570 and £50,270, and 2% above.",
+        "Choose salary sacrifice, net pay or relief at source because they affect tax, NI and take-home pay differently. Entering only a percentage without the method can give a misleading gross figure.",
     },
     {
-      question: "Why is the Personal Allowance tapered above £100,000?",
+      question: "Can student and postgraduate loans be deducted together?",
       answer:
-        "HMRC reduces the £12,570 Personal Allowance by £1 for every £2 of income above £100,000, so it reaches zero at £125,140. That creates an effective 60% marginal rate in the taper band, which the calculator accounts for.",
+        "Yes. An undergraduate plan repayment can run alongside a postgraduate loan, so payroll may deduct 9% above one threshold and 6% above the postgraduate threshold in the same period.",
     },
     {
-      question: "Why does the calculator use a search instead of a formula?",
+      question: "Is employer National Insurance included in gross salary?",
       answer:
-        "Income tax and NI are banded, so the reverse calculation is not a simple division. Binary search converges on the right gross figure in well under a second, without the algebra.",
+        "No. Employer NI is an extra employer cost. For 2026/27 the standard rate is 15% above the £5,000 annual secondary threshold, before category-specific rules or Employment Allowance.",
+    },
+    {
+      question: "Why might the monthly payslip differ from the calculator?",
+      answer:
+        "PAYE may be cumulative or use a week 1/month 1 basis, and bonuses, prior pay, benefits and payroll rounding affect individual periods. The yearly calculation is a planning estimate.",
     },
   ],
   relatedSlugs: [],
+  defaults: { targetNet: 30000 },
 });

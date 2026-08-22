@@ -5,6 +5,7 @@ import HolidayEntitlementPartTime from "./holiday-entitlement-part-time-workers"
 import HolidayEntitlementUk from "./statutory-holiday-entitlement-uk";
 import HowMuchCost from "./how-much-does-it-cost-to-employ-someone";
 import HowToSsp from "./how-to-calculate-statutory-sick-pay";
+import TrueCostHiring from "./true-cost-of-hiring-employee-uk";
 import NiRates from "./national-insurance-rates-2026-27";
 import SalarySacrificePension from "./salary-sacrifice-pension-guide";
 import SspVsCompany from "./ssp-vs-company-sick-pay";
@@ -17,6 +18,7 @@ export const allGuides: GuideContent[] = [
   SspVsCompany,
   EmploymentAllowance,
   HowMuchCost,
+  TrueCostHiring,
   SalarySacrificePension,
   HolidayEntitlementPartTime,
 ];

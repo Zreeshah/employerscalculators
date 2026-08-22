@@ -1,6 +1,7 @@
 "use client";
 
 import { useId, useMemo, useState } from "react";
+import type { NhsCalculatorPreset } from "@/content/types";
 import { calculateNhsSalary, NHS_REGIONS, type NhsNation, type NhsSalaryInput } from "@/lib/nhs";
 
 const gbp = new Intl.NumberFormat("en-GB", { style: "currency", currency: "GBP", maximumFractionDigits: 2 });
@@ -41,8 +42,23 @@ function NhsCoreInputs({ input, onChange, showNationTabs = true }: { input: NhsS
   </div>;
 }
 
-export function NhsTakeHomeCalculatorParity() {
-  const [input, setInput] = useState<NhsSalaryInput>({ nation: "england", band: "6", stepIndex: 0, hoursPerWeek: 37.5, hcasZone: "none", inPension: true, payRisePercent: 0, studentLoanPlan: "none", postgraduateLoan: false, nightSaturdayHoursMonthly: 0, sundayBankHolidayHoursMonthly: 0 });
+export function NhsTakeHomeCalculatorParity({ preset }: { preset?: NhsCalculatorPreset } = {}) {
+  const [input, setInput] = useState<NhsSalaryInput>(() => {
+    const nation = preset?.nation ?? "england";
+    return {
+      nation,
+      band: preset?.band ?? "6",
+      stepIndex: preset?.stepIndex ?? 0,
+      hoursPerWeek: preset?.hoursPerWeek ?? NHS_REGIONS[nation].standardHours,
+      hcasZone: "none",
+      inPension: true,
+      payRisePercent: 0,
+      studentLoanPlan: "none",
+      postgraduateLoan: false,
+      nightSaturdayHoursMonthly: 0,
+      sundayBankHolidayHoursMonthly: 0,
+    };
+  });
   const result = useMemo(() => calculateNhsSalary(input), [input]);
   const baseResult = useMemo(() => calculateNhsSalary({ ...input, payRisePercent: 0 }), [input]);
   const payRiseImpact = result.annualTakeHome - baseResult.annualTakeHome;

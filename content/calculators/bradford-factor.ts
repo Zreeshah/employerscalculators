@@ -6,86 +6,141 @@ export default calculator({
   kind: "bradford-factor",
   title: "Bradford Factor Calculator UK",
   metaDescription:
-    "Bradford Factor calculator: score absence as S² × D. See why short, frequent absences score higher than one long absence",
+    "Enter sickness absence episodes to calculate S² × D, compare absence patterns and understand non-statutory triggers, exclusions and fair use",
   h1: "Bradford Factor Calculator",
   intro:
-    "The Bradford Factor is a formula some UK employers use to measure the disruption caused by employee absence, weighting frequent short spells more heavily than one long absence. This bradford factor calculator is built for HR teams and small-business owners scoring absence patterns over a rolling 52-week period. It is a management tool, not a legal requirement, and should always be used alongside context — never as an automatic trigger for disciplinary action.",
-  formulaExplainer:
-    ":::callout info\n**Bradford Factor formula:** score = **S² × D**, where **S** is the number of separate spells of absence and **D** is the total days absent in the period (usually a rolling 52 weeks).\n\nBecause spells are squared, five separate one-day absences (25 × 5 = **125**) score far higher than one five-day absence (1 × 5 = **5**), even though the total days lost are identical. This is by design — frequent short spells are treated as more disruptive.\n:::",
+    "Add each sickness absence episode and calculate the Bradford Factor as S² × D over the period used by your organisation, often a rolling 52 weeks. The score deliberately weights repeated short absences more heavily than one continuous absence. It is not a statutory measure or a disciplinary decision, so review the record, policy, disability adjustments and individual context before acting.",
+  formulaExplainer: `:::callout info
+**Bradford Factor = S² × D.** **S** is the number of separate absence episodes in the measurement period and **D** is the total number of working days absent across those episodes.
+
+The episode list supplies both inputs: its number of included rows is S, and the sum of their absence days is D. Five one-day episodes score 5² × 5 = **125**; one five-day episode scores 1² × 5 = **5**.
+:::`,
   howToSteps: [
     {
-      name: "Count the spells of absence (S)",
-      text: "Count each separate spell of sickness absence in the rolling 52-week period. A spell is a continuous run of sickness days; two working days between spells starts a new spell. Unrelated absences (for example a one-off medical appointment) are usually counted too, depending on the policy.",
+      name: "Choose the measurement period",
+      text: "Use the period written in the absence policy, commonly a rolling 52 weeks ending on the review date. Do not mix episodes from different periods.",
     },
     {
-      name: "Count the total days absent (D)",
-      text: "Add up every working day missed across those spells. Bank holidays, weekends and non-working days are excluded. The total is the second input to the formula.",
+      name: "Add each separate absence episode",
+      text: "Enter one row for each continuous sickness spell and record the working days lost. Merge dates that form one continuous episode under the policy.",
     },
     {
-      name: "Square the number of spells",
-      text: "Multiply S by itself: S². This is the multiplier that pushes frequent short absences up the scale. Three one-day spells score 3² × 3 = 27; one three-day spell scores 1 × 3 = 3.",
+      name: "Review exclusions and adjustments",
+      text: "Before relying on the score, identify pregnancy-related absence, disability-related absence and any other category the policy records separately or adjusts.",
     },
     {
-      name: "Multiply S² by D",
-      text: "Multiply S² by the total days absent. The result is the Bradford Factor score. The calculator above returns this number directly — no need to do the arithmetic by hand.",
+      name: "Calculate S squared multiplied by D",
+      text: "The calculator counts included episodes, totals their days, squares the episode count and multiplies it by total days absent.",
     },
     {
-      name: "Compare against the trigger thresholds",
-      text: "By common convention, scores around 100 prompt monitoring, 200 an informal review, and 500 or more formal action — but these trigger points are set by the employer, not by law. Use the score as one input alongside context, not as an automatic disciplinary trigger.",
+      name: "Use the score as a review prompt",
+      text: "Compare the result with the employer's published, non-statutory review bands and discuss the employee's circumstances rather than applying an automatic sanction.",
     },
   ],
   sections: [
     {
       heading: "What is the Bradford Factor?",
-      body:
-        "The **Bradford Factor** is an absence-scoring formula developed by Bradford University in the 1980s, designed to flag disruptive patterns of short, repeated sickness absence. It is widely used in UK HR practice but has no statutory status — it is one possible tool, not a legal test.\n\nThe formula is deliberately weighted against frequent short absences. One long absence of ten days scores 1 × 10 = **10**. Ten separate one-day absences score 100 × 10 = **1,000** — the same total days lost, but the score reflects the operational cost of repeated disruption. The idea is that frequent short absences are harder to plan around than one long absence.",
+      body: `The **Bradford Factor** is an attendance-management score designed to highlight frequent short sickness absences. It assumes that several separate disruptions can be harder to cover than one absence of the same total length. Employers sometimes use it as a consistent prompt for a return-to-work conversation or attendance review.
+
+It has no status in UK employment law and there is no official “good” or “bad” score. The organisation chooses the measurement period, what counts as an episode and any review points. Those choices should be documented, communicated and applied consistently, with reasonable adjustments and protected absences considered separately.`,
     },
     {
-      heading: "How the Bradford Factor formula works",
-      body:
-        "The arithmetic is simple enough to do by hand, and the calculator above applies it directly.\n\n- **S** = number of spells of absence in the period (typically a rolling 52 weeks).\n- **D** = total working days missed across those spells.\n- **Score** = S² × D.\n\nWorked example: an employee has been off six times in the last 12 months — three one-day colds, one three-day flu, and two two-day absences — for a total of 10 days.\n\n- S = 6, so S² = 36\n- D = 10\n- **Bradford Factor = 36 × 10 = 360**\n\nA different employee off once for ten days scores 1 × 10 = 10. The pattern matters as much as the volume.",
+      heading: "How the episode list becomes S² × D",
+      body: `Enter each **separate continuous spell** as one episode. If the included episode lengths are 1, 2 and 4 working days, S is 3 and D is 7. The score is 3² × 7 = **63**. The list makes the arithmetic auditable because a manager can see which spells produced the count and total.
+
+Overlapping records should not be double-counted. A weekend or non-working day inside one continuing sickness spell does not automatically create a new episode. If the employee returned to work and was later absent again, that will normally be a new episode, subject to the employer's written policy.`,
     },
     {
-      heading: "Common Bradford Factor trigger thresholds",
-      body:
-        "There is no legal Bradford Factor score that triggers a particular action. The thresholds below are common conventions used across UK employers — each organisation sets its own and should write them into the absence policy.\n\n:::table\n| Score | Typical employer action |\n|---|---|\n| 0 – 99 | Within normal range — no action |\n| 100 – 199 | Informal discussion at return-to-work interview |\n| 200 – 499 | Formal review, possibly with occupational health referral |\n| 500+ | Formal absence review and potential disciplinary procedure |\n:::\n\nThese are guides, not rules. A score of 600 for an employee with a long-term condition that is well-managed should be treated differently from a score of 600 driven by repeated short unexplained absences. The score tells you a pattern exists; the conversation tells you what to do about it.",
+      heading: "Why absence patterns produce very different scores",
+      body: `Squaring S makes the score sensitive to frequency. The same ten lost working days can produce scores from 10 to 1,000 depending on how they are grouped.
+
+:::table
+| Absence pattern | S | D | Bradford score |
+|---|---:|---:|---:|
+| One 10-day episode | 1 | 10 | 10 |
+| Two 5-day episodes | 2 | 10 | 40 |
+| Five 2-day episodes | 5 | 10 | 250 |
+| Ten 1-day episodes | 10 | 10 | 1,000 |
+:::
+
+This weighting is both the purpose and the limitation of the formula. It describes a pattern; it does not explain the cause, predict future attendance or prove misconduct.`,
     },
     {
-      heading: "Legal limits on using the Bradford Factor",
-      body:
-        "The score is conventional, but the way an employer uses it is regulated. The main risks are:\n\n- **Equality Act 2010.** Disability-related absence must be disregarded in the score, or the policy will indirectly discriminate against disabled employees. Pregnancy-related absence is protected in the same way. Adjusting or discounting such absence is what ACAS advises.\n- **Disability discrimination.** Long-term or fluctuating conditions (ME, MS, cancer treatment) can push a Bradford Factor score very high even when the absences are all covered by fit notes. Treating the score mechanically in those cases is unlawful.\n- **Unfair dismissal.** Using the Bradford Factor as an automatic trigger for disciplinary action without considering context risks a finding of unfair dismissal at tribunal. The score is one input, not the decision.\n- **Transparency.** Under the employment contract and ACAS guidance, absence policies and trigger thresholds should be in writing and shared with employees in advance.\n\n:::callout tip\n**Discount protected absence.** The safest pattern is to remove any spell flagged as disability-related, pregnancy-related or covered by a fit note before computing the score. That keeps the policy proportionate and reduces the risk of an Equality Act claim.\n:::",
+      heading: "Example Bradford Factor review bands",
+      body: `No government body sets Bradford Factor thresholds. The bands below are **illustrative, non-statutory examples**, not recommended sanctions. An employer should choose review points that fit its operation, workforce and equality duties, then state them in the absence policy.
+
+:::table
+| Example score | Example policy label |
+|---|---|
+| 0–99 | No formal action |
+| 100–199 | Verbal warning review point |
+| 200–299 | Written warning review point |
+| 300–399 | Final written warning review point |
+| 400+ | Dismissal consideration review point |
+:::
+
+These labels mirror the calculator's example bands, not a lawful automatic sequence. Crossing a band should open a fair review, not determine its outcome. Length of service, cause, warnings, medical evidence and previous support remain relevant.`,
     },
     {
-      heading: "Summary: how to use this calculator",
-      body:
-        "Two numbers in, one number out. Enter the number of absence spells (S) and the total days absent (D) over the same period — usually a rolling 52 weeks. The Bradford Factor calculator returns the S² × D score, ready to compare against the trigger thresholds in your absence policy. Treat the score as one input alongside context: it tells you a pattern exists, the return-to-work conversation tells you what to do about it.",
+      heading: "What should count as an absence episode?",
+      body: `The policy should define whether D counts scheduled working days, calendar days, shifts or part-days. Most implementations use **working time actually missed**, excluding rest days that the employee was not due to work. A four-day sickness spanning a weekend may therefore contain two lost working days but remain one continuous episode.
+
+Planned annual leave, authorised family leave, jury service and other non-sickness leave should not be silently mixed into the score. A fit note supports sickness absence but does not by itself decide whether an episode is included. Keep the raw absence record separate so adjustments do not erase the underlying facts.`,
+    },
+    {
+      heading: "Disability, pregnancy and other edge cases",
+      body: `Acas says employers should consider recording pregnancy-related and disability-related absence separately. Under the Equality Act 2010, reasonable adjustments for a disabled employee can include ignoring some disability-related absence, increasing a review trigger or using a different process. The correct adjustment is individual, not a blanket rule.
+
+Pregnancy-related sickness must not lead to unlawful unfavourable treatment. Long-term conditions, treatment schedules and mental health episodes can also create high frequency scores without misconduct. Occupational health advice may help, but consent, confidentiality and the employee's explanation still matter. Never assume a high score removes the need to investigate and support.`,
+    },
+    {
+      heading: "Fair process, consistency and data handling",
+      body: `A defensible process starts with a written policy, accurate records and the same calculation window for comparable employees. Managers should verify dates with the employee, hold a return-to-work or review meeting, explore causes and support, and record why any action is proportionate. Acas describes trigger points as prompts for review when used appropriately.
+
+Sickness details can reveal health information, which requires careful access controls and retention under data-protection rules. Share the score only with people who need it. Audit changes to episodes and exclusions so the result can be explained, corrected and distinguished from the separate managerial decision.`,
+    },
+    {
+      heading: "Summary: calculate the score, then review the context",
+      body: `Choose the policy period, add one row per separate sickness episode and check the working days lost. The calculator counts episodes as S, totals days as D and returns **S² × D**. If an episode is duplicated or one continuous spell is split, the squared frequency can distort the result sharply.
+
+Compare the score only with the employer's published non-statutory bands. Before any decision, check protected and disability-related absence, reasonable adjustments, record accuracy and the employee's explanation. The calculator measures frequency and duration; it does not decide fairness, capability or conduct.`,
     },
   ],
   faq: [
     {
       question: "What is the Bradford Factor formula?",
       answer:
-        "Bradford Factor score = S² × D, where S is the number of separate spells of absence and D is the total days absent in the period (typically a rolling 52 weeks).",
+        "The formula is S² × D, where S is the number of separate absence episodes and D is the total working days absent in the chosen period.",
     },
     {
-      question: "What is a 'good' or 'bad' Bradford Factor score?",
+      question: "What counts as one absence episode?",
       answer:
-        "There is no legal standard. By common convention, scores around 100 may prompt monitoring, 200 an informal review, and 500 or more formal action — but these trigger points are set by each employer, not by law.",
+        "One episode is normally one continuous spell of sickness. Non-working days inside a continuing spell do not necessarily split it, so follow the employer's written definition.",
     },
     {
-      question: "Is the Bradford Factor legal in the UK?",
+      question: "What is a bad Bradford Factor score?",
       answer:
-        "Using it is legal, but it is only a convention, not law. Employers must apply it carefully: disregarding disability-related or pregnancy-related absence can breach the Equality Act 2010, and ACAS advises adjusting or discounting such absences.",
+        "There is no legal or universal bad score. Employers set their own review points, and crossing one should trigger a contextual review rather than an automatic sanction.",
     },
     {
-      question: "Why do frequent short absences score higher?",
+      question: "What score do three absences totalling seven days produce?",
       answer:
-        "Because the formula squares the number of spells (S²). Three one-day absences score 9 × 3 = 27, while one three-day absence scores 1 × 3 = 3 — reflecting the view that repeated short absences are more disruptive to plan around.",
+        "Three episodes and seven total days produce 3² × 7 = 63, assuming all three episodes fall inside the same measurement period and are included by the policy.",
     },
     {
-      question: "Should employers rely on the Bradford Factor alone?",
+      question: "Should disability-related absence be included?",
       answer:
-        "No. It should be one input alongside return-to-work conversations and individual circumstances. Using the score mechanically to trigger disciplinary action, without considering context, risks unfairness and legal challenge.",
+        "Not automatically. Acas says reasonable adjustments can include excluding some disability-related absence or changing trigger points, depending on the individual circumstances.",
+    },
+    {
+      question: "Can pregnancy-related sickness trigger a Bradford review?",
+      answer:
+        "Employers should record pregnancy-related sickness separately and must not treat an employee unfavourably because of pregnancy-related illness. Get HR or legal advice before relying on a score.",
+    },
+    {
+      question: "Is the Bradford Factor required by UK law?",
+      answer:
+        "No. It is a non-statutory management tool. Employment law still requires a fair process, non-discrimination and reasonable adjustments where applicable.",
     },
   ],
   relatedSlugs: [],

@@ -63,7 +63,7 @@ export default async function SlugPage({ params }: SlugPageProps) {
         </header>
 
         {/* Calculator first, above the fold and above any prose */}
-        <CalculatorShell kind={calc.kind} defaults={calc.defaults} />
+        <CalculatorShell kind={calc.kind} defaults={calc.defaults} nhsPreset={calc.nhsPreset} />
 
         <div className="text-lg leading-relaxed">
           <Prose text={calc.intro} />

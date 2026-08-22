@@ -16,6 +16,7 @@ export type CalculatorKind =
   | "bradford-factor"
   | "company-car-tax"
   | "net-to-gross"
+  | "two-jobs-tax"
   | "take-home-pay"
   | "nhs-take-home-pay"
   | "nhs-pay-comparison"
@@ -519,6 +520,10 @@ export const calculatorInputs: Record<CalculatorKind, InputSpec[]> = {
   "net-to-gross": [
     { name: "targetNet", label: "Target net (take-home) pay", unit: "currency" },
   ],
+  "two-jobs-tax": [
+    { name: "job1Salary", label: "Job 1 annual salary", unit: "currency" },
+    { name: "job2Salary", label: "Job 2 annual salary", unit: "currency" },
+  ],
   "take-home-pay": [
     { name: "annualSalary", label: "Annual gross salary", unit: "currency" },
   ],
@@ -706,6 +711,19 @@ export function calculate(
         { label: "Gross salary required", value: gross, format: "currency" },
         { label: "Income tax at that gross", value: incomeTaxRuk(gross), format: "currency" },
         { label: "Employee NI at that gross", value: employeeNi(gross), format: "currency" },
+      ];
+    }
+    case "two-jobs-tax": {
+      const job1 = n("job1Salary");
+      const job2 = n("job2Salary");
+      const gross = job1 + job2;
+      const tax = incomeTaxRuk(gross);
+      const ni = employeeNi(job1) + employeeNi(job2);
+      return [
+        { label: "Combined gross pay", value: gross, format: "currency" },
+        { label: "Income tax", value: tax, format: "currency" },
+        { label: "National Insurance across both jobs", value: ni, format: "currency" },
+        { label: "Combined take-home pay", value: gross - tax - ni, format: "currency" },
       ];
     }
     case "take-home-pay": {

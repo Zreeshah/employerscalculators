@@ -3,7 +3,16 @@
 import Link from "next/link";
 import { useMemo, useState } from "react";
 import { currentRates } from "@/data/rates";
+import type { NhsCalculatorPreset } from "@/content/types";
 import { P11dCalculator, SickPayCalculator } from "@/components/BenefitCalculators";
+import {
+  AnnualLeaveCalculator,
+  BradfordFactorCalculator,
+  CompanyCarTaxCalculator,
+  HolidayEntitlementCalculator,
+  NetToGrossCalculator,
+  TwoJobsTaxCalculator,
+} from "@/components/AdvancedCalculators";
 import { NhsPayComparisonCalculatorParity, NhsTakeHomeCalculatorParity } from "@/components/NhsCalculators";
 import {
   calculate,
@@ -52,17 +61,26 @@ function formatValue(value: number, format: "currency" | "percent" | "number") {
 export default function CalculatorForm({
   kind,
   defaults,
+  nhsPreset,
 }: {
   kind: CalculatorKind;
   defaults?: Record<string, number>;
+  nhsPreset?: NhsCalculatorPreset;
 }) {
   if (kind === "employer-ni") return <EmployerNiCalculator defaults={defaults} />;
   if (kind === "employee-cost") return <EmployeeCostCalculator defaults={defaults} />;
   if (kind === "smp") return <SmpCalculator defaults={defaults} />;
   if (kind === "p11d") return <P11dCalculator defaults={defaults} />;
   if (kind === "sick-pay") return <SickPayCalculator />;
+  if (kind === "company-car-tax") return <CompanyCarTaxCalculator defaults={defaults} />;
+  if (kind === "net-to-gross") return <NetToGrossCalculator />;
+  if (kind === "two-jobs-tax") return <TwoJobsTaxCalculator />;
+  if (kind === "bradford-factor") return <BradfordFactorCalculator />;
+  if (kind === "holiday-entitlement") return <HolidayEntitlementCalculator />;
+  if (kind === "annual-leave") return <AnnualLeaveCalculator />;
   if (kind === "nhs-take-home-pay") return <NhsTakeHomeCalculatorParity />;
   if (kind === "nhs-pay-comparison") return <NhsPayComparisonCalculatorParity />;
+  if (kind === "nhs-band") return <NhsTakeHomeCalculatorParity preset={nhsPreset} />;
   if (kind === "maternity-allowance") return <MaternityAllowanceCalculator defaults={defaults} />;
   if (kind === "workplace-pension") return <WorkplacePensionCalculator defaults={defaults} />;
   if (kind === "salary-sacrifice" || kind === "salary-sacrifice-pension") {

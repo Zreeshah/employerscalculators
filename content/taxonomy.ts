@@ -42,10 +42,12 @@ export const relatedMap: Record<string, string[]> = {
     "how-much-does-it-cost-to-employ-someone",
   ],
   "bradford-factor-calculator": ["ssp-calculator", "ssp-vs-company-sick-pay", "annual-leave-calculator"],
-  "net-to-gross-calculator": ["take-home-pay-calculator", "employer-ni-calculator", "ir35-calculator"],
+  "net-to-gross-calculator": ["take-home-pay-calculator", "two-jobs-tax-calculator", "employer-ni-calculator", "ir35-calculator"],
+  "two-jobs-tax-calculator": ["take-home-pay-calculator", "net-to-gross-calculator", "employer-ni-calculator", "workplace-pension-calculator"],
   "take-home-pay-calculator": ["net-to-gross-calculator", "national-insurance-rates-2026-27", "ir35-calculator", "nhs-take-home-pay"],
   "nhs-take-home-pay": ["nhs-pay-comparison", "take-home-pay-calculator", "pro-rata-calculator"],
   "nhs-pay-comparison": ["nhs-take-home-pay", "take-home-pay-calculator", "pro-rata-calculator"],
+  "nhs-midwife-salary": ["nhs-band-5-pay-calculator", "nhs-band-6-pay-calculator", "nhs-band-7-pay-calculator", "nhs-take-home-pay"],
   "annual-leave-calculator": [
     "holiday-entitlement-calculator",
     "statutory-holiday-entitlement-uk",
@@ -69,15 +71,18 @@ export const relatedMap: Record<string, string[]> = {
   "how-to-calculate-statutory-sick-pay": ["ssp-calculator", "sick-pay-calculator"],
   "ssp-vs-company-sick-pay": ["sick-pay-calculator", "ssp-calculator"],
   "employment-allowance-guide": ["employer-ni-calculator", "employer-ni-rates-2026-27"],
-  "how-much-does-it-cost-to-employ-someone": ["employee-cost-calculator", "employer-ni-calculator"],
+  "how-much-does-it-cost-to-employ-someone": ["employee-cost-calculator", "employer-ni-calculator", "true-cost-of-hiring-employee-uk"],
+  "true-cost-of-hiring-employee-uk": ["how-much-does-it-cost-to-employ-someone", "employee-cost-calculator", "employer-ni-calculator", "workplace-pension-calculator"],
   "salary-sacrifice-pension-guide": ["salary-sacrifice-pension-calculator", "workplace-pension-calculator"],
   "holiday-entitlement-part-time-workers": ["annual-leave-calculator", "holiday-entitlement-calculator", "pro-rata-calculator"],
 };
 
 // NHS matrix pages share one default set
-const nhsRelated = ["nhs-take-home-pay", "nhs-pay-comparison", "employee-cost-calculator", "take-home-pay-calculator"];
+const nhsRelated = ["nhs-take-home-pay", "nhs-pay-comparison", "nhs-midwife-salary", "take-home-pay-calculator"];
 
 export function relatedFor(slug: string): string[] {
-  if (slug.startsWith("nhs-band-")) return nhsRelated;
+  if (slug.startsWith("nhs-band-") || slug.startsWith("nhs-scotland-band-") || slug === "nhs-midwife-salary") {
+    return relatedMap[slug] ?? nhsRelated;
+  }
   return relatedMap[slug] ?? [];
 }

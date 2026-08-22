@@ -40,12 +40,12 @@ export const NHS_REGIONS: Record<NhsNation, NhsRegionConfig> = {
   scotland: {
     label: "Scotland", standardHours: 36,
     bands: [
-      { band: "2", steps: [26658, 28947] }, { band: "3", steps: [29061, 31364] },
-      { band: "4", steps: [31492, 34254] }, { band: "5", steps: [34494, 36857, 42977] },
-      { band: "6", steps: [43169, 45070, 52603] }, { band: "7", steps: [52769, 54784, 61377] },
-      { band: "8a", steps: [65032, 70202] }, { band: "8b", steps: [76778, 82133] },
-      { band: "8c", steps: [90678, 97199] }, { band: "8d", steps: [107655, 112264] },
-      { band: "9", steps: [127338, 132853] },
+      { band: "2", steps: [26696, 28988] }, { band: "3", steps: [29103, 31409] },
+      { band: "4", steps: [31537, 34303] }, { band: "5", steps: [34544, 36911, 43039] },
+      { band: "6", steps: [43231, 45135, 52679] }, { band: "7", steps: [52845, 54863, 61466] },
+      { band: "8a", steps: [65125, 70303] }, { band: "8b", steps: [76888, 82251] },
+      { band: "8c", steps: [90808, 97338] }, { band: "8d", steps: [107810, 112426] },
+      { band: "9", steps: [127521, 133044] },
     ],
     pensionTiers: [
       { upTo: 13330, rate: 0.057 }, { upTo: 28987, rate: 0.064 },

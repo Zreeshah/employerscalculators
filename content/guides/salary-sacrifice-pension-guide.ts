@@ -3,71 +3,81 @@ import { guide } from "../types";
 export default guide({
   type: "guide",
   slug: "salary-sacrifice-pension-guide",
-  title: "Salary Sacrifice Pension: UK Guide for Employers & Employees",
+  title: "Salary Sacrifice Pension Guide UK 2026/27",
   metaDescription:
-    "How salary sacrifice pensions work in the UK for 2026/27: NI savings for employers and employees, the £12.71 minimum wage floor, and worked examples.",
+    "Salary sacrifice pension guide for UK employers: separate tax relief from NI savings, model examples and prepare for the April 2029 £2,000 NIC cap",
   h1: "Salary Sacrifice Pension Guide",
   intro:
-    "A salary sacrifice pension lets an employee give up part of their contractual gross salary in exchange for an employer pension contribution of the same amount. Because the sacrificed sum never counts as pay, both sides save National Insurance and the employee saves income tax. This guide explains how the arrangement works in 2026/27, the rules HMRC expects you to follow, and the pitfalls around minimum wage and statutory pay.",
+    "A salary sacrifice pension changes an employee's contract so they give up cash salary and the employer pays a pension contribution instead. Pension saving already receives income tax relief through common contribution methods; the distinctive extra benefit of salary sacrifice is normally the **employee and employer National Insurance saving**. This guide explains that distinction, the current 2026/27 position and the £2,000 annual NIC exemption cap due from April 2029.",
   sections: [
     {
-      heading: "What salary sacrifice is and how it works",
-      body: "Salary sacrifice is a formal variation of the employment contract. The employee agrees to a lower gross salary, and the employer pays the sacrificed amount into the employee's pension instead. The contribution is treated as an employer contribution, so no income tax or National Insurance is due on it at all.\n\nThe arrangement must be genuine: the contract is amended in writing, the reduced salary becomes the employee's real pay, and they cannot simply swap back at will. HMRC accepts salary sacrifice for pensions as long as these conditions are met, and its guidance on GOV.UK sets out the detail.",
+      heading: "What is pension salary sacrifice?",
+      body: "Pension salary sacrifice is a genuine change to contractual remuneration. The employee accepts a lower cash salary and the employer makes an additional employer pension contribution in return. Payroll calculates PAYE and National Insurance on the reduced cash pay under the current rules.\n\nHMRC's salary sacrifice guidance on GOV.UK says the agreement should change the employee's entitlement to cash before the pay is earned. It is not simply a deduction made after gross pay has arisen. ACAS guidance on changing employment contracts is also relevant: explain the proposal, obtain agreement and record the variation clearly rather than changing pay unilaterally.",
     },
     {
-      heading: "Why both sides save National Insurance",
-      body: "Employees pay NI at 8% on earnings between £12,570 and £50,270, then 2% above that. Employers pay 15% on earnings above £5,000. Because a sacrificed amount is removed from salary before these calculations, every pound sacrificed saves the employee 8% in the main band and saves you 15% in employer NI.\n\nMany employers pass some or all of their 15% saving into the employee's pension as an added benefit, though this is optional. Our salary sacrifice pension calculator shows the employee saving, the employer saving and the new take-home pay for any salary and sacrifice level.",
+      heading: "Tax relief and National Insurance benefit are different",
+      body: "Do not describe all of the income tax reduction as a special salary sacrifice saving. Pension contributions can receive income tax relief through **relief at source**, **net pay arrangements** or salary sacrifice, although the route and cash-flow effect differ.\n\nThe additional attraction of salary sacrifice is the current NIC treatment. Sacrificed pay is generally outside employee Class 1 NICs and employer Class 1 secondary NICs because it becomes an employer pension contribution. The employee may save 8% or 2% depending on their earnings band, while the employer may save 15% in 2026/27. Check the actual marginal bands rather than applying one percentage to every employee.",
     },
     {
-      heading: "Worked example: sacrificing 5% of a £30,000 salary",
-      body: "An employee on £30,000 sacrifices 5% — £1,500 a year — into their pension:\n\n- New contractual salary: £28,500\n- Pension receives: £1,500 as an employer contribution\n- Employee NI saving: 8% of £1,500 = £120 a year\n- Income tax saving at the basic rate: 20% of £1,500 = £300 a year\n- Employer NI saving: 15% of £1,500 = £225 a year\n\nThe employee's take-home pay falls by about £1,080, but £1,500 lands in their pension — an extra £420 of value each year. If the employer adds its £225 NI saving to the pension too, the benefit grows further. Model your own figures with the salary sacrifice calculator.",
+      heading: "Worked example: £4,000 sacrificed from £40,000",
+      body: "Assume an employee earning £40,000 sacrifices £4,000 during 2026/27 and all of it falls within the main employee NI band. The new contractual cash salary is £36,000 and the employer pays £4,000 to the pension.\n\n- Employee NI falls by about £320 at 8%.\n- Employer NI falls by about £600 at 15%.\n- PAYE income tax on cash pay falls by £800 at a 20% marginal rate.\n\nThat £800 is pension tax relief delivered through payroll, not necessarily an advantage unique to sacrifice. The distinctive saving versus an otherwise equivalent pension contribution is normally the £320 employee NI reduction, plus any share of the employer's £600 NI saving that the scheme passes on.",
     },
     {
-      heading: "The National Living Wage floor",
-      body: "A sacrifice must not take an employee's pay below the National Living Wage — £12.71 an hour in 2026/27. HMRC checks the post-sacrifice salary against actual hours worked, so lower-paid staff have limited headroom.\n\nFor example, an employee on £28,000 working 37.5 hours a week earns about £14.36 an hour. A 10% sacrifice of £2,800 leaves £25,200, or roughly £12.92 an hour — legal, but close to the floor, and any larger sacrifice would breach the rules. Build an automatic NLW check into payroll and cap or pause sacrifices for anyone near the threshold. The salary sacrifice calculator flags when a proposed sacrifice drops pay too low.",
+      heading: "The £2,000 NIC exemption cap from April 2029",
+      body: "HM Treasury has announced on GOV.UK that from **April 2029**, the amount of employee pension contribution made through salary sacrifice that remains exempt from National Insurance will be capped at **£2,000 a year**. Contributions above £2,000 can still be made through salary sacrifice and remain exempt from income tax, but employee and employer NICs will apply to the excess under the announced policy.\n\nFor a £4,000 annual sacrifice, the first £2,000 would retain the NIC exemption and the remaining £2,000 would not. Ordinary employer pension contributions are not the target of this cap. Keep current and 2029 projections separate until final legislation and payroll specifications are available.",
     },
     {
-      heading: "How sacrifice affects statutory pay and benefits",
-      body: "Statutory payments — including statutory maternity, paternity, adoption and sick pay — are calculated on average earnings after the sacrifice. A lower post-sacrifice salary can therefore reduce an employee's statutory entitlement, and in some cases drop them below the earnings threshold for qualifying at all.\n\nLife cover, mortgage references and redundancy pay can also be affected, because they often reference contractual salary. Good practice is to explain these knock-on effects in writing before an employee joins, and many employers use a notional pre-sacrifice salary for life cover and lending references. GOV.UK guidance on salary sacrifice lists the statutory schemes affected.",
+      heading: "National Minimum Wage creates a hard floor",
+      body: "Salary sacrifice must not reduce cash pay below the applicable National Minimum Wage or National Living Wage for the hours worked. Use the current GOV.UK rate for the employee's age and pay reference period, not an annual salary shortcut alone.\n\nFor example, if a worker's post-sacrifice hourly pay is only a few pence above the legal floor, unpaid extra time, a longer pay-period schedule or a birthday rate change can create a breach. Cap or pause sacrifice automatically when headroom is insufficient. The restriction applies even if the employee actively requests a larger pension contribution, because minimum wage cannot be waived by agreement.",
     },
     {
-      heading: "Salary sacrifice and auto-enrolment",
-      body: "Salary sacrifice can sit on top of your auto-enrolment duties, but it does not remove them. Staff aged 22 to state pension age earning at least £10,000 a year must still be enrolled, with total minimum contributions of 8% of qualifying earnings including at least 3% from the employer.\n\nTwo practical points follow. First, assess auto-enrolment eligibility on post-sacrifice earnings, because a sacrifice could take someone below the £10,000 trigger. Second, contributions under a sacrifice arrangement count as employer contributions, which easily satisfy the 3% employer minimum. Our workplace pension calculator shows the baseline auto-enrolment cost before any sacrifice is applied.",
+      heading: "Effects on statutory pay and salary-linked benefits",
+      body: "The lower contractual cash salary can affect average earnings used for Statutory Maternity Pay and other statutory payments, and may reduce earnings-related life cover, overtime rates, mortgage references or redundancy terms if scheme documents use actual post-sacrifice salary. An employee close to a qualifying threshold needs an individual check before joining.\n\nAn edge case arises when family leave begins during an earnings assessment period: changing or stopping sacrifice later may not restore the earlier average earnings figure. State whether salary-linked benefits use actual salary or a separate notional pre-sacrifice salary. GOV.UK lists affected benefits; payroll and pension-provider rules should then be checked together.",
     },
     {
-      heading: "Setting up a scheme step-by-step",
-      body: "To put a pension salary sacrifice arrangement in place:\n\n1. Confirm each employee's post-sacrifice salary stays above £12.71 an hour.\n2. Issue a written contract variation signed by the employee, stating the new salary and the pension contribution.\n3. Update payroll so tax and NI are calculated on the reduced salary from the effective date.\n4. Tell your pension provider the contributions are employer contributions.\n5. Keep records of the agreement; HMRC can ask to see that the sacrifice is genuine.\n\nEmployees should be able to opt out, for example on life events, and the contract should say how. Many employers take payroll or HR advice before launch.",
+      heading: "Auto-enrolment and contract administration",
+      body: "Salary sacrifice does not replace auto-enrolment duties. Assess the worker under the pension scheme's rules, make at least the required contribution and tell the provider that sacrificed amounts are employer contributions. Be clear whether the scheme's contribution percentages use pre-sacrifice notional salary, post-sacrifice cash salary or qualifying earnings.\n\nThe written variation should identify the amount or percentage sacrificed, effective date, treatment of employer NI savings and permitted changes. ACAS recommends consultation and agreement where contracts change. Include a route to stop or alter sacrifice after defined lifestyle events, but avoid an arrangement that leaves the employee with an unrestricted continuing right to cash instead.",
     },
     {
-      heading: "Common pitfalls to avoid",
-      body: "The mistakes that most often cause problems:\n\n- Sacrificing below the National Living Wage, which breaches HMRC rules and can trigger arrears\n- Forgetting that statutory maternity and sick pay are based on post-sacrifice earnings\n- Treating the sacrifice as reversible on demand — frequent changes can make it look like normal pay to HMRC\n- Ignoring auto-enrolment reassessment when reduced pay crosses the £10,000 trigger\n- Failing to document the arrangement, leaving you exposed in an HMRC review\n\nA clear policy, signed contract variations and a payroll NLW check prevent almost all of these.",
+      heading: "Summary: test the scheme before launch",
+      body: "First compare salary sacrifice with the pension method already in use so that income tax relief is not double-counted as a new benefit. Then model employee NI, employer NI and take-home pay at the person's actual marginal rates. Check minimum wage, statutory-pay exposure, auto-enrolment and every salary-linked benefit.\n\nUse the salary sacrifice pension calculator for current-year figures and retain a separate April 2029 scenario with only £2,000 of sacrificed employee pension contributions exempt from NICs. Review HMRC and HM Treasury guidance before implementation, because payroll treatment must follow the final legislation rather than an old policy illustration.",
     },
   ],
   faq: [
     {
-      question: "Does salary sacrifice reduce take-home pay?",
+      question: "What is the main benefit of pension salary sacrifice?",
       answer:
-        "Yes, but by less than the amount sacrificed. A basic-rate employee sacrificing £1,500 sees take-home pay fall by roughly £1,080, because they no longer pay 20% income tax or 8% National Insurance on that £1,500. The full £1,500 goes into their pension instead.",
+        "The distinctive benefit is normally National Insurance saving for the employee and employer. Income tax relief is valuable, but eligible pension contributions can also receive tax relief through relief at source or net pay arrangements.",
     },
     {
-      question: "Can salary sacrifice take pay below the minimum wage?",
+      question: "Does salary sacrifice save income tax and National Insurance?",
       answer:
-        "No. HMRC rules require post-sacrifice pay to stay at or above the National Living Wage of £12.71 an hour in 2026/27. Payroll should cap or pause sacrifices for employees close to the floor.",
+        "It reduces taxable cash pay and, under current rules, usually removes employee and employer NICs from the sacrificed amount. When comparing pension methods, treat the NI reduction as the extra salary sacrifice benefit and compare tax relief on a like-for-like basis.",
     },
     {
-      question: "Does salary sacrifice affect statutory maternity pay?",
+      question: "What changes for salary sacrifice pensions in April 2029?",
       answer:
-        "Yes. Statutory maternity pay and other statutory payments are calculated on post-sacrifice earnings, so a lower salary can reduce entitlement. Employers should explain this before an employee joins the scheme, particularly anyone planning parental leave.",
+        "Under the announced policy, only the first £2,000 a year of employee pension contributions made through salary sacrifice will remain exempt from NICs. The excess will attract employee and employer NICs but remain exempt from income tax.",
     },
     {
-      question: "Is a salary sacrifice pension the same as auto-enrolment?",
+      question: "Does the £2,000 cap apply before April 2029?",
       answer:
-        "No. Auto-enrolment is a legal duty to enrol eligible staff and pay minimum contributions — at least 3% from the employer within an 8% total. Salary sacrifice is an optional contract change that delivers contributions more tax-efficiently. The two can run together, and sacrifice contributions count towards the employer minimum.",
+        "No. It is due to start in April 2029. Current payroll calculations should use the rules for the relevant tax year, while employers can model the future cap when planning scheme costs.",
     },
     {
-      question: "Can an employee leave a salary sacrifice scheme?",
+      question: "Can salary sacrifice reduce pay below minimum wage?",
       answer:
-        "Yes, but not casually. The contract should set out when changes are allowed — typically on joining, at an annual review, or after a life event such as marriage or a new child. Frequent switching risks HMRC treating the sacrificed pay as ordinary earnings.",
+        "No. Post-sacrifice cash pay must remain at or above the applicable minimum wage for the hours worked in each pay reference period, even when the employee asks to sacrifice more.",
+    },
+    {
+      question: "Does salary sacrifice affect Statutory Maternity Pay?",
+      answer:
+        "It can. Statutory payments may be based on lower post-sacrifice earnings during the relevant assessment period, so employees near a threshold or planning leave should receive a clear explanation before changing salary.",
+    },
+    {
+      question: "Must an employer add its NI saving to the pension?",
+      answer:
+        "No. An employer can keep all of the employer NI saving, add all of it to the pension or share part of it, provided the scheme wording explains the approach accurately.",
     },
   ],
   relatedSlugs: [

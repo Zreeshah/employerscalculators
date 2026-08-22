@@ -2,6 +2,14 @@ import assert from "node:assert/strict";
 import test from "node:test";
 import { calculateNhsSalary } from "./nhs.ts";
 import {
+  calculateAnnualLeave,
+  calculateBradfordEpisodes,
+  calculateCompanyCarTax,
+  calculateHolidayEntitlement,
+  calculateNetToGrossAdvanced,
+  calculateTwoJobsTax,
+} from "./advancedCalculators.ts";
+import {
   calculate,
   calculateMaternityAllowance,
   calculateP11d,
@@ -149,15 +157,15 @@ test("NHS England Band 5 entry matches comparison benchmark", () => {
   assert.equal(Math.round(result.monthlyTakeHome * 100) / 100, 2040.21);
 });
 
-test("NHS Scotland Band 6 entry matches competitor benchmark", () => {
+test("NHS Scotland Band 6 entry uses official 2026/27 pay", () => {
   const result = calculateNhsSalary({ nation: "scotland", band: "6", stepIndex: 0, hoursPerWeek: 36, inPension: true });
-  assert.equal(result.totalGross, 43169);
+  assert.equal(result.totalGross, 43231);
   assert.equal(result.pensionRate, 0.098);
-  assert.equal(Math.round(result.incomeTax * 100) / 100, 5328.14);
-  assert.equal(Math.round(result.employeeNi * 100) / 100, 2447.92);
-  assert.equal(Math.round(result.pensionContribution * 100) / 100, 4230.56);
-  assert.equal(Math.round(result.annualTakeHome * 100) / 100, 31162.38);
-  assert.equal(Math.round(result.monthlyTakeHome * 100) / 100, 2596.86);
+  assert.equal(Math.round(result.incomeTax * 100) / 100, 5339.89);
+  assert.equal(Math.round(result.employeeNi * 100) / 100, 2452.88);
+  assert.equal(Math.round(result.pensionContribution * 100) / 100, 4236.64);
+  assert.equal(Math.round(result.annualTakeHome * 100) / 100, 31201.6);
+  assert.equal(Math.round(result.monthlyTakeHome * 100) / 100, 2600.13);
 });
 
 test("SSP daily rate uses qualifying days, capped at 28 weeks", () => {
@@ -398,4 +406,153 @@ test("company sick pay caps low earners at 80%", () => {
 test("net-to-gross inverts take-home within pennies", () => {
   const [gross] = calculate("net-to-gross", { targetNet: 25000 });
   assert.ok(Math.abs(takeHome(gross.value) - 25000) < 0.01);
+});
+
+
+test("company car uses official 2026/27 petrol BIK benchmark", () => {
+  const result = calculateCompanyCarTax({ listPrice: 30000, fuel: "petrol", co2: 120, taxRate: 20 });
+  assert.equal(result.bikPercent, 30);
+  assert.equal(result.taxableValue, 9000);
+  assert.equal(result.employeeTaxAnnual, 1800);
+  assert.equal(result.class1aAnnual, 1350);
+});
+
+test("company car uses official 2026/27 electric BIK benchmark", () => {
+  const result = calculateCompanyCarTax({ listPrice: 45000, fuel: "electric", co2: 120, taxRate: 40 });
+  assert.equal(result.bikPercent, 4);
+  assert.equal(result.taxableValue, 1800);
+  assert.equal(result.employeeTaxAnnual, 720);
+  assert.equal(result.class1aAnnual, 270);
+});
+
+test("company car PHEV benchmark applies electric range and employee payment", () => {
+  const result = calculateCompanyCarTax({ listPrice: 50000, fuel: "phev", co2: 45, phevRange: "40-69", taxRate: 45, annualEmployeeContribution: 1000 });
+  assert.equal(result.bikPercent, 10);
+  assert.equal(result.bikValue, 5000);
+  assert.equal(result.taxableValue, 4000);
+  assert.equal(result.employeeTaxAnnual, 1800);
+  assert.equal(result.class1aAnnual, 600);
+});
+
+test("advanced net-to-gross matches default competitor benchmark", () => {
+  const result = calculateNetToGrossAdvanced({ targetNetAnnual: 30000 });
+  assert.ok(Math.abs(result.gross - 36778.33) < 0.02);
+  assert.ok(Math.abs(result.incomeTax - 4841.67) < 0.02);
+  assert.ok(Math.abs(result.employeeNi - 1936.67) < 0.02);
+  assert.ok(Math.abs(result.employerCost - 41545.08) < 0.02);
+});
+
+test("advanced net-to-gross supports salary sacrifice and Plan 2", () => {
+  const result = calculateNetToGrossAdvanced({ targetNetAnnual: 50000, pensionMode: "salary-sacrifice", pensionPercent: 5, studentLoanPlan: "plan2" });
+  assert.ok(Math.abs(result.gross - 77299.37) < 0.02);
+  assert.ok(Math.abs(result.incomeTax - 17471.15) < 0.02);
+  assert.ok(Math.abs(result.employeeNi - 3512.56) < 0.02);
+  assert.ok(Math.abs(result.pensionContribution - 2201.5) < 0.02);
+  assert.ok(Math.abs(result.studentLoan - 4114.16) < 0.02);
+  assert.ok(Math.abs(result.employerCost - 86933.45) < 0.02);
+});
+
+test("advanced net-to-gross supports Scottish Income Tax", () => {
+  const result = calculateNetToGrossAdvanced({ targetNetAnnual: 36000, scotland: true });
+  assert.ok(Math.abs(result.gross - 45952.91) < 0.02);
+  assert.ok(Math.abs(result.incomeTax - 7282.27) < 0.02);
+  assert.ok(Math.abs(result.employeeNi - 2670.63) < 0.02);
+});
+
+test("two jobs default tax codes match live benchmark", () => {
+  const result = calculateTwoJobsTax({ job1: { salary: 30000, taxCode: "1257L" }, job2: { salary: 12000, taxCode: "BR" } });
+  assert.equal(result.combinedGross, 42000);
+  assert.ok(Math.abs(result.combinedTakeHome - 34719.6) < 0.01);
+  assert.equal(result.taxDeducted, 5886);
+  assert.equal(result.employeeNi, 1394.4);
+  assert.equal(result.employerCost, 46800);
+  assert.equal(result.separateEmploymentNiSaving, 960);
+});
+
+test("two jobs detects duplicate Personal Allowances", () => {
+  const result = calculateTwoJobsTax({ job1: { salary: 30000, taxCode: "1257L" }, job2: { salary: 12000, taxCode: "1257L" } });
+  assert.ok(Math.abs(result.combinedTakeHome - 37119.6) < 0.01);
+  assert.equal(result.taxDeducted, 3486);
+  assert.equal(result.correctTaxLiability, 5886);
+  assert.equal(result.taxReconciliation, 2400);
+});
+
+test("two jobs supports pension, bonus, overtime and student loan", () => {
+  const result = calculateTwoJobsTax({
+    job1: { salary: 40000, taxCode: "1257L", pensionMode: "salary-sacrifice", pensionPercent: 5, annualBonus: 5000, overtimeHours: 100, overtimeHourlyRate: 20, overtimeMultiplier: 1.5 },
+    job2: { salary: 15000, taxCode: "BR" },
+    studentLoanPlan: "plan2",
+  });
+  assert.equal(result.combinedGross, 63000);
+  assert.ok(Math.abs(result.combinedTakeHome - 46894.41) < 0.01);
+  assert.ok(Math.abs(result.taxDeducted - 9668.4) < 0.01);
+  assert.ok(Math.abs(result.taxReconciliation - 2128.4) < 0.01);
+  assert.ok(Math.abs(result.employeeNi - 2861.76) < 0.01);
+  assert.ok(Math.abs(result.studentLoanDeducted - 1487.43) < 0.01);
+  assert.ok(Math.abs(result.studentLoanReconciliation - 1350) < 0.01);
+  assert.ok(Math.abs(result.employerCost - 69801.6) < 0.01);
+});
+
+test("Bradford episode defaults match live benchmark", () => {
+  const result = calculateBradfordEpisodes([1, 2, 3]);
+  assert.equal(result.score, 54);
+  assert.equal(result.band, "No formal action");
+  assert.equal(result.additionalDaysToNextThreshold, 6);
+});
+
+test("Bradford one long episode stays low", () => {
+  const result = calculateBradfordEpisodes([10]);
+  assert.equal(result.score, 10);
+  assert.equal(result.additionalDaysToNextThreshold, 90);
+});
+
+test("Bradford frequent episodes reach written-warning example band", () => {
+  const result = calculateBradfordEpisodes([2, 2, 2, 2, 2]);
+  assert.equal(result.score, 250);
+  assert.equal(result.band, "Written warning");
+  assert.equal(result.additionalDaysToNextThreshold, 2);
+});
+
+test("holiday entitlement matches full-time benchmark", () => {
+  const result = calculateHolidayEntitlement({ hoursPerWeek: 37.5, daysPerWeek: 5, includeBankHolidays: true, region: "england" });
+  assert.equal(result.entitlementDays, 28);
+  assert.equal(result.entitlementHours, 210);
+  assert.equal(result.bankHolidayCount, 8);
+});
+
+test("holiday entitlement matches part-time Scotland benchmark", () => {
+  const result = calculateHolidayEntitlement({ hoursPerWeek: 22.5, daysPerWeek: 3, includeBankHolidays: true, region: "scotland" });
+  assert.ok(Math.abs(result.entitlementDays - 16.8) < 0.001);
+  assert.ok(Math.abs(result.entitlementHours - 126) < 0.001);
+  assert.equal(result.bankHolidayCount, 9);
+});
+
+test("holiday entitlement applies part-year factor", () => {
+  const result = calculateHolidayEntitlement({ hoursPerWeek: 20, daysPerWeek: 4, includeBankHolidays: false, partYear: true, monthsWorked: 6 });
+  assert.ok(Math.abs(result.entitlementDays - 11.2) < 0.001);
+  assert.equal(result.entitlementHours, 56);
+  assert.equal(result.factor, 0.5);
+});
+
+test("annual leave default benchmark is date-sensitive and reproducible", () => {
+  const result = calculateAnnualLeave({ annualEntitlement: 28, leaveYearStartMonth: 3, daysTaken: 5, daysBooked: 3 }, new Date(2026, 7, 21));
+  assert.equal(result.monthsElapsed, 4.7);
+  assert.ok(Math.abs(result.accruedToDate - 10.9667) < 0.01);
+  assert.ok(Math.abs(result.remainingAfterBooked - 2.9667) < 0.01);
+  assert.equal(result.availableByYearEnd, 20);
+});
+
+test("annual leave rounds booked half-days like the live contract", () => {
+  const result = calculateAnnualLeave({ annualEntitlement: 20, leaveYearStartMonth: 0, daysTaken: 4, daysBooked: 2.5 }, new Date(2026, 7, 21));
+  assert.equal(result.monthsElapsed, 7.7);
+  assert.equal(result.booked, 3);
+  assert.ok(Math.abs(result.remainingAfterBooked - 5.8333) < 0.01);
+  assert.equal(result.availableByYearEnd, 13);
+});
+
+test("annual leave supports enhanced entitlement and custom leave year", () => {
+  const result = calculateAnnualLeave({ annualEntitlement: 35, leaveYearStartMonth: 9, daysTaken: 25, daysBooked: 5 }, new Date(2026, 7, 21));
+  assert.equal(result.monthsElapsed, 10.7);
+  assert.ok(Math.abs(result.remainingAfterBooked - 1.2083) < 0.01);
+  assert.equal(result.availableByYearEnd, 5);
 });

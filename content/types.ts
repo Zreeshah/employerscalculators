@@ -31,6 +31,13 @@ export interface InlineBarChart {
   data: BarChartDatum[];
 }
 
+export interface NhsCalculatorPreset {
+  nation: "england" | "scotland" | "wales";
+  band: string;
+  stepIndex?: number;
+  hoursPerWeek?: number;
+}
+
 export interface CalculatorContent {
   type: "calculator";
   slug: string;
@@ -47,6 +54,7 @@ export interface CalculatorContent {
   // Informational only — the live related-links map is content/taxonomy.ts
   relatedSlugs: string[];
   defaults?: Record<string, number>;
+  nhsPreset?: NhsCalculatorPreset;
 }
 
 export interface GuideContent {

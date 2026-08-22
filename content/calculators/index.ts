@@ -19,6 +19,8 @@ import SickPay from "./sick-pay";
 import Smp from "./smp";
 import Ssp from "./ssp";
 import TakeHomePay from "./take-home-pay";
+import TwoJobsTax from "./two-jobs-tax";
+import NhsMidwifeSalary from "./nhs-midwife-salary";
 import WorkplacePension from "./workplace-pension";
 
 const core: CalculatorContent[] = [
@@ -37,7 +39,9 @@ const core: CalculatorContent[] = [
   BradfordFactor,
   CompanyCarTax,
   NetToGross,
+  TwoJobsTax,
   TakeHomePay,
+  NhsMidwifeSalary,
   NhsTakeHomePay,
   NhsPayComparison,
   AnnualLeave,
@@ -60,6 +64,7 @@ export const calculatorGroups: { title: string; slugs: string[] }[] = [
       "nhs-take-home-pay",
       "nhs-pay-comparison",
       "net-to-gross-calculator",
+      "two-jobs-tax-calculator",
       "employee-cost-calculator",
       "salary-sacrifice-calculator",
     ],
