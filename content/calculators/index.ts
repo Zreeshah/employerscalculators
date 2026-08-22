@@ -22,6 +22,8 @@ import Ssp from "./ssp";
 import TakeHomePay from "./take-home-pay";
 import TwoJobsTax from "./two-jobs-tax";
 import NhsMidwifeSalary from "./nhs-midwife-salary";
+import { teacherCalculators } from "./teachers";
+import { policeCalculators } from "./police";
 import WorkplacePension from "./workplace-pension";
 
 const core: CalculatorContent[] = [
@@ -50,7 +52,7 @@ const core: CalculatorContent[] = [
   HolidayEntitlement,
 ];
 
-export const allCalculators: CalculatorContent[] = [...core, ...nhsCalculators];
+export const allCalculators: CalculatorContent[] = [...core, ...nhsCalculators, ...teacherCalculators, ...policeCalculators];
 
 export const coreCalculators = core;
 

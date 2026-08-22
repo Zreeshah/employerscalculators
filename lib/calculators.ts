@@ -23,7 +23,9 @@ export type CalculatorKind =
   | "annual-leave"
   | "holiday-entitlement"
   | "nhs-band"
-  | "national-insurance";
+  | "national-insurance"
+  | "teachers-pay"
+  | "police-pay";
 
 export interface InputSpec {
   name: string;
@@ -552,6 +554,13 @@ export const calculatorInputs: Record<CalculatorKind, InputSpec[]> = {
   "national-insurance": [
     { name: "annualSalary", label: "Annual salary or profits", unit: "currency" },
   ],
+  "teachers-pay": [
+    { name: "annualSalary", label: "Annual salary (pay point)", unit: "currency" },
+    { name: "fte", label: "FTE fraction (1 = full-time)", step: 0.1 },
+  ],
+  "police-pay": [
+    { name: "annualSalary", label: "Annual salary (pay point)", unit: "currency" },
+  ],
 };
 
 // ---- Shared payroll helpers (2026/27 rates, HMRC) ----
@@ -788,6 +797,24 @@ export function calculate(
       return [
         { label: "Employee NI per year", value: ni, format: "currency" },
         { label: "Employee NI per month", value: ni / 12, format: "currency" },
+      ];
+    }
+    case "teachers-pay": {
+      const tSalary = n("annualSalary");
+      const tFte = n("fte") || 1;
+      const proRata = tSalary * tFte;
+      return [
+        { label: "Annual salary (pro rata)", value: proRata, format: "currency" },
+        { label: "Monthly gross", value: proRata / 12, format: "currency" },
+      ];
+    }
+    case "police-pay": {
+      const pSalary = n("annualSalary");
+      const hourly = pSalary / 2085.6;
+      return [
+        { label: "Annual salary", value: pSalary, format: "currency" },
+        { label: "Hourly rate", value: hourly, format: "currency" },
+        { label: "Time and a third", value: hourly * (4 / 3), format: "currency" },
       ];
     }
   }

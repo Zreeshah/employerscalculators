@@ -30,6 +30,8 @@ export const calculatorIconMap: Record<string, CalculatorIconMap> = {
   "two-jobs-tax-calculator": { icon: "users" },
   "nhs-midwife-salary": { icon: "heart" },
   "national-insurance-calculator": { icon: "banknote" },
+  "teachers-pay-scale-calculator": { icon: "users", featured: true, stat: "M1-UPS3", statCaption: "pay range" },
+  "police-pay-scale-calculator": { icon: "scale", featured: true, stat: "PP1-PP7", statCaption: "pay points" },
   "take-home-pay-calculator": { icon: "pound" },
   "annual-leave-calculator": { icon: "calendar" },
   "holiday-entitlement-calculator": { icon: "calendar", featured: true, stat: "5.6", statCaption: "weeks" },
