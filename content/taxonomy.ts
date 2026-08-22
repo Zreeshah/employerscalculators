@@ -43,6 +43,7 @@ export const relatedMap: Record<string, string[]> = {
   ],
   "bradford-factor-calculator": ["ssp-calculator", "ssp-vs-company-sick-pay", "annual-leave-calculator"],
   "net-to-gross-calculator": ["take-home-pay-calculator", "two-jobs-tax-calculator", "employer-ni-calculator", "ir35-calculator"],
+  "national-insurance-calculator": ["employer-ni-calculator", "take-home-pay-calculator", "employee-cost-calculator", "two-jobs-tax-calculator", "guides/national-insurance-rates-2026-27"],
   "two-jobs-tax-calculator": ["take-home-pay-calculator", "net-to-gross-calculator", "employer-ni-calculator", "workplace-pension-calculator"],
   "take-home-pay-calculator": ["net-to-gross-calculator", "national-insurance-rates-2026-27", "ir35-calculator", "nhs-take-home-pay"],
   "nhs-take-home-pay": ["nhs-pay-comparison", "take-home-pay-calculator", "pro-rata-calculator"],
@@ -72,6 +73,8 @@ export const relatedMap: Record<string, string[]> = {
   "ssp-vs-company-sick-pay": ["sick-pay-calculator", "ssp-calculator"],
   "employment-allowance-guide": ["employer-ni-calculator", "employer-ni-rates-2026-27"],
   "how-much-does-it-cost-to-employ-someone": ["employee-cost-calculator", "employer-ni-calculator", "true-cost-of-hiring-employee-uk"],
+  "workplace-pension-contributions-explained": ["workplace-pension-calculator", "salary-sacrifice-pension-calculator", "salary-sacrifice-pension-guide", "employer-ni-calculator", "employee-cost-calculator"],
+  "ssp-changes-april-2026": ["ssp-calculator", "sick-pay-calculator", "how-to-calculate-statutory-sick-pay", "ssp-vs-company-sick-pay", "employee-cost-calculator", "bradford-factor-calculator"],
   "true-cost-of-hiring-employee-uk": ["how-much-does-it-cost-to-employ-someone", "employee-cost-calculator", "employer-ni-calculator", "workplace-pension-calculator"],
   "salary-sacrifice-pension-guide": ["salary-sacrifice-pension-calculator", "workplace-pension-calculator"],
   "holiday-entitlement-part-time-workers": ["annual-leave-calculator", "holiday-entitlement-calculator", "pro-rata-calculator"],
@@ -80,9 +83,20 @@ export const relatedMap: Record<string, string[]> = {
 // NHS matrix pages share one default set
 const nhsRelated = ["nhs-take-home-pay", "nhs-pay-comparison", "nhs-midwife-salary", "take-home-pay-calculator"];
 
+// Scotland NHS pages link to their England equivalent and the hub
+const scotlandNhsRelated = ["nhs-take-home-pay", "nhs-pay-comparison", "nhs-scotland-band-6-pay-calculator"];
+// Wales NHS pages link to their England equivalent and the hub
+const walesNhsRelated = ["nhs-take-home-pay", "nhs-pay-comparison"];
+
 export function relatedFor(slug: string): string[] {
-  if (slug.startsWith("nhs-band-") || slug.startsWith("nhs-scotland-band-") || slug === "nhs-midwife-salary") {
+  if (slug.startsWith("nhs-band-") || slug === "nhs-midwife-salary") {
     return relatedMap[slug] ?? nhsRelated;
+  }
+  if (slug.startsWith("nhs-scotland-band-")) {
+    return relatedMap[slug] ?? scotlandNhsRelated;
+  }
+  if (slug.startsWith("nhs-wales-band-")) {
+    return relatedMap[slug] ?? walesNhsRelated;
   }
   return relatedMap[slug] ?? [];
 }

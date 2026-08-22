@@ -7,7 +7,9 @@ import {
   calculateCompanyCarTax,
   calculateHolidayEntitlement,
   calculateNetToGrossAdvanced,
+  calculateNationalInsurance,
   calculateTwoJobsTax,
+  type NiMode,
   type BankHolidayRegion,
   type CompanyCarFuel,
   type JobCalculationInput,
@@ -125,4 +127,78 @@ export function AnnualLeaveCalculator() {
   const result = useMemo(() => calculateAnnualLeave({ annualEntitlement: entitlement, leaveYearStartMonth: startMonth, daysTaken: taken, daysBooked: booked }), [entitlement, startMonth, taken, booked]);
   return <div className="grid gap-6 lg:grid-cols-2"><form className="card space-y-5 bg-white p-6 shadow-sm" aria-label="Annual leave tracker inputs"><div><h2 className="text-2xl font-semibold">Leave balance</h2><p className="mt-2 text-sm text-ink/60">Track accrued, taken and booked leave.</p></div><div><label htmlFor="leave-entitlement" className="mb-1 block text-sm font-medium">Annual entitlement</label><select id="leave-entitlement" value={entitlement} onChange={(e) => setEntitlement(Number(e.target.value))} className={selectClass}>{entitlementOptions.map((value)=><option key={value} value={value}>{value} days</option>)}</select></div><div><label htmlFor="leave-days-week" className="mb-1 block text-sm font-medium">Days per week</label><select id="leave-days-week" value={daysPerWeek} onChange={(e) => setDaysPerWeek(Number(e.target.value))} className={selectClass}>{[1,2,3,4,5].map((value)=><option key={value}>{value}</option>)}</select><p className="mt-1 text-xs text-ink/55">For context only; enter the pro-rata annual entitlement above.</p></div><div><label htmlFor="leave-start" className="mb-1 block text-sm font-medium">Leave year starts</label><select id="leave-start" value={startPreset} onChange={(e) => setStartPreset(e.target.value as typeof startPreset)} className={selectClass}><option value="april">April</option><option value="january">January</option><option value="custom">Custom</option></select></div>{startPreset === "custom" && <div><label htmlFor="leave-custom-month" className="mb-1 block text-sm font-medium">Start month</label><select id="leave-custom-month" value={customMonth} onChange={(e) => setCustomMonth(Number(e.target.value))} className={selectClass}>{["January","February","March","April","May","June","July","August","September","October","November","December"].map((label,index)=><option key={label} value={index}>{label}</option>)}</select></div>}<div className="grid gap-3 sm:grid-cols-2"><div><label htmlFor="leave-taken" className="mb-1 block text-sm font-medium">Days already taken</label><input id="leave-taken" type="number" min={0} step={0.5} value={taken} onChange={(e) => setTaken(Number(e.target.value))} className={inputClass} /></div><div><label htmlFor="leave-booked" className="mb-1 block text-sm font-medium">Days booked</label><input id="leave-booked" type="number" min={0} step={0.5} value={booked} onChange={(e) => setBooked(Number(e.target.value))} className={inputClass} /></div></div><button type="button" onClick={() => { setEntitlement(28); setDaysPerWeek(5); setStartPreset("april"); setCustomMonth(0); setTaken(5); setBooked(3); }} className="w-full rounded-lg border border-ink/15 px-4 py-2.5 text-sm font-semibold">Reset</button></form>
     <section className="card number-box min-w-0 bg-paper/70 p-6 text-center shadow-sm" aria-live="polite"><p className="text-sm text-ink/60">Accrued leave remaining after bookings</p><p className="tabular safe-number mt-3 font-semibold text-accent-strong">{number.format(result.remainingAfterBooked)} days</p><p className="mt-2 text-sm text-ink/60">{result.monthsElapsed} months elapsed · {result.monthsRemaining} remaining</p><div className="mt-6 grid gap-3 sm:grid-cols-2"><MoneyCard label="Accrued to date" value={result.accruedToDate} help="days" /><MoneyCard label="Remaining after taken" value={result.remainingAfterTaken} help="days" /><MoneyCard label="Still to accrue" value={result.stillToAccrue} help="days" /><MoneyCard label="Available by year end" value={result.availableByYearEnd} help="days" /></div><p className="mt-5 text-xs text-ink/55">Monthly accrual: {number.format(result.monthlyAccrualRate)} days. The estimate uses today&apos;s date.</p></section></div>;
+}
+
+
+// --- National Insurance Calculator ---
+const niModes: Array<{ value: NiMode; label: string }> = [
+  { value: "employee", label: "Employee (Class 1)" },
+  { value: "employer", label: "Employer (Class 1)" },
+  { value: "self-employed", label: "Self-employed (Class 4)" },
+];
+
+export function NationalInsuranceCalculator({ defaults }: { defaults?: Record<string, number> }) {
+  const [salary, setSalary] = useState(defaults?.annualSalary ?? 35000);
+  const [mode, setMode] = useState<NiMode>("employee");
+
+  const result = useMemo(() => calculateNationalInsurance(salary, mode), [salary, mode]);
+
+  return (
+    <div className="space-y-6">
+      <div className="grid gap-4 sm:grid-cols-2">
+        <div>
+          <label className="mb-1.5 block text-sm font-medium">Annual salary / profits</label>
+          <input type="number" min={0} step={100} value={salary} onChange={(e) => setSalary(Number(e.target.value))}
+            className={inputClass} />
+        </div>
+        <div>
+          <label className="mb-1.5 block text-sm font-medium">NI type</label>
+          <select value={mode} onChange={(e) => setMode(e.target.value as NiMode)} className={selectClass}>
+            {niModes.map((m) => <option key={m.value} value={m.value}>{m.label}</option>)}
+          </select>
+        </div>
+      </div>
+      <div className="grid gap-4 sm:grid-cols-3">
+        <div className="rounded-xl border border-ink/10 bg-accent/5 p-5 text-center">
+          <p className="text-2xl font-bold text-accent-strong">{gbp.format(result.annualNi)}</p>
+          <p className="mt-1 text-sm text-ink/60">NI per year</p>
+        </div>
+        <div className="rounded-xl border border-ink/10 bg-white p-5 text-center">
+          <p className="text-2xl font-bold">{gbp.format(result.monthlyNi)}</p>
+          <p className="mt-1 text-sm text-ink/60">NI per month</p>
+        </div>
+        <div className="rounded-xl border border-ink/10 bg-white p-5 text-center">
+          <p className="text-2xl font-bold">{result.effectiveRate}%</p>
+          <p className="mt-1 text-sm text-ink/60">Effective NI rate</p>
+        </div>
+      </div>
+      <div>
+        <h3 className="mb-3 text-sm font-semibold uppercase tracking-wider text-ink/50">Band breakdown</h3>
+        <div className="overflow-x-auto rounded-xl border border-ink/10">
+          <table className="w-full text-sm">
+            <thead className="bg-paper">
+              <tr>
+                <th className="px-4 py-2.5 text-left font-medium">Band</th>
+                <th className="px-4 py-2.5 text-right font-medium">From</th>
+                <th className="px-4 py-2.5 text-right font-medium">To</th>
+                <th className="px-4 py-2.5 text-right font-medium">Rate</th>
+                <th className="px-4 py-2.5 text-right font-medium">NI</th>
+              </tr>
+            </thead>
+            <tbody>
+              {result.bands.map((b, i) => (
+                <tr key={i} className="border-t border-ink/5">
+                  <td className="px-4 py-2.5">{b.label}</td>
+                  <td className="px-4 py-2.5 text-right tabular">{gbp.format(b.from)}</td>
+                  <td className="px-4 py-2.5 text-right tabular">{b.to ? gbp.format(b.to) : "\u2014"}</td>
+                  <td className="px-4 py-2.5 text-right tabular">{b.rate}%</td>
+                  <td className="px-4 py-2.5 text-right tabular font-medium">{gbp.format(b.ni)}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  );
 }

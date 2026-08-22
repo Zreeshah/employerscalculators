@@ -22,7 +22,8 @@ export type CalculatorKind =
   | "nhs-pay-comparison"
   | "annual-leave"
   | "holiday-entitlement"
-  | "nhs-band";
+  | "nhs-band"
+  | "national-insurance";
 
 export interface InputSpec {
   name: string;
@@ -548,6 +549,9 @@ export const calculatorInputs: Record<CalculatorKind, InputSpec[]> = {
     { name: "fullTimeSalary", label: "Full-time salary at band top point", unit: "currency" },
     { name: "fte", label: "FTE fraction (1 = full-time)", step: 0.1 },
   ],
+  "national-insurance": [
+    { name: "annualSalary", label: "Annual salary or profits", unit: "currency" },
+  ],
 };
 
 // ---- Shared payroll helpers (2026/27 rates, HMRC) ----
@@ -776,5 +780,15 @@ export function calculate(
         { label: "Salary at this FTE", value: n("fullTimeSalary") * n("fte"), format: "currency" },
         { label: "Monthly equivalent", value: (n("fullTimeSalary") * n("fte")) / 12, format: "currency" },
       ];
+    case "national-insurance": {
+      const salary = n("annualSalary");
+      const pt = 12570;
+      const uel = 50270;
+      const ni = salary <= pt ? 0 : salary <= uel ? (salary - pt) * 0.08 : (uel - pt) * 0.08 + (salary - uel) * 0.02;
+      return [
+        { label: "Employee NI per year", value: ni, format: "currency" },
+        { label: "Employee NI per month", value: ni / 12, format: "currency" },
+      ];
+    }
   }
 }

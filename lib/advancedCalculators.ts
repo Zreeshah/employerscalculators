@@ -511,3 +511,85 @@ export function calculateAnnualLeave(
     monthlyAccrualRate: annualEntitlement / 12,
   };
 }
+
+
+// --- National Insurance Calculator ---
+export type NiMode = "employee" | "employer" | "self-employed";
+
+export interface NiResult {
+  mode: NiMode;
+  annualSalary: number;
+  annualNi: number;
+  monthlyNi: number;
+  effectiveRate: number;
+  bands: Array<{ label: string; from: number; to: number | null; rate: number; ni: number }>;
+}
+
+export function calculateNationalInsurance(annualSalary: number, mode: NiMode): NiResult {
+  const bands: NiResult["bands"] = [];
+  let totalNi = 0;
+
+  if (mode === "employee") {
+    // Employee Class 1: 8% on £12,570-£50,270, 2% above
+    const pt = 12570;
+    const uel = 50270;
+    if (annualSalary <= pt) {
+      bands.push({ label: "Below Primary Threshold", from: 0, to: pt, rate: 0, ni: 0 });
+    } else if (annualSalary <= uel) {
+      bands.push({ label: "Below Primary Threshold", from: 0, to: pt, rate: 0, ni: 0 });
+      const niable = annualSalary - pt;
+      const ni = niable * 0.08;
+      totalNi += ni;
+      bands.push({ label: "Main rate", from: pt, to: annualSalary, rate: 8, ni });
+    } else {
+      bands.push({ label: "Below Primary Threshold", from: 0, to: pt, rate: 0, ni: 0 });
+      const mainNi = (uel - pt) * 0.08;
+      totalNi += mainNi;
+      bands.push({ label: "Main rate", from: pt, to: uel, rate: 8, ni: mainNi });
+      const additionalNi = (annualSalary - uel) * 0.02;
+      totalNi += additionalNi;
+      bands.push({ label: "Additional rate", from: uel, to: annualSalary, rate: 2, ni: additionalNi });
+    }
+  } else if (mode === "employer") {
+    // Employer Class 1: 15% above £5,000
+    const st = 5000;
+    if (annualSalary <= st) {
+      bands.push({ label: "Below Secondary Threshold", from: 0, to: st, rate: 0, ni: 0 });
+    } else {
+      bands.push({ label: "Below Secondary Threshold", from: 0, to: st, rate: 0, ni: 0 });
+      const ni = (annualSalary - st) * 0.15;
+      totalNi += ni;
+      bands.push({ label: "Employer rate", from: st, to: annualSalary, rate: 15, ni });
+    }
+  } else {
+    // Self-employed Class 4: 6% on £12,570-£50,270, 2% above
+    const lpl = 12570;
+    const upl = 50270;
+    if (annualSalary <= lpl) {
+      bands.push({ label: "Below Lower Profits Limit", from: 0, to: lpl, rate: 0, ni: 0 });
+    } else if (annualSalary <= upl) {
+      bands.push({ label: "Below Lower Profits Limit", from: 0, to: lpl, rate: 0, ni: 0 });
+      const niable = annualSalary - lpl;
+      const ni = niable * 0.06;
+      totalNi += ni;
+      bands.push({ label: "Main rate", from: lpl, to: annualSalary, rate: 6, ni });
+    } else {
+      bands.push({ label: "Below Lower Profits Limit", from: 0, to: lpl, rate: 0, ni: 0 });
+      const mainNi = (upl - lpl) * 0.06;
+      totalNi += mainNi;
+      bands.push({ label: "Main rate", from: lpl, to: upl, rate: 6, ni: mainNi });
+      const additionalNi = (annualSalary - upl) * 0.02;
+      totalNi += additionalNi;
+      bands.push({ label: "Additional rate", from: upl, to: annualSalary, rate: 2, ni: additionalNi });
+    }
+  }
+
+  return {
+    mode,
+    annualSalary,
+    annualNi: Math.round(totalNi * 100) / 100,
+    monthlyNi: Math.round((totalNi / 12) * 100) / 100,
+    effectiveRate: annualSalary > 0 ? Math.round((totalNi / annualSalary) * 10000) / 100 : 0,
+    bands,
+  };
+}

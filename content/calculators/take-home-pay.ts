@@ -6,10 +6,10 @@ export default calculator({
   kind: "take-home-pay",
   title: "Take Home Pay Calculator UK 2026/27",
   metaDescription:
-    "UK take-home pay for 2026/27: income tax, employee National Insurance and net pay per year and per month from any gross salary",
+    "Free UK take-home pay calculator for 2026/27. Enter gross salary to see income tax, employee NI, pension, student loan and net pay per year and month",
   h1: "Take Home Pay Calculator",
   intro:
-    "Enter your gross annual salary to see your 2026/27 take-home pay after income tax and employee National Insurance, broken down per year and per month. The tool is designed for employees checking a payslip or a job offer, and for employers or payroll staff who need a quick net-pay estimate. Figures assume the standard £12,570 Personal Allowance and exclude pension, student loan and other deductions.",
+    "Enter your gross annual salary to see your 2026/27 take-home pay after income tax and employee National Insurance, broken down per year and per month. The tool is designed for employees checking a payslip or a job offer, and for employers or payroll staff who need a quick net-pay estimate. For NHS-specific take-home pay with pension tiers and band selection, use the [NHS take-home pay calculator](/nhs-take-home-pay/). To work backwards from a desired net figure, try the [net to gross calculator](/net-to-gross-calculator/).",
   formulaExplainer: `:::callout info
 **Take-home pay = gross salary − income tax − employee NI.** Income tax uses the £12,570 Personal Allowance (tapered above £100,000), 20% to £37,700 of taxable income, 40% to £125,140 and 45% above. Employee NI is 8% between £12,570 and £50,270, then 2% above.
 :::
@@ -82,13 +82,33 @@ The transition from £50,000 to £75,000 is where the higher-rate tax band start
 The differences are concentrated in the middle and top of the range: Scottish higher-rate taxpayers pay 42% instead of 40%, and the top rate is 48% rather than 45%. Employee NI, the £12,570 Personal Allowance and the £100,000 taper are the same across the UK.`,
     },
     {
-      heading: "Summary: how to use this calculator",
-      body: `Enter the gross salary, read the take-home annual and monthly figures, and check the income tax and NI breakdown alongside. If you need to back-solve — for example, to find the gross salary that delivers a specific take-home — use the net to gross calculator.
+      heading: "Why your marginal rate can exceed 60%",
+      body: `Between £100,000 and £125,140 gross income, the £12,570 Personal Allowance is tapered away at £1 for every £2 earned. That means every additional £100 of salary costs 40% income tax plus the loss of £50 of allowance (taxed at 40%), totalling an effective **60% marginal income tax rate** before NI. Adding 2% employee NI on top makes the real marginal rate **62%** in this band. Salary sacrifice into a workplace pension can be an effective way to bring adjusted net income below £100,000 and restore the full allowance. Use the [salary sacrifice calculator](/salary-sacrifice-calculator/) to model the saving.
 
-The result is an estimate for the rates above: a real payslip will flex slightly because PAYE recalculates tax and NI against cumulative thresholds each period, so year-end totals match but the monthly line moves.
+:::callout warn
+The £100,000 taper also affects child benefit. The High Income Child Benefit Charge claws back 1% of child benefit for every £100 of income above £60,000, reaching 100% at £80,000. Both traps interact with pension contributions and salary sacrifice.
+:::`
+    },
+    {
+      heading: "Take-home pay with two jobs",
+      body: `If you have two PAYE jobs, only one should normally have the 1257L tax code with the full Personal Allowance. The second job is usually taxed at the basic rate on all earnings (BR code) or 40% if your combined income reaches the higher-rate band (D0 code). The combined take-home from two jobs is not the sum of two separate single-job calculations because the allowance is used only once. Use the [two jobs tax calculator](/two-jobs-tax-calculator/) to see the combined picture and check whether HMRC has split your allowance correctly.`
+    },
+    {
+      heading: "How pension and student loan affect take-home",
+      body: `A workplace pension reduces take-home pay but also reduces the income used for tax or NI (depending on the scheme type). Under **salary sacrifice**, pension is deducted before tax and NI, saving both. Under **net pay** arrangements, pension is deducted before tax but after NI. Under **relief at source**, pension is deducted after tax and NI, but the pension provider reclaims basic-rate tax. Student loan repayments apply at 9% above a plan-specific threshold: Plan 1 above £24,990, Plan 2 above £27,295, Plan 4 above £31,395, Plan 5 above £25,000, and postgraduate loan at 6% above £21,000 in 2026/27. The [national insurance calculator](/national-insurance-calculator/) shows NI separately, while the [employer NI calculator](/employer-ni-calculator/) shows the employer\u2019s side.
+
+:::callout info
+This calculator shows the simplest gross-to-net case. For a full breakdown including pension, student loan and Scottish tax, use the [net to gross calculator](/net-to-gross-calculator/) which supports all these options.
+:::`
+    },
+    {
+      heading: "Summary: how to use this calculator",
+      body: `Enter the gross salary, read the take-home annual and monthly figures, and check the income tax and NI breakdown alongside. If you need to back-solve \u2014 for example, to find the gross salary that delivers a specific take-home \u2014 use the [net to gross calculator](/net-to-gross-calculator/).
+
+The result is an estimate for the rates above: a real payslip will flex slightly because PAYE recalculates tax and NI against cumulative thresholds each period, so year-end totals match but the monthly line moves. For employer costs, use the [employee cost calculator](/employee-cost-calculator/) which adds employer NI and pension on top of the gross salary.
 
 :::callout tip
-The monthly figure here is the annual net divided by 12. A real payslip will flex month to month — for example, higher-rate tax kicks in part-way through the year rather than from January, so the first few payslips look slightly better than the last few.
+The monthly figure here is the annual net divided by 12. A real payslip will flex month to month \u2014 for example, higher-rate tax kicks in part-way through the year rather than from January, so the first few payslips look slightly better than the last few.
 :::`,
     },
   ],
@@ -124,5 +144,5 @@ The monthly figure here is the annual net divided by 12. A real payslip will fle
         "Income tax bands and rates differ in Scotland — six bands from 19% starter to 48% top rate. Employee NI and the Personal Allowance taper are the same across the UK. This calculator uses rUK rates; the Scottish structure is in the table above for reference.",
     },
   ],
-  relatedSlugs: [],
+  relatedSlugs: ["net-to-gross-calculator", "employer-ni-calculator", "two-jobs-tax-calculator", "salary-sacrifice-calculator", "pro-rata-calculator", "employee-cost-calculator", "national-insurance-calculator"],
 });

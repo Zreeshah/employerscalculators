@@ -2,7 +2,8 @@
 // /nhs-band-[band]-pay-calculator[-nation] matrix built by generateStaticParams.
 //
 // Figures: verified 2026/27 Agenda for Change pay scales.
-// England source: NHS Employers. Scotland Band 6 source: gov.scot.
+// England source: NHS Employers. Scotland source: gov.scot / STAC.
+// Wales source: NHS Wales / Welsh Government.
 // Only explicitly sourced combinations are published as static pages.
 
 export type Nation = "england" | "scotland" | "wales" | "northern-ireland";
@@ -28,9 +29,25 @@ const englandBandShapes: Array<{ band: string; salaries: number[] }> = [
   { band: "9", salaries: [112782, 119583, 129783] },
 ];
 
+const scotlandBandShapes: Array<{ band: string; salaries: number[] }> = [
+  { band: "5", salaries: [34544, 36911, 43039] },
+  { band: "6", salaries: [43231, 45135, 52679] },
+  { band: "7", salaries: [52845, 54863, 61466] },
+  { band: "8a", salaries: [65125, 70303] },
+  { band: "9", salaries: [127521, 133044] },
+];
+
+const walesBandShapes: Array<{ band: string; salaries: number[] }> = [
+  { band: "5", salaries: [32557, 35114, 39631] },
+  { band: "6", salaries: [40559, 42805, 48841] },
+  { band: "7", salaries: [50129, 52712, 57365] },
+  { band: "8a", salaries: [58379, 61317, 65723] },
+];
+
 const publishedBandShapes: Array<{ nation: Nation; band: string; salaries: number[] }> = [
   ...englandBandShapes.map((shape) => ({ nation: "england" as const, ...shape })),
-  { nation: "scotland", band: "6", salaries: [43231, 45135, 52679] },
+  ...scotlandBandShapes.map((shape) => ({ nation: "scotland" as const, ...shape })),
+  ...walesBandShapes.map((shape) => ({ nation: "wales" as const, ...shape })),
 ];
 
 export const nhsPayBands: NhsPayPoint[] = publishedBandShapes.flatMap(({ nation, band, salaries }) =>

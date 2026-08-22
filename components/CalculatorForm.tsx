@@ -10,6 +10,7 @@ import {
   BradfordFactorCalculator,
   CompanyCarTaxCalculator,
   HolidayEntitlementCalculator,
+  NationalInsuranceCalculator,
   NetToGrossCalculator,
   TwoJobsTaxCalculator,
 } from "@/components/AdvancedCalculators";
@@ -81,6 +82,7 @@ export default function CalculatorForm({
   if (kind === "nhs-take-home-pay") return <NhsTakeHomeCalculatorParity />;
   if (kind === "nhs-pay-comparison") return <NhsPayComparisonCalculatorParity />;
   if (kind === "nhs-band") return <NhsTakeHomeCalculatorParity preset={nhsPreset} />;
+  if (kind === "national-insurance") return <NationalInsuranceCalculator defaults={defaults} />;
   if (kind === "maternity-allowance") return <MaternityAllowanceCalculator defaults={defaults} />;
   if (kind === "workplace-pension") return <WorkplacePensionCalculator defaults={defaults} />;
   if (kind === "salary-sacrifice" || kind === "salary-sacrifice-pension") {

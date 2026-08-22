@@ -37,6 +37,12 @@ const englandTargetBands: Record<string, TargetBandConfig> = {
     roles: "assistant practitioners, pharmacy technicians, dental nurses and trainee psychological wellbeing practitioners",
     scope: "using specialist technical knowledge or delivering delegated care with defined accountability",
   },
+  "5": {
+    salaries: [32073, 34592, 39043],
+    progression: ["Entry: under 2 years", "Intermediate: 2–4 years", "Top: 4+ years"],
+    roles: "newly qualified nurses, midwives, paramedics, physiotherapists, occupational therapists and radiographers",
+    scope: "holding professional registration and delivering autonomous clinical care within a defined scope of practice",
+  },
   "6": {
     salaries: [39959, 42170, 48117],
     progression: ["Entry: under 2 years", "Intermediate: 2–5 years", "Top: 5+ years"],
@@ -55,11 +61,23 @@ const englandTargetBands: Record<string, TargetBandConfig> = {
     roles: "matrons, advanced clinical practitioners, service managers and speciality leads",
     scope: "combining advanced professional practice with substantial leadership, budget or service responsibility",
   },
+  "8b": {
+    salaries: [66582, 70896, 77368],
+    progression: ["Entry: under 2 years", "Intermediate: 2–5 years", "Top: 5+ years"],
+    roles: "deputy directors, consultant therapists, principal clinical psychologists and heads of specialist services",
+    scope: "holding accountability for a large service, strategic clinical programme or professional group with significant budget or workforce responsibility",
+  },
   "8c": {
     salaries: [79504, 84346, 91609],
     progression: ["Entry: under 2 years", "Intermediate: 2–5 years", "Top: 5+ years"],
     roles: "heads of clinical services, senior operational leaders and large-programme or workforce leads",
     scope: "setting strategy and directing complex services across multiple teams, sites or professional groups",
+  },
+  "8d": {
+    salaries: [94356, 100140, 108814],
+    progression: ["Entry: under 2 years", "Intermediate: 2–5 years", "Top: 5+ years"],
+    roles: "directors of operations, directors of nursing, senior medical directors and chief allied health professionals",
+    scope: "holding executive-level accountability for a directorate, a major trust-wide professional group or a regional transformation programme",
   },
   "9": {
     salaries: [112782, 119583, 129783],
@@ -286,6 +304,202 @@ const createGenericBandContent = (band: string, nation: Nation): CalculatorConte
   });
 };
 
+
+interface ScotlandBandConfig {
+  salaries: number[];
+  progression: string[];
+  roles: string;
+  pensionRates: string;
+}
+
+const scotlandTargetBands: Record<string, ScotlandBandConfig> = {
+  "5": {
+    salaries: [34544, 36911, 43039],
+    progression: ["Entry", "Intermediate", "Top"],
+    roles: "newly qualified nurses, midwives, paramedics, physiotherapists and radiographers",
+    pensionRates: "8.7% across all three points under current SPPA tiers",
+  },
+  "7": {
+    salaries: [52845, 54863, 61466],
+    progression: ["Entry", "Intermediate", "Top"],
+    roles: "ward managers, advanced practitioners, specialist pharmacists and senior therapists",
+    pensionRates: "10.5% at entry and intermediate, 11.2% at top under current SPPA tiers",
+  },
+  "8a": {
+    salaries: [65125, 70303],
+    progression: ["Entry", "Top"],
+    roles: "advanced clinical practitioners, matrons, principal pharmacists and clinical service managers",
+    pensionRates: "11.6% under current SPPA tiers",
+  },
+  "9": {
+    salaries: [127521, 133044],
+    progression: ["Entry", "Top"],
+    roles: "directors of clinical services, chief professional leads and the most senior Agenda for Change posts",
+    pensionRates: "12.7% under current SPPA tiers",
+  },
+};
+
+const createScotlandBandContent = (band: string, config: ScotlandBandConfig): CalculatorContent => {
+  const entry = config.salaries[0];
+  const top = config.salaries[config.salaries.length - 1];
+  const salaryRows = config.salaries
+    .map((salary, index) => `| ${config.progression[index]} | ${gbp(salary)} | ${gbp(salary / 12)} |`)
+    .join("\n");
+  const fteRows = [30, 24, 18]
+    .map((h) => `| ${h} | ${(h / 36).toFixed(4)} | ${gbp(entry * h / 36)} | ${gbp(top * h / 36)} |`)
+    .join("\n");
+  return calculator({
+    type: "calculator",
+    slug: nhsSlug(band, "scotland"),
+    kind: "nhs-band",
+    nhsPreset: { nation: "scotland", band, stepIndex: 0, hoursPerWeek: 36 },
+    title: `NHS Band ${band} Pay Calculator Scotland 2026/27`,
+    metaDescription: `Calculate NHS Scotland Band ${band} pay for 2026/27 at ${gbp(entry)}${entry === top ? "" : ` to ${gbp(top)}`}. Part-time FTE based on the 36-hour Scottish week, pension tiers and take-home estimates.`,
+    h1: `NHS Band ${band} Pay Calculator \u2014 Scotland`,
+    intro: `NHS Scotland Band ${band} basic pay is ${config.salaries.map(gbp).join(", ")} in 2026/27. Use this calculator to estimate take-home pay after Scottish Income Tax, National Insurance and NHS pension. Scotland\u2019s standard Agenda for Change week is **36 hours**, so FTE is contracted hours divided by 36.`,
+    formulaExplainer: `Part-time NHS Scotland Band ${band} pay is **full-time annual salary \u00d7 FTE**, where FTE equals contracted weekly hours divided by 36. At the ${gbp(top)} top point, 30 hours gives 0.8333 FTE and approximately ${gbp(top * 30 / 36)} a year. Scottish Income Tax applies through the S-prefix tax code (e.g. S1257L), so take-home differs from the English equivalent even at the same gross salary.`,
+    howToSteps: [
+      { name: "Choose the Band pay point", text: `Select ${config.progression.join(", ").toLowerCase()} and enter the 2026/27 full-time salary.` },
+      { name: "Calculate Scottish FTE", text: "Divide contracted weekly hours by 36. Keep unrounded FTE for accuracy." },
+      { name: "Read take-home estimate", text: "The calculator applies SPPA pension, Scottish Income Tax bands and National Insurance to the pro-rata salary." },
+      { name: "Add Scottish terms separately", text: "Check the NHS Scotland handbook and local payroll for shift enhancements, overtime and on-call." },
+    ],
+    sections: [
+      {
+        heading: `What is NHS Scotland Band ${band} pay in 2026/27?`,
+        body: `**NHS Scotland Band ${band} pays ${gbp(entry)}${entry === top ? "" : ` to ${gbp(top)}`} from 1 April 2026.** These are gross basic-pay figures before pension, Scottish Income Tax, National Insurance or any enhancements. Monthly values are annual salary divided by 12; actual payslips vary.\n\n:::table\n| Pay point | Annual basic pay | Monthly gross basic |\n|---|---|---|\n${salaryRows}\n:::`,
+      },
+      {
+        heading: "How the 36-hour week changes FTE",
+        body: `NHS Scotland\u2019s full-time week is 36 hours in 2026/27. Divide the contract by 36 before multiplying by salary.\n\n:::table\n| Hours | FTE | Entry-point pay | Top-point pay |\n|---|---|---|---|\n${fteRows}\n:::\n\nDo not use England\u2019s 37.5-hour denominator; it understates Scottish FTE.`,
+      },
+      {
+        heading: `Band ${band} roles and progression in Scotland`,
+        body: `Typical NHS Scotland Band ${band} roles include ${config.roles}. Banding follows the evaluated demands of the post, not the job title alone. Salary progression and pay-step timing follow the applicable NHS Scotland terms. A move to a higher band requires a role with greater evaluated responsibility; reaching the top of Band ${band} does not itself re-band the existing job. Check the [NHS pay comparison calculator](/nhs-pay-comparison/) to see the net-pay difference between band points or nations.`,
+      },
+      {
+        heading: "Scottish Income Tax and NI",
+        body: `Scottish residents use S-prefix tax codes. The 2026/27 Scottish bands are 19% starter (\u00a32,306), 20% basic (\u00a311,211), 21% intermediate (\u00a317,527), 42% higher (above \u00a331,044 of taxable income) and 47% top rate (above \u00a3125,140 of taxable income). The additional rate is 48% above \u00a3150,000. Employee National Insurance uses the same UK-wide thresholds: 8% on \u00a312,570\u2013\u00a350,270 and 2% above. Use the [take-home pay calculator](/take-home-pay-calculator/) for a full gross-to-net comparison.`,
+      },
+      {
+        heading: `NHS pension at Band ${band} in Scotland`,
+        body: `SPPA (Scottish Public Pensions Agency) sets Scotland\u2019s pension tiers separately from NHS England. The Band ${band} full-time points are likely to fall into ${config.pensionRates}. Part-time staff pay on actual annual pensionable pay, which can differ from the full-time rate. Regular pensionable enhancements or a second NHS post can also change the assessed tier.`,
+      },
+      {
+        heading: "Shift enhancements and overtime",
+        body: `Shift enhancements and overtime follow the **NHS Scotland Agenda for Change Handbook**, which can differ from England\u2019s Section 2 percentages. Do not apply English enhancement rates to a Scottish contract without checking the handbook and local policy. The calculator leaves shift and overtime outside the basic FTE result so you add only what applies to the post.`,
+      },
+      {
+        heading: `Summary: calculate Scottish Band ${band} pay`,
+        body: `Start with the official 2026/27 Scotland Band ${band} pay point, divide contracted hours by **36** for FTE, and let the calculator estimate pension, tax and take-home. Add eligible shift and on-call payments under Scottish terms only after checking the handbook. Compare with the [England Band ${band} page](/nhs-band-${band}-pay-calculator/) or use the [NHS take-home pay calculator](/nhs-take-home-pay/) for a wider band comparison.`,
+      },
+    ],
+    faq: [
+      { question: `What is NHS Scotland Band ${band} pay in 2026/27?`, answer: `Full-time Band ${band} pay in Scotland is ${config.salaries.map(gbp).join(", ")} a year.` },
+      { question: "How many hours is full-time in NHS Scotland?", answer: "36 hours a week for 2026/27 NHS Scotland Agenda for Change." },
+      { question: `What is 30 hours as a Scottish FTE?`, answer: "30 \u00f7 36 = 0.8333 FTE. Keep decimal places when calculating annual pay." },
+      { question: "Does Scotland use different income tax rates?", answer: "Yes. Scottish residents pay the starter, basic, intermediate, higher, advanced and top rates through an S-prefix tax code." },
+      { question: `Does England use the same Band ${band} salary?`, answer: "No. England has different 2026/27 pay points and a 37.5-hour full-time week." },
+      { question: "Which pension scheme applies in Scotland?", answer: "NHS Scotland staff are in the Scottish NHS Pension Scheme administered by SPPA, with its own contribution tiers." },
+    ],
+    relatedSlugs: ["nhs-take-home-pay", "nhs-pay-comparison", `nhs-band-${band}-pay-calculator`],
+    defaults: { fullTimeSalary: top, fte: 1 },
+  });
+};
+
+interface WalesBandConfig {
+  salaries: number[];
+  progression: string[];
+  roles: string;
+}
+
+const walesTargetBands: Record<string, WalesBandConfig> = {
+  "5": {
+    salaries: [32557, 35114, 39631],
+    progression: ["Entry", "Intermediate", "Top"],
+    roles: "newly qualified nurses, midwives, paramedics, physiotherapists, occupational therapists and radiographers",
+  },
+  "6": {
+    salaries: [40559, 42805, 48841],
+    progression: ["Entry", "Intermediate", "Top"],
+    roles: "specialist nurses, experienced midwives, paramedics, biomedical scientists and junior sisters",
+  },
+  "7": {
+    salaries: [50129, 52712, 57365],
+    progression: ["Entry", "Intermediate", "Top"],
+    roles: "ward managers, advanced nurses, specialist pharmacists, senior therapists and team leaders",
+  },
+  "8a": {
+    salaries: [58379, 61317, 65723],
+    progression: ["Entry", "Intermediate", "Top"],
+    roles: "matrons, advanced clinical practitioners, principal pharmacists and clinical service managers",
+  },
+};
+
+const createWalesBandContent = (band: string, config: WalesBandConfig): CalculatorContent => {
+  const entry = config.salaries[0];
+  const top = config.salaries[config.salaries.length - 1];
+  const salaryRows = config.salaries
+    .map((salary, index) => `| ${config.progression[index]} | ${gbp(salary)} | ${gbp(salary / 12)} |`)
+    .join("\n");
+  return calculator({
+    type: "calculator",
+    slug: nhsSlug(band, "wales"),
+    kind: "nhs-band",
+    nhsPreset: { nation: "wales", band, stepIndex: 0, hoursPerWeek: 37.5 },
+    title: `NHS Band ${band} Pay Calculator Wales 2026/27`,
+    metaDescription: `Calculate NHS Wales Band ${band} pay for 2026/27 at ${gbp(entry)}${entry === top ? "" : ` to ${gbp(top)}`}. Part-time FTE, Welsh tax code, pension tiers and take-home estimate.`,
+    h1: `NHS Band ${band} Pay Calculator \u2014 Wales`,
+    intro: `NHS Wales Band ${band} basic pay is ${config.salaries.map(gbp).join(", ")} in 2026/27. Use this calculator to estimate take-home pay after income tax, National Insurance and NHS pension. Wales uses a **37.5-hour** full-time week like England, and Welsh income tax rates currently match the rest-of-UK bands under the C-prefix tax code (e.g. C1257L).`,
+    formulaExplainer: `Part-time NHS Wales Band ${band} pay is **full-time annual salary \u00d7 FTE**, where FTE equals contracted weekly hours divided by 37.5. At the ${gbp(top)} top point, 30 hours gives 0.8 FTE and ${gbp(top * 0.8)} a year. Welsh tax codes (C1257L) currently apply the same income tax rates as England.`,
+    howToSteps: [
+      { name: "Choose the Band pay point", text: `Select ${config.progression.join(", ").toLowerCase()} and enter the 2026/27 full-time salary.` },
+      { name: "Calculate FTE", text: "Divide contracted weekly hours by 37.5, the same as England." },
+      { name: "Read take-home estimate", text: "The calculator applies NHS pension, income tax and National Insurance to the pro-rata salary." },
+      { name: "Check Welsh terms", text: "Add eligible shift enhancements, overtime and any local payments under the NHS Wales handbook." },
+    ],
+    sections: [
+      {
+        heading: `What is NHS Wales Band ${band} pay in 2026/27?`,
+        body: `**NHS Wales Band ${band} pays ${gbp(entry)}${entry === top ? "" : ` to ${gbp(top)}`} from 1 April 2026.** These are gross basic-pay figures before pension, income tax, National Insurance or any enhancements.\n\n:::table\n| Pay point | Annual basic pay | Monthly gross basic |\n|---|---|---|\n${salaryRows}\n:::\n\nWales has its own Agenda for Change pay scales, negotiated through NHS Wales Employers. The 2026/27 figures may differ from England\u2019s rates.`,
+      },
+      {
+        heading: `Band ${band} roles in Wales`,
+        body: `Typical NHS Wales Band ${band} roles include ${config.roles}. Banding follows the job evaluation scheme, not the title. Salary progression follows the NHS Wales terms and conditions. A move to a higher band requires a role evaluated at that level. Compare bands using the [NHS pay comparison calculator](/nhs-pay-comparison/).`,
+      },
+      {
+        heading: "Welsh income tax and National Insurance",
+        body: `Since April 2019, Welsh residents have had devolved income tax rates set by the Senedd, shown on payslips through a C-prefix tax code (e.g. C1257L). The 2026/27 Welsh rates currently match the rest-of-UK bands: 20% basic, 40% higher, 45% additional. Employee NI uses the same UK-wide thresholds. If the Senedd ever sets different rates, the C-prefix code ensures HMRC applies the correct Welsh amounts. Use the [take-home pay calculator](/take-home-pay-calculator/) for a full gross-to-net comparison.`,
+      },
+      {
+        heading: "NHS pension in Wales",
+        body: `NHS Wales staff are members of the NHS Pension Scheme administered in line with NHS England\u2019s contribution tiers. The 2026/27 tiers are 5.2% up to \u00a313,259; 6.5% from \u00a313,260 to \u00a328,854; 8.3% from \u00a328,855 to \u00a335,155; 9.8% from \u00a335,156 to \u00a352,778; 10.7% from \u00a352,779 to \u00a367,668; and 12.5% from \u00a367,669. Part-time staff pay on actual annual pensionable pay.`,
+      },
+      {
+        heading: "Shift enhancements and overtime",
+        body: `NHS Wales follows its own Agenda for Change handbook. Section 2 unsocial-hours enhancements and Section 3 overtime rates may differ from England\u2019s. Check the current NHS Wales terms and local roster policy rather than assuming English enhancement percentages apply.`,
+      },
+      {
+        heading: "Part-time examples",
+        body: `\n:::table\n| Example | Calculation | Annual basic pay |\n|---|---|---|\n| Entry at 0.6 FTE | ${gbp(entry)} \u00d7 0.6 | ${gbp(entry * 0.6)} |\n| Entry at 0.8 FTE | ${gbp(entry)} \u00d7 0.8 | ${gbp(entry * 0.8)} |\n| Top at 0.8 FTE | ${gbp(top)} \u00d7 0.8 | ${gbp(top * 0.8)} |\n| Top at 0.5 FTE | ${gbp(top)} \u00d7 0.5 | ${gbp(top * 0.5)} |\n:::`,
+      },
+      {
+        heading: `Summary: calculate Welsh Band ${band} pay`,
+        body: `Start with the official 2026/27 Wales Band ${band} pay point, divide contracted hours by **37.5** for FTE, and let the calculator estimate pension, tax and take-home. Add eligible shift and on-call payments under Welsh terms after checking the NHS Wales handbook. Compare with the [England Band ${band} page](/nhs-band-${band}-pay-calculator/) or use the [NHS take-home pay calculator](/nhs-take-home-pay/) for a wider comparison.`,
+      },
+    ],
+    faq: [
+      { question: `What is NHS Wales Band ${band} pay in 2026/27?`, answer: `Full-time Band ${band} pay in Wales is ${config.salaries.map(gbp).join(", ")} a year.` },
+      { question: "Does Wales use the same tax rates as England?", answer: "Currently yes. Welsh income tax rates match the rest-of-UK bands, applied through a C-prefix tax code." },
+      { question: "How many hours is full-time in NHS Wales?", answer: "37.5 hours a week, the same as England." },
+      { question: `Does England use the same Band ${band} salary?`, answer: "Not necessarily. England has its own 2026/27 pay points which may differ from the Welsh scale." },
+      { question: "Which pension scheme applies in Wales?", answer: "NHS Wales staff are in the NHS Pension Scheme with the same contribution tiers as England." },
+      { question: "Does this include shift enhancements?", answer: "No. The result is basic pay and standard deductions only. Add eligible shift, overtime and local payments separately under NHS Wales terms." },
+    ],
+    relatedSlugs: ["nhs-take-home-pay", "nhs-pay-comparison", `nhs-band-${band}-pay-calculator`],
+    defaults: { fullTimeSalary: top, fte: 1 },
+  });
+};
 // One calculator page per (band, nation) combination — the matrix that
 // /app/[slug] turns into static pages via generateStaticParams.
 export const nhsCalculators: CalculatorContent[] = nhsPayBands
@@ -298,6 +512,12 @@ export const nhsCalculators: CalculatorContent[] = nhsPayBands
     }
     if (nation === "scotland" && band === "6") {
       return createScotlandBand6Content();
+    }
+    if (nation === "scotland" && scotlandTargetBands[band]) {
+      return createScotlandBandContent(band, scotlandTargetBands[band]);
+    }
+    if (nation === "wales" && walesTargetBands[band]) {
+      return createWalesBandContent(band, walesTargetBands[band]);
     }
     return createGenericBandContent(band, nation);
   });

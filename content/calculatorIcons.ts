@@ -29,6 +29,7 @@ export const calculatorIconMap: Record<string, CalculatorIconMap> = {
   "net-to-gross-calculator": { icon: "calculator" },
   "two-jobs-tax-calculator": { icon: "users" },
   "nhs-midwife-salary": { icon: "heart" },
+  "national-insurance-calculator": { icon: "banknote" },
   "take-home-pay-calculator": { icon: "pound" },
   "annual-leave-calculator": { icon: "calendar" },
   "holiday-entitlement-calculator": { icon: "calendar", featured: true, stat: "5.6", statCaption: "weeks" },

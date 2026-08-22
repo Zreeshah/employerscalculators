@@ -7,6 +7,7 @@ import EmployerNi from "./employer-ni";
 import HolidayEntitlement from "./holiday-entitlement";
 import Ir35 from "./ir35";
 import MaternityAllowance from "./maternity-allowance";
+import NationalInsurance from "./national-insurance";
 import NetToGross from "./net-to-gross";
 import NhsPayComparison from "./nhs-pay-comparison";
 import NhsTakeHomePay from "./nhs-take-home-pay";
@@ -38,6 +39,7 @@ const core: CalculatorContent[] = [
   MaternityAllowance,
   BradfordFactor,
   CompanyCarTax,
+  NationalInsurance,
   NetToGross,
   TwoJobsTax,
   TakeHomePay,
@@ -64,6 +66,7 @@ export const calculatorGroups: { title: string; slugs: string[] }[] = [
       "nhs-take-home-pay",
       "nhs-pay-comparison",
       "net-to-gross-calculator",
+      "national-insurance-calculator",
       "two-jobs-tax-calculator",
       "employee-cost-calculator",
       "salary-sacrifice-calculator",
