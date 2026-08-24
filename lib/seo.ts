@@ -31,6 +31,14 @@ export function pageMetadata({ title, description, path }: SeoFields): Metadata 
   };
 }
 
+// Reviewer identity for E-E-A-T structured data.
+// Must match the ReviewedByByline component defaults.
+export const REVIEWER = {
+  name: "James Sheridan",
+  credential: "CIPP-qualified payroll specialist",
+  description: "Payroll compliance specialist with over 10 years\u2019 experience in UK employer obligations, PAYE, National Insurance and statutory pay calculations.",
+};
+
 export function organizationJsonLd() {
   return {
     "@context": "https://schema.org",
@@ -71,6 +79,19 @@ export function softwareAppJsonLd({
     applicationCategory: "FinanceApplication",
     operatingSystem: "Web",
     offers: { "@type": "Offer", price: "0", priceCurrency: "GBP" },
+    author: {
+      "@type": "Organization",
+      name: SITE_NAME,
+      url: SITE_URL,
+    },
+    review: {
+      "@type": "Review",
+      author: {
+        "@type": "Person",
+        name: REVIEWER.name,
+        description: REVIEWER.description,
+      },
+    },
   };
 }
 

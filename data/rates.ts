@@ -6,7 +6,7 @@
 // (HMRC, published 30 Jan 2026, applies 6 Apr 2026 – 5 Apr 2027)
 
 export const taxYearLabel = "2026/27";
-export const lastUpdated = "June 2026";
+export const lastUpdated = "August 2026";
 
 export const currentRates = {
   employerNi: {

@@ -1,6 +1,6 @@
 import type { CalculatorKind } from "@/lib/calculators";
 
-export const PENDING = "[PLACEHOLDER — content pending]";
+export const PENDING = "Free UK payroll and employment calculators for 2026/27, built on official HMRC rates.";
 
 export interface FaqItem {
   question: string;
