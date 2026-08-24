@@ -3,6 +3,10 @@ import { guide } from "../types";
 export default guide({
   type: "guide",
   slug: "national-insurance-rates-2026-27",
+  image: {
+    file: "national-insurance-rates-thresholds-2026-27",
+    alt: "Illustration of UK National Insurance rate bands and earnings thresholds for the 2026/27 tax year",
+  },
   title: "How Much Are NI Contributions? National Insurance Rates 2026/27 UK",
   metaDescription:
     "How much are NI contributions in 2026/27? See UK employee and employer National Insurance rates, thresholds, Class 1 bands, worked examples and NI category letters.",

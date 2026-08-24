@@ -2,6 +2,11 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import FaqAccordion from "@/components/FaqAccordion";
+import FeaturedImage, {
+  FEATURED_IMAGE_HEIGHT,
+  FEATURED_IMAGE_WIDTH,
+  featuredImagePath,
+} from "@/components/FeaturedImage";
 import JsonLd from "@/components/JsonLd";
 import Prose from "@/components/Prose";
 import RelatedContent from "@/components/RelatedContent";
@@ -9,7 +14,19 @@ import ReviewedByByline from "@/components/ReviewedByByline";
 import RatesTable from "@/components/RatesTable";
 import { allGuides, guideBySlug } from "@/content/guides";
 import { PENDING } from "@/content/types";
-import { faqPageJsonLd, pageMetadata } from "@/lib/seo";
+import type { FeaturedImage as FeaturedImageContent } from "@/content/types";
+import { lastUpdatedIso } from "@/data/rates";
+import { articleJsonLd, faqPageJsonLd, pageMetadata, type SeoImage } from "@/lib/seo";
+
+const seoImageFor = (image?: FeaturedImageContent): SeoImage | undefined =>
+  image
+    ? {
+        url: featuredImagePath(image.file),
+        alt: image.alt,
+        width: FEATURED_IMAGE_WIDTH,
+        height: FEATURED_IMAGE_HEIGHT,
+      }
+    : undefined;
 
 export const dynamicParams = false;
 
@@ -33,6 +50,7 @@ export async function generateMetadata({
     title: guide.title,
     description: guide.metaDescription || PENDING,
     path: `/guides/${guide.slug}`,
+    image: seoImageFor(guide.image),
   });
 }
 
@@ -54,6 +72,12 @@ export default async function GuidePage({ params }: GuidePageProps) {
         <h1 className="text-3xl font-semibold sm:text-4xl">{guide.h1}</h1>
         <ReviewedByByline />
       </header>
+
+      {guide.image && (
+        <figure className="overflow-hidden rounded-xl border border-ink/10 bg-paper">
+          <FeaturedImage image={guide.image} priority />
+        </figure>
+      )}
 
       <div className="text-lg leading-relaxed">
         <Prose text={guide.intro} />
@@ -89,6 +113,15 @@ export default async function GuidePage({ params }: GuidePageProps) {
       <FaqAccordion items={guide.faq} />
       <RelatedContent slug={guide.slug} />
 
+      <JsonLd
+        data={articleJsonLd({
+          headline: guide.h1,
+          description: guide.metaDescription || PENDING,
+          path: `/guides/${guide.slug}`,
+          image: seoImageFor(guide.image),
+          dateModified: lastUpdatedIso,
+        })}
+      />
       {guide.faq.length > 0 && <JsonLd data={faqPageJsonLd(guide.faq)} />}
     </div>
   );

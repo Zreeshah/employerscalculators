@@ -3,6 +3,10 @@ import { guide } from "../types";
 export default guide({
   type: "guide",
   slug: "ssp-changes-april-2026",
+  image: {
+    file: "ssp-changes-april-2026-day-one-sick-pay",
+    alt: "Illustration of the April 2026 Statutory Sick Pay changes introducing day-one payment for UK employees",
+  },
   title: "SSP Changes April 2026: Day-One Sick Pay, £123.25 Daily Rate & No LEL",
   metaDescription:
     "SSP changes from April 2026 explained for employers: SSP per day, day-one payment, no lower earnings limit, 80% earnings cap, £123.25 rate and Fair Work Agency enforcement.",

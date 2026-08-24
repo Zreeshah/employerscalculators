@@ -3,6 +3,10 @@ import { guide } from "../types";
 export default guide({
   type: "guide",
   slug: "statutory-holiday-entitlement-uk",
+  image: {
+    file: "statutory-holiday-entitlement-uk-28-days",
+    alt: "Calendar illustration showing UK statutory holiday entitlement of 5.6 weeks paid annual leave",
+  },
   title: "Statutory Holiday Entitlement UK: 28 Days & Bank Holidays",
   metaDescription:
     "UK statutory holiday entitlement explained: 5.6 weeks (28 days for 5-day week), part-time pro-rata, 12.07% accrual for irregular hours, rolled-up pay, bank holidays & carry-over rules.",

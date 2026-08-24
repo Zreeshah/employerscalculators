@@ -57,6 +57,16 @@ export interface CalculatorContent {
   nhsPreset?: NhsCalculatorPreset;
 }
 
+/**
+ * Featured image for a guide. `file` is the shared basename in
+ * /public/images/guides; the FeaturedImage component appends the width and
+ * format, so every guide ships AVIF, WebP and JPEG at 400/800/1200px.
+ */
+export interface FeaturedImage {
+  file: string;
+  alt: string;
+}
+
 export interface GuideContent {
   type: "guide";
   slug: string;
@@ -64,6 +74,7 @@ export interface GuideContent {
   metaDescription: string;
   h1: string;
   intro: string;
+  image?: FeaturedImage;
   sections: { heading: string; body: string }[];
   faq: FaqItem[];
   relatedSlugs: string[];

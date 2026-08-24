@@ -3,6 +3,10 @@ import { guide } from "../types";
 export default guide({
   type: "guide",
   slug: "employer-ni-rates-2026-27",
+  image: {
+    file: "employer-national-insurance-rates-2026-27",
+    alt: "Chart illustration showing UK employer National Insurance rates and thresholds for the 2026/27 tax year",
+  },
   title: "Employer NI Rates 2026/27 UK: Thresholds, Rates & Examples",
   metaDescription:
     "Employer NI rates 2026/27: 15% Class 1 secondary rate above the £5,000 secondary threshold, worked examples, Employment Allowance, and how to reduce your bill.",

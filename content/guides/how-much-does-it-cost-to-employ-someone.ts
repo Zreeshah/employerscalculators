@@ -3,6 +3,10 @@ import { guide } from "../types";
 export default guide({
   type: "guide",
   slug: "how-much-does-it-cost-to-employ-someone",
+  image: {
+    file: "cost-of-employing-someone-uk-breakdown",
+    alt: "Illustration breaking down the cost of employing someone in the UK including salary, employer NI and pension",
+  },
   title: "How Much Does It Cost to Employ Someone in the UK?",
   metaDescription:
     "The true cost of employing someone in the UK for 2026/27: employer NI at 15%, pension contributions, and a worked example for a £30,000 salary.",

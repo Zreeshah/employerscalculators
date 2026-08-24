@@ -3,6 +3,10 @@ import { guide } from "../types";
 export default guide({
   type: "guide",
   slug: "how-to-calculate-statutory-sick-pay",
+  image: {
+    file: "how-to-calculate-statutory-sick-pay-uk",
+    alt: "Illustration of an employer calculating UK Statutory Sick Pay using a checklist and absence calendar",
+  },
   title: "How to Calculate Statutory Sick Pay (SSP) UK 2026/27",
   metaDescription:
     "Step-by-step guide to calculating Statutory Sick Pay in 2026/27: £123.25 weekly rate, 80% of earnings cap, qualifying days, worked examples, and common mistakes to avoid.",

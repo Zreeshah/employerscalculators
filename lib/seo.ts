@@ -4,13 +4,33 @@ export const SITE_URL = "https://employerscalculators.co.uk";
 export const SITE_NAME = "Employers Calculators";
 export const THEME_COLOR = "#fafaf9";
 
+export interface SeoImage {
+  /** Site-root-relative path, e.g. "/images/guides/example-1200.jpg". */
+  url: string;
+  alt: string;
+  width?: number;
+  height?: number;
+}
+
 interface SeoFields {
   title: string;
   description: string;
   path: string; // e.g. "/pro-rata-calculator"
+  image?: SeoImage;
 }
 
-export function pageMetadata({ title, description, path }: SeoFields): Metadata {
+export function pageMetadata({ title, description, path, image }: SeoFields): Metadata {
+  const socialImage = image
+    ? [
+        {
+          url: `${SITE_URL}${image.url}`,
+          alt: image.alt,
+          width: image.width ?? 1200,
+          height: image.height ?? 630,
+        },
+      ]
+    : undefined;
+
   return {
     title,
     description,
@@ -22,11 +42,13 @@ export function pageMetadata({ title, description, path }: SeoFields): Metadata 
       siteName: SITE_NAME,
       type: "website",
       locale: "en_GB",
+      ...(socialImage ? { images: socialImage } : {}),
     },
     twitter: {
-      card: "summary",
+      card: image ? "summary_large_image" : "summary",
       title,
       description,
+      ...(socialImage ? { images: socialImage } : {}),
     },
   };
 }
@@ -91,6 +113,50 @@ export function softwareAppJsonLd({
         name: REVIEWER.name,
         description: REVIEWER.description,
       },
+    },
+  };
+}
+
+export function articleJsonLd({
+  headline,
+  description,
+  path,
+  image,
+  dateModified,
+}: {
+  headline: string;
+  description: string;
+  path: string;
+  image?: SeoImage;
+  dateModified?: string;
+}) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline,
+    description,
+    mainEntityOfPage: { "@type": "WebPage", "@id": `${SITE_URL}${path}` },
+    url: `${SITE_URL}${path}`,
+    inLanguage: "en-GB",
+    ...(image
+      ? {
+          image: {
+            "@type": "ImageObject",
+            url: `${SITE_URL}${image.url}`,
+            width: image.width ?? 1200,
+            height: image.height ?? 630,
+            caption: image.alt,
+          },
+        }
+      : {}),
+    ...(dateModified ? { dateModified } : {}),
+    author: { "@type": "Organization", name: SITE_NAME, url: SITE_URL },
+    publisher: { "@type": "Organization", name: SITE_NAME, url: SITE_URL },
+    reviewedBy: {
+      "@type": "Person",
+      name: REVIEWER.name,
+      jobTitle: REVIEWER.credential,
+      description: REVIEWER.description,
     },
   };
 }

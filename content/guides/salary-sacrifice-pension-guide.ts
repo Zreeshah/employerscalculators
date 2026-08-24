@@ -3,6 +3,10 @@ import { guide } from "../types";
 export default guide({
   type: "guide",
   slug: "salary-sacrifice-pension-guide",
+  image: {
+    file: "salary-sacrifice-pension-scheme-uk",
+    alt: "Illustration of a UK salary sacrifice pension scheme redirecting salary into pension contributions",
+  },
   title: "What Is a Salary Sacrifice Pension Scheme? UK Guide 2026/27",
   metaDescription:
     "What is a salary sacrifice scheme? This UK pension guide explains tax relief, employee and employer NI savings, minimum-wage limits and the April 2029 NIC cap.",

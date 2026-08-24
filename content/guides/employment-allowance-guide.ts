@@ -3,6 +3,10 @@ import { guide } from "../types";
 export default guide({
   type: "guide",
   slug: "employment-allowance-guide",
+  image: {
+    file: "employment-allowance-uk-employer-ni-relief",
+    alt: "Illustration of a UK small business claiming Employment Allowance relief against its employer National Insurance bill",
+  },
   title: "Employment Allowance 2026/27: Eligibility & How to Claim UK",
   metaDescription:
     "Employment Allowance 2026/27 explained: up to £10,500 off your employer NI bill. Who qualifies, who is excluded, how to claim via EPS, and worked examples.",

@@ -7,6 +7,8 @@
 
 export const taxYearLabel = "2026/27";
 export const lastUpdated = "August 2026";
+/** Machine-readable form of `lastUpdated` for schema.org dateModified. */
+export const lastUpdatedIso = "2026-08-01";
 
 export const currentRates = {
   employerNi: {

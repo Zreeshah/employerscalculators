@@ -3,6 +3,10 @@ import { guide } from "../types";
 export default guide({
   type: "guide",
   slug: "workplace-pension-contributions-explained",
+  image: {
+    file: "workplace-pension-contributions-employer-employee",
+    alt: "Illustration of employer and employee workplace pension contributions combining into one auto-enrolment pension pot",
+  },
   title: "How Much Pension Does My Employer Pay? UK Guide 2026/27",
   metaDescription:
     "How much pension does my employer pay? See 2026/27 workplace pension minimums, qualifying earnings, employee contributions, auto-enrolment and salary exchange.",
