@@ -129,9 +129,9 @@ const createEnglandBandContent = (band: string, config: TargetBandConfig): Calcu
     slug: nhsSlug(band, "england"),
     kind: "nhs-band",
     nhsPreset: { nation: "england", band, stepIndex: 0, hoursPerWeek: 37.5 },
-    title: `NHS Band ${band} Pay Calculator 2026/27 England`,
-    metaDescription: `Calculate NHS Band ${band} pay in England for 2026/27, including ${gbp(entry)}–${gbp(top)} salary points, part-time FTE examples, pension and shift rates`,
-    h1: `NHS Band ${band} Pay Calculator — England`,
+    title: `NHS Band ${band} Take Home Pay Calculator 2026/27 England`,
+    metaDescription: `NHS Band ${band} take home pay calculator for England 2026/27: ${gbp(entry)}–${gbp(top)} salary points, net pay after tax, pension and NI, plus part-time FTE examples`,
+    h1: `NHS Band ${band} Take Home Pay Calculator — England`,
     intro: `NHS Band ${band} basic pay in England is ${gbp(entry)}${entry === top ? "" : ` to ${gbp(top)}`} in 2026/27. Use the calculator to convert any official pay point to part-time pay by FTE, then check the band-specific guidance below for progression, NHS pension tiers and unsocial-hours payments. The figures are gross basic pay from 1 April 2026, before tax, pension and local additions.`,
     formulaExplainer: `The calculator uses **annual basic pay × FTE**. FTE is contracted weekly hours divided by the English Agenda for Change full-time week of 37.5 hours: 30 hours is 0.8 FTE, while 22.5 hours is 0.6 FTE. At the ${gbp(top)} Band ${band} point, 0.8 FTE is ${gbp(top * 0.8)} a year and 0.6 FTE is ${gbp(top * 0.6)}. Section 2 enhancements, overtime, High Cost Area Supplements and other allowances are separate from this basic-pay result.`,
     howToSteps: [

@@ -4,7 +4,7 @@ export default calculator({
   type: "calculator",
   slug: "holiday-entitlement-calculator",
   kind: "holiday-entitlement",
-  title: "Holiday Entitlement Calculator UK 2026/27",
+  title: "Holiday Entitlement Calculator UK 2026/27: Pro Rata & Accrual",
   metaDescription:
     "Calculate UK holiday entitlement in days and hours for fixed or part-year service, check regional bank holidays and apply 12.07% correctly",
   h1: "Holiday Entitlement Calculator",

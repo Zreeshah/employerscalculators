@@ -3,7 +3,7 @@ import { guide } from "../types";
 export default guide({
   type: "guide",
   slug: "ssp-vs-company-sick-pay",
-  title: "SSP vs Company Sick Pay: UK Employer Guide",
+  title: "Company Sick Pay vs SSP: UK Employer Guide 2026/27",
   metaDescription:
     "Compare SSP vs company sick pay, including statutory and contractual rights, inclusive and additive policies, payroll treatment and worked examples",
   h1: "SSP vs Company Sick Pay",

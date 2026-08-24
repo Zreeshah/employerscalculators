@@ -6,7 +6,7 @@ export default calculator({
   kind: "national-insurance",
   title: "National Insurance Calculator UK 2026/27",
   metaDescription:
-    "Calculate employee, employer and self-employed National Insurance for 2026/27. See exact NI due, band breakdowns, effective rates and monthly amounts at any salary.",
+    "National insurance calculation for 2026/27: how much NI per month as an employee, employer or self-employed worker, with band breakdowns and effective rates.",
   h1: "National Insurance Calculator",
   intro:
     "Use this **National Insurance calculator** to work out how much NI is due for 2026/27 as an employee, employer or self-employed worker. Enter an annual salary or profit figure to see the exact NI liability split across each threshold band, plus the effective rate and monthly amount. The calculator uses the official 2026/27 rates confirmed by HMRC, including the employee Primary Threshold at £12,570, the employer Secondary Threshold at £5,000 and the self-employed Class 4 thresholds.",
