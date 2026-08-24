@@ -3,12 +3,12 @@ import { guide } from "../types";
 export default guide({
   type: "guide",
   slug: "workplace-pension-contributions-explained",
-  title: "Workplace Pension Contributions Explained: 2026/27 Employer Guide",
+  title: "How Much Pension Does My Employer Pay? UK Guide 2026/27",
   metaDescription:
-    "Workplace pension contributions explained for 2026/27: auto-enrolment duties, minimum rates, qualifying vs total earnings, salary exchange savings and edge cases",
-  h1: "Workplace Pension Contributions Explained",
+    "How much pension does my employer pay? See 2026/27 workplace pension minimums, qualifying earnings, employee contributions, auto-enrolment and salary exchange.",
+  h1: "How Much Pension Does My Employer Pay?",
   intro:
-    "Every UK employer must automatically enrol eligible workers into a workplace pension and pay at least the minimum contribution. This guide explains how auto-enrolment works in 2026/27, who qualifies, the minimum contribution rates, how qualifying and total earnings schemes differ, and the National Insurance savings available through salary exchange. Use the [workplace pension calculator](/workplace-pension-calculator/) to model the exact employer and employee amounts for any salary.",
+    "How much pension does my employer pay? For an eligible worker in a minimum auto-enrolment scheme, the employer normally pays at least 3% of qualifying earnings and the total minimum contribution is 8%. This guide explains how auto-enrolment works in 2026/27, who qualifies, how qualifying and total earnings schemes differ, and the National Insurance savings available through salary exchange. Use the [workplace pension calculator](/workplace-pension-calculator/) to model the exact employer and employee amounts for any salary.",
   sections: [
     {
       heading: "Auto-enrolment: your duties as an employer",
@@ -82,6 +82,11 @@ export default guide({
       question: "Do zero-hours workers qualify for auto-enrolment?",
       answer:
         "Yes, if their earnings in the relevant pay period, when annualised, exceed £10,000 and they are aged 22 to State Pension age. Each pay period is assessed independently. The employer can postpone assessment by up to three months.",
+    },
+    {
+      question: "How much pension does my employer pay?",
+      answer:
+        "In a minimum auto-enrolment scheme, the employer contribution is at least 3% of qualifying earnings and the total minimum contribution is 8%, including the worker's contribution and tax relief. Your contract or scheme rules may provide more.",
     },
   ],
   relatedSlugs: [

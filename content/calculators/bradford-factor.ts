@@ -4,12 +4,12 @@ export default calculator({
   type: "calculator",
   slug: "bradford-factor-calculator",
   kind: "bradford-factor",
-  title: "Bradford Factor Calculator UK",
+  title: "Bradford Factor Calculator UK: Score, Thresholds & Absence Cost",
   metaDescription:
-    "Enter sickness absence episodes to calculate S² × D, compare absence patterns and understand non-statutory triggers, exclusions and fair use",
-  h1: "Bradford Factor Calculator",
+    "Bradford Factor calculator UK for S² × D scores, thresholds and absence-cost context. Compare episodes, understand review triggers and apply fair absence-management rules.",
+  h1: "Bradford Factor Calculator: Score & Thresholds",
   intro:
-    "Add each sickness absence episode and calculate the Bradford Factor as S² × D over the period used by your organisation, often a rolling 52 weeks. The score deliberately weights repeated short absences more heavily than one continuous absence. It is not a statutory measure or a disciplinary decision, so review the record, policy, disability adjustments and individual context before acting.",
+    "Add each sickness absence episode and calculate the **Bradford Factor score** as S² × D over the period used by your organisation, often a rolling 52 weeks. The score deliberately weights repeated short absences more heavily than one continuous absence. This page also explains the difference between a pattern score and the underlying absence cost. It is not a statutory measure or a disciplinary decision, so review the record, policy, disability adjustments and individual context before acting.",
   formulaExplainer: `:::callout info
 **Bradford Factor = S² × D.** **S** is the number of separate absence episodes in the measurement period and **D** is the total number of working days absent across those episodes.
 
@@ -82,6 +82,12 @@ This weighting is both the purpose and the limitation of the formula. It describ
 These labels mirror the calculator's example bands, not a lawful automatic sequence. Crossing a band should open a fair review, not determine its outcome. Length of service, cause, warnings, medical evidence and previous support remain relevant.`,
     },
     {
+      heading: "Bradford score versus absence cost and SSP",
+      body: `The Bradford Factor measures frequency and duration; it does **not** calculate the employer's financial cost. Two patterns can have the same total days absent and therefore a similar direct sick-pay cost, while producing very different scores because S is squared. For example, one five-day episode scores 5, while five one-day episodes score 125.
+
+For an absence-cost estimate, keep the employee's normal weekly earnings, qualifying days, enhanced company sick pay and any cover or overtime costs separate from the Bradford score. The [SSP calculator](/ssp-calculator/) can model statutory sick pay, while the [company sick pay calculator](/sick-pay-calculator/) compares SSP with enhanced policies. Do not infer a pound cost from a threshold band alone.`,
+    },
+    {
       heading: "What should count as an absence episode?",
       body: `The policy should define whether D counts scheduled working days, calendar days, shifts or part-days. Most implementations use **working time actually missed**, excluding rest days that the employee was not due to work. A four-day sickness spanning a weekend may therefore contain two lost working days but remain one continuous episode.
 
@@ -142,6 +148,11 @@ Compare the score only with the employer's published non-statutory bands. Before
       answer:
         "No. It is a non-statutory management tool. Employment law still requires a fair process, non-discrimination and reasonable adjustments where applicable.",
     },
+    {
+      question: "Does the Bradford Factor calculate SSP or absence cost?",
+      answer:
+        "No. It calculates S² × D from absence episodes. Use the SSP or company sick pay calculators for statutory or enhanced-pay estimates, and assess cover and overtime costs separately.",
+    },
   ],
-  relatedSlugs: [],
+  relatedSlugs: ["ssp-calculator", "sick-pay-calculator", "ssp-vs-company-sick-pay", "employee-cost-calculator", "annual-leave-calculator"],
 });

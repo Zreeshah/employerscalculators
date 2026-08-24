@@ -4,12 +4,12 @@ export default calculator({
   type: "calculator",
   slug: "annual-leave-calculator",
   kind: "annual-leave",
-  title: "Annual Leave Calculator UK 2026/27",
+  title: "Annual Leave Calculator UK 2026/27: Pro Rata Accrual & Leave Balance",
   metaDescription:
-    "Track annual leave entitlement, date-sensitive accrual, leave taken and booked from your leave-year start, with UK statutory rules and edge cases",
-  h1: "Annual Leave Calculator",
+    "Annual leave calculator UK for pro rata entitlement, leave accrual, taken and booked days. Track a leave-year balance and understand 5.6-week statutory rules.",
+  h1: "Annual Leave Calculator: Pro Rata Accrual & Balance",
   intro:
-    "Track a worker's annual leave from the actual leave-year start date, including full-year entitlement, leave already taken and future leave booked. The planned calculator shows both the accrued position as of today and the projected balance for the complete leave year, so a future booking is not mistaken for leave already earned. It works with statutory or contractual entitlement entered in days.",
+    "Use this **annual leave calculator UK** to track a worker's entitlement from the actual leave-year start date, including full-year entitlement, leave already taken and future leave booked. If you are asking how to calculate pro rata holidays, the tool shows both the accrued position as of today and the projected balance for the complete leave year, so a future booking is not mistaken for leave already earned. It works with statutory or contractual entitlement entered in days.",
   formulaExplainer: `:::callout info
 **Full-year remaining leave = max(0, annual entitlement − leave taken − leave booked).** **Accrued entitlement to date = annual entitlement × elapsed proportion of the leave year.** The calculator shows accrued balances after taken leave and after both taken and booked leave, with negative results displayed as zero.
 
@@ -55,6 +55,12 @@ This makes the result responsive to today's date rather than assuming a fixed ma
       body: `**Taken leave** is time used on or before the calculation date. **Booked leave** is approved time later in the leave year. The full-year projected balance is entitlement minus both amounts. The accrued-to-date balance compares leave earned so far with leave taken so far; future bookings are shown separately so they do not make today's accrual look lower than it is.
 
 If more leave has been taken than accrued, the displayed accrued balance stops at zero; the employer may still permit leave in advance. If taken and booked leave exceed the annual entitlement, the projected balance also stops at zero. Compare the input totals as well as the balance so an overbooking is not hidden by that floor.`,
+    },
+    {
+      heading: "Holiday accrual during sickness, maternity and other leave",
+      body: `Statutory annual leave continues to accrue during sickness absence and statutory family leave, including maternity leave. A worker who is off sick may therefore have more leave available when they return, even though no holiday was taken during the absence. Keep sickness absence separate from the **days already taken** input unless the worker actually used annual leave.
+
+If sickness prevented statutory leave being taken, carry-over may be required. The employer should record the carried days separately, check the applicable policy and avoid silently folding them into a new annual entitlement. Use the [SSP calculator](/ssp-calculator/) for statutory sick pay and this page for the leave balance.`,
     },
     {
       heading: "UK statutory annual leave and contractual entitlement",
@@ -129,6 +135,11 @@ Check bank-holiday treatment, part-year service, changed working patterns, carry
       answer:
         "An employer must not round down in a way that removes statutory entitlement. Keeping the balance in hours or decimals often avoids unfair loss from repeated rounding.",
     },
+    {
+      question: "How do I calculate pro rata holidays for a part-time worker?",
+      answer:
+        "For a fixed pattern, multiply working days per week by 5.6 and then apply any part-year service or contractual rules. For genuinely irregular-hours or part-year workers, use the statutory hours-based method and the separate part-time holiday guide.",
+    },
   ],
-  relatedSlugs: [],
+  relatedSlugs: ["holiday-entitlement-calculator", "holiday-entitlement-part-time-workers", "pro-rata-calculator", "statutory-holiday-entitlement-uk", "ssp-calculator"],
 });

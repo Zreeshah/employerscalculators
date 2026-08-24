@@ -3,12 +3,12 @@ import { guide } from "../types";
 export default guide({
   type: "guide",
   slug: "national-insurance-rates-2026-27",
-  title: "National Insurance Rates 2026/27 UK: Employee & Employer Rates, Thresholds & Worked Examples",
+  title: "How Much Are NI Contributions? National Insurance Rates 2026/27 UK",
   metaDescription:
-    "Complete UK National Insurance rates 2026/27: employee 8%/2%, employer 15%, all Class 1 thresholds, worked examples, NI category letters, and how NI differs from income tax.",
-  h1: "National Insurance Rates 2026/27",
+    "How much are NI contributions in 2026/27? See UK employee and employer National Insurance rates, thresholds, Class 1 bands, worked examples and NI category letters.",
+  h1: "How Much Are NI Contributions? Rates & Thresholds 2026/27",
   intro:
-    "What are the National Insurance rates for 2026/27? Employees pay **8%** on earnings between **£12,570 and £50,270** and **2% above £50,270**, while employers pay **15% above £5,000** per employee. This guide covers every Class 1 National Insurance rate, threshold, and worked example for the 2026/27 tax year (6 April 2026 to 5 April 2027), all sourced from HMRC and GOV.UK.\n\n:::callout info\n**Quick answers — National Insurance rates 2026/27 at a glance**\n\n- **Employee NI rates:** 0% up to £12,570, **8%** £12,570–£50,270, **2%** above £50,270\n- **Employer NI rate:** **15%** on earnings above £5,000/year (no upper limit)\n- **Lower Earnings Limit:** £129/week (£6,708/year) — below this, no NI but State Pension credits still build\n- **Primary threshold:** £12,570/year (£242/week) — employee NI starts here\n- **Secondary threshold:** £5,000/year — employer NI starts here\n- **Upper Earnings Limit:** £50,270/year — employee rate drops to 2% above this\n- **Employment Allowance:** up to **£10,500/year** off employer NI bill\n:::\n\nThis guide covers **employee NI**, **employer NI**, **NI category letters**, **NI vs income tax differences**, **worked examples** at £30,000 and £60,000, **NI on payslips**, and links to our free calculators. Figures are from HMRC's \"Rates and thresholds for employers 2026 to 2027\" (GOV.UK).",
+    "How much are NI contributions for 2026/27? Employees pay **8%** on earnings between **£12,570 and £50,270** and **2% above £50,270**, while employers pay **15% above £5,000** per employee. This guide covers every Class 1 National Insurance rate, threshold, and worked example for the 2026/27 tax year (6 April 2026 to 5 April 2027), all sourced from HMRC and GOV.UK.\n\n:::callout info\n**Quick answers — National Insurance rates 2026/27 at a glance**\n\n- **Employee NI rates:** 0% up to £12,570, **8%** £12,570–£50,270, **2%** above £50,270\n- **Employer NI rate:** **15%** on earnings above £5,000/year (no upper limit)\n- **Lower Earnings Limit:** £129/week (£6,708/year) — below this, no NI but State Pension credits still build\n- **Primary threshold:** £12,570/year (£242/week) — employee NI starts here\n- **Secondary threshold:** £5,000/year — employer NI starts here\n- **Upper Earnings Limit:** £50,270/year — employee rate drops to 2% above this\n- **Employment Allowance:** up to **£10,500/year** off employer NI bill\n:::\n\nThis guide covers **employee NI**, **employer NI**, **NI category letters**, **NI vs income tax differences**, **worked examples** at £30,000 and £60,000, **NI on payslips**, and links to our free calculators. Figures are from HMRC's \"Rates and thresholds for employers 2026 to 2027\" (GOV.UK).",
   sections: [
     {
       heading: "National Insurance rates 2026/27 at a glance",
@@ -160,6 +160,10 @@ export default guide({
     {
       "question": "Are benefits in kind subject to employee NI?",
       "answer": "Usually no employee Class 1 NI is due on P11D benefits, but employer Class 1A NI may be due."
+    },
+    {
+      question: "How much are NI contributions in 2026/27?",
+      answer: "The amount depends on earnings and category. Standard employees pay 8% between the primary threshold and Upper Earnings Limit, then 2% above it; employers normally pay 15% above the secondary threshold. Use the National Insurance calculator for a salary-specific estimate."
     },
   ],
   relatedSlugs: [

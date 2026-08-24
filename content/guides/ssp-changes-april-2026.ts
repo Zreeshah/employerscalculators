@@ -3,12 +3,12 @@ import { guide } from "../types";
 export default guide({
   type: "guide",
   slug: "ssp-changes-april-2026",
-  title: "SSP Changes April 2026: Day-One Sick Pay, No Earnings Limit",
+  title: "SSP Changes April 2026: Day-One Sick Pay, £123.25 Daily Rate & No LEL",
   metaDescription:
-    "SSP changes from April 2026: day-one payment, no lower earnings limit, 80% earnings cap, £123.25 rate and Fair Work Agency enforcement explained for employers",
+    "SSP changes from April 2026 explained for employers: SSP per day, day-one payment, no lower earnings limit, 80% earnings cap, £123.25 rate and Fair Work Agency enforcement.",
   h1: "SSP Changes April 2026",
   intro:
-    "The Employment Rights Act introduces the biggest changes to Statutory Sick Pay (SSP) since the scheme began. From **6 April 2026**, SSP is payable from the first qualifying day of sickness, the Lower Earnings Limit is abolished, and a new 80% earnings cap protects low earners from receiving more in SSP than they normally earn. This guide explains what changed, the numbers involved, and what employers need to do. Use the [SSP calculator](/ssp-calculator/) to model the new rules for any employee.",
+    "The Employment Rights Act introduces the biggest changes to Statutory Sick Pay (SSP) since the scheme began. If you need the SSP per day figure, the 2026/27 weekly rate is £123.25 before the 80% earnings cap and qualifying-day calculation. From **6 April 2026**, SSP is payable from the first qualifying day of sickness, the Lower Earnings Limit is abolished, and a new 80% earnings cap protects low earners from receiving more in SSP than they normally earn. This guide explains what changed, the numbers involved, and what employers need to do. Use the [SSP calculator](/ssp-calculator/) to model the new rules for any employee.",
   sections: [
     {
       heading: "Overview of SSP changes from April 2026",
@@ -82,6 +82,10 @@ export default guide({
       question: "Do the changes affect company sick pay?",
       answer:
         "The statutory minimum changes, so any company sick pay policy that references waiting days or the Lower Earnings Limit needs updating. Policies that are inclusive of SSP should be reviewed to confirm the contractual wording still works under the new rules.",
+    },
+    {
+      question: "How much is SSP per day after April 2026?",
+      answer: "The flat 2026/27 SSP rate is £123.25 a week. The daily amount depends on the employee's qualifying days, and low earners are capped at 80% of average weekly earnings. Use the SSP calculator for the exact absence pattern."
     },
   ],
   relatedSlugs: [

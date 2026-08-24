@@ -3,12 +3,12 @@ import { guide } from "../types";
 export default guide({
   type: "guide",
   slug: "holiday-entitlement-part-time-workers",
-  title: "Part-Time Holiday Entitlement UK: Days or Hours",
+  title: "How to Calculate Pro Rata Holidays for Part-Time Workers UK",
   metaDescription:
-    "Calculate part-time holiday entitlement for fixed days, fixed hours and irregular hours, with 5.6-week and 12.07% examples plus bank holiday rules",
-  h1: "Holiday Entitlement for Part-Time Workers",
+    "How to calculate pro rata holidays for part-time workers: fixed days, fixed hours and irregular hours, with 5.6-week, 12.07% and bank-holiday examples.",
+  h1: "How to Calculate Pro Rata Holidays for Part-Time Workers",
   intro:
-    "Part-time workers usually receive the same **5.6 weeks of statutory paid holiday** as full-time workers, expressed in the days or hours of their own working pattern. The right calculation depends on classification: fixed days, fixed hours, or genuinely irregular-hours or part-year work. The 12.07% accrual method is not a shortcut for every part-time employee. This guide helps you choose the method before doing the maths.",
+    "If you need to calculate pro rata holidays, start with the worker's real pattern rather than the label 'part-time'. Part-time workers usually receive the same **5.6 weeks of statutory paid holiday** as full-time workers, expressed in the days or hours of their own working pattern. The right calculation depends on fixed days, fixed hours, or genuinely irregular-hours or part-year work. The 12.07% accrual method is not a shortcut for every part-time employee. This guide helps you choose the method before doing the maths.",
   sections: [
     {
       heading: "Classify the working pattern before calculating leave",
@@ -78,6 +78,11 @@ export default guide({
       question: "Is rolled-up holiday pay legal for part-time workers?",
       answer:
         "Only where the person qualifies as an irregular-hours or part-year worker under the current rules. Regular fixed-hours part-time staff should be paid when they take holiday, not through a rolled-up uplift.",
+    },
+    {
+      question: "How do I calculate pro rata holidays for a three-day week?",
+      answer:
+        "Multiply three working days by 5.6 to get 16.8 statutory days for a full leave year, then apply any part-year service, bank-holiday and rounding rules. Use hours instead when daily shift lengths differ.",
     },
   ],
   relatedSlugs: [

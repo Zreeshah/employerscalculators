@@ -3,12 +3,12 @@ import { guide } from "../types";
 export default guide({
   type: "guide",
   slug: "salary-sacrifice-pension-guide",
-  title: "Salary Sacrifice Pension Guide UK 2026/27",
+  title: "What Is a Salary Sacrifice Pension Scheme? UK Guide 2026/27",
   metaDescription:
-    "Salary sacrifice pension guide for UK employers: separate tax relief from NI savings, model examples and prepare for the April 2029 £2,000 NIC cap",
-  h1: "Salary Sacrifice Pension Guide",
+    "What is a salary sacrifice scheme? This UK pension guide explains tax relief, employee and employer NI savings, minimum-wage limits and the April 2029 NIC cap.",
+  h1: "What Is a Salary Sacrifice Pension Scheme?",
   intro:
-    "A salary sacrifice pension changes an employee's contract so they give up cash salary and the employer pays a pension contribution instead. Pension saving already receives income tax relief through common contribution methods; the distinctive extra benefit of salary sacrifice is normally the **employee and employer National Insurance saving**. This guide explains that distinction, the current 2026/27 position and the £2,000 annual NIC exemption cap due from April 2029.",
+    "What is a salary sacrifice scheme? A salary sacrifice pension changes an employee's contract so they give up cash salary and the employer pays a pension contribution instead. Pension saving already receives income tax relief through common contribution methods; the distinctive extra benefit of salary sacrifice is normally the **employee and employer National Insurance saving**. This guide explains that distinction, the current 2026/27 position and the £2,000 annual NIC exemption cap due from April 2029.",
   sections: [
     {
       heading: "What is pension salary sacrifice?",
@@ -78,6 +78,11 @@ export default guide({
       question: "Must an employer add its NI saving to the pension?",
       answer:
         "No. An employer can keep all of the employer NI saving, add all of it to the pension or share part of it, provided the scheme wording explains the approach accurately.",
+    },
+    {
+      question: "What is a salary sacrifice scheme?",
+      answer:
+        "It is a contractual agreement under which an employee gives up part of their cash salary and the employer provides a non-cash benefit, such as an employer pension contribution. It must be agreed before the salary is earned and cannot reduce pay below National Minimum Wage.",
     },
   ],
   relatedSlugs: [

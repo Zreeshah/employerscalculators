@@ -124,14 +124,27 @@ const createEnglandBandContent = (band: string, config: TargetBandConfig): Calcu
     ? "Bands 1 to 7 are eligible for Section 3 overtime: authorised hours above 37.5 in a week are normally time-and-a-half, except general public holidays at double time. Part-time additional hours remain plain time until total weekly hours exceed 37.5."
     : "The handbook says staff in Bands 8 and 9 are not entitled to Section 3 overtime payments. Contracted unsocial hours can still attract Section 2 enhancements, but extra time, on-call arrangements and local allowances must be checked against the contract and local policy.";
 
+  const englandSeoTitleByBand: Record<string, string> = {
+    "4": "NHS Band 4 Salary After Tax Calculator 2026/27 England",
+    "5": "NHS Band 5 Take Home Pay Calculator 2026/27 England",
+    "7": "NHS Band 7 Take Home Pay Calculator 2026/27 England",
+    "8a": "NHS Band 8a Take Home Pay Calculator 2026/27 England",
+    "8b": "NHS Band 8b Salary & Take Home Pay Calculator 2026/27 England",
+    "9": "NHS Band 9 Take Home Pay Calculator 2026/27 England",
+  };
+  const englandSeoH1ByBand: Record<string, string> = {
+    "4": "NHS Band 4 Salary After Tax Calculator — England",
+    "8b": "NHS Band 8b Salary & Take Home Pay Calculator — England",
+  };
+
   return calculator({
     type: "calculator",
     slug: nhsSlug(band, "england"),
     kind: "nhs-band",
     nhsPreset: { nation: "england", band, stepIndex: 0, hoursPerWeek: 37.5 },
-    title: `NHS Band ${band} Take Home Pay Calculator 2026/27 England`,
+    title: englandSeoTitleByBand[band] ?? `NHS Band ${band} Take Home Pay Calculator 2026/27 England`,
     metaDescription: `NHS Band ${band} take home pay calculator for England 2026/27: ${gbp(entry)}–${gbp(top)} salary points, net pay after tax, pension and NI, plus part-time FTE examples`,
-    h1: `NHS Band ${band} Take Home Pay Calculator — England`,
+    h1: englandSeoH1ByBand[band] ?? `NHS Band ${band} Take Home Pay Calculator — England`,
     intro: `NHS Band ${band} basic pay in England is ${gbp(entry)}${entry === top ? "" : ` to ${gbp(top)}`} in 2026/27. Use the calculator to convert any official pay point to part-time pay by FTE, then check the band-specific guidance below for progression, NHS pension tiers and unsocial-hours payments. The figures are gross basic pay from 1 April 2026, before tax, pension and local additions.`,
     formulaExplainer: `The calculator uses **annual basic pay × FTE**. FTE is contracted weekly hours divided by the English Agenda for Change full-time week of 37.5 hours: 30 hours is 0.8 FTE, while 22.5 hours is 0.6 FTE. At the ${gbp(top)} Band ${band} point, 0.8 FTE is ${gbp(top * 0.8)} a year and 0.6 FTE is ${gbp(top * 0.6)}. Section 2 enhancements, overtime, High Cost Area Supplements and other allowances are separate from this basic-pay result.`,
     howToSteps: [
@@ -221,9 +234,9 @@ const createScotlandBand6Content = (): CalculatorContent => {
     slug: nhsSlug("6", "scotland"),
     kind: "nhs-band",
     nhsPreset: { nation: "scotland", band: "6", stepIndex: 0, hoursPerWeek: 36 },
-    title: "NHS Band 6 Pay Calculator Scotland 2026/27",
-    metaDescription: "Calculate NHS Scotland Band 6 pay for 2026/27 at £43,231, £45,135 or £52,679, including part-time examples based on a 36-hour week",
-    h1: "NHS Band 6 Pay Calculator — Scotland",
+    title: "NHS Scotland Band 6 Pay Scale & Take Home Pay Calculator 2026/27",
+    metaDescription: "NHS Scotland Band 6 pay scale and take-home pay for 2026/27: £43,231, £45,135 or £52,679, with Scottish tax, pension and 36-hour FTE examples.",
+    h1: "NHS Scotland Band 6 Pay Scale & Take Home Pay Calculator",
     intro: `NHS Scotland Band 6 basic pay is ${gbp(entry)}, ${gbp(intermediate)} or ${gbp(top)} in 2026/27. Use this calculator to convert the appropriate full-time point to part-time pay. NHS Scotland's standard full-time week is **36 hours**, so calculate FTE from contracted hours divided by 36 rather than using England's 37.5-hour denominator.`,
     formulaExplainer: `Part-time NHS Scotland Band 6 pay is **full-time annual salary × FTE**, where FTE equals contracted weekly hours divided by 36. For example, 30 hours is 0.8333 FTE, giving about ${gbp(top * 30 / 36)} at the ${gbp(top)} top point. The result is basic pay only; shift enhancements, overtime, pension, tax and local payments are separate.`,
     howToSteps: [
@@ -353,9 +366,9 @@ const createScotlandBandContent = (band: string, config: ScotlandBandConfig): Ca
     slug: nhsSlug(band, "scotland"),
     kind: "nhs-band",
     nhsPreset: { nation: "scotland", band, stepIndex: 0, hoursPerWeek: 36 },
-    title: `NHS Band ${band} Pay Calculator Scotland 2026/27`,
-    metaDescription: `Calculate NHS Scotland Band ${band} pay for 2026/27 at ${gbp(entry)}${entry === top ? "" : ` to ${gbp(top)}`}. Part-time FTE based on the 36-hour Scottish week, pension tiers and take-home estimates.`,
-    h1: `NHS Band ${band} Pay Calculator \u2014 Scotland`,
+    title: `NHS Scotland Band ${band} Pay Calculator 2026/27: Take Home Pay`,
+    metaDescription: `NHS Scotland Band ${band} pay scale and take-home pay for 2026/27: ${gbp(entry)}${entry === top ? "" : ` to ${gbp(top)}`}. Scottish tax, pension tiers and 36-hour FTE examples.`,
+    h1: `NHS Scotland Band ${band} Pay Calculator: Take Home Pay`,
     intro: `NHS Scotland Band ${band} basic pay is ${config.salaries.map(gbp).join(", ")} in 2026/27. Use this calculator to estimate take-home pay after Scottish Income Tax, National Insurance and NHS pension. Scotland\u2019s standard Agenda for Change week is **36 hours**, so FTE is contracted hours divided by 36.`,
     formulaExplainer: `Part-time NHS Scotland Band ${band} pay is **full-time annual salary \u00d7 FTE**, where FTE equals contracted weekly hours divided by 36. At the ${gbp(top)} top point, 30 hours gives 0.8333 FTE and approximately ${gbp(top * 30 / 36)} a year. Scottish Income Tax applies through the S-prefix tax code (e.g. S1257L), so take-home differs from the English equivalent even at the same gross salary.`,
     howToSteps: [
@@ -447,9 +460,9 @@ const createWalesBandContent = (band: string, config: WalesBandConfig): Calculat
     slug: nhsSlug(band, "wales"),
     kind: "nhs-band",
     nhsPreset: { nation: "wales", band, stepIndex: 0, hoursPerWeek: 37.5 },
-    title: `NHS Band ${band} Pay Calculator Wales 2026/27`,
-    metaDescription: `Calculate NHS Wales Band ${band} pay for 2026/27 at ${gbp(entry)}${entry === top ? "" : ` to ${gbp(top)}`}. Part-time FTE, Welsh tax code, pension tiers and take-home estimate.`,
-    h1: `NHS Band ${band} Pay Calculator \u2014 Wales`,
+    title: `NHS Wales Band ${band} Salary & Take Home Pay Calculator 2026/27`,
+    metaDescription: `NHS Wales Band ${band} salary and take-home pay for 2026/27: ${gbp(entry)}${entry === top ? "" : ` to ${gbp(top)}`}. Welsh tax code, pension tiers and 37.5-hour FTE examples.`,
+    h1: `NHS Wales Band ${band} Salary & Take Home Pay Calculator`,
     intro: `NHS Wales Band ${band} basic pay is ${config.salaries.map(gbp).join(", ")} in 2026/27. Use this calculator to estimate take-home pay after income tax, National Insurance and NHS pension. Wales uses a **37.5-hour** full-time week like England, and Welsh income tax rates currently match the rest-of-UK bands under the C-prefix tax code (e.g. C1257L).`,
     formulaExplainer: `Part-time NHS Wales Band ${band} pay is **full-time annual salary \u00d7 FTE**, where FTE equals contracted weekly hours divided by 37.5. At the ${gbp(top)} top point, 30 hours gives 0.8 FTE and ${gbp(top * 0.8)} a year. Welsh tax codes (C1257L) currently apply the same income tax rates as England.`,
     howToSteps: [
