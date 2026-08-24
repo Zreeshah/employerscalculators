@@ -11,6 +11,7 @@ import {
 } from "./advancedCalculators.ts";
 import {
   calculate,
+  calculateIr35Comparison,
   calculateMaternityAllowance,
   calculateP11d,
   calculateSalarySacrificeImpact,
@@ -176,6 +177,28 @@ test("SSP daily rate uses qualifying days, capped at 28 weeks", () => {
   });
   assert.equal(weekly.value, 123.25);
   assert.equal(total.value, 24.65 * 4);
+});
+
+test("IR35 comparison matches the competitor’s £500 day-rate benchmark", () => {
+  const result = calculateIr35Comparison({ dayRate: 500, billableDays: 220, annualBusinessExpenses: 3000 });
+  assert.equal(result.annualRevenue, 110000);
+  assert.equal(result.outside.employerNi, 1135.5);
+  assert.equal(result.outside.corporationTax, 17725.96);
+  assert.equal(result.outside.dividendTax, 15910.63);
+  assert.equal(result.outside.takeHome, 72227.91);
+  assert.equal(result.inside.employerNi, 13695.65);
+  assert.equal(result.inside.deemedGrossSalary, 96304.35);
+  assert.equal(result.inside.employeeNi, 3936.69);
+  assert.equal(result.inside.incomeTax, 25953.74);
+  assert.equal(result.inside.takeHome, 66413.92);
+  assert.equal(result.takeHomeDifference, 5813.99);
+});
+
+test("IR35 comparison safely caps expenses at revenue", () => {
+  const result = calculateIr35Comparison({ dayRate: 100, billableDays: 10, annualBusinessExpenses: 5000 });
+  assert.equal(result.annualRevenue, 1000);
+  assert.equal(result.outside.expenses, 1000);
+  assert.equal(result.outside.takeHome, 0);
 });
 
 test("SMP first 6 weeks at 90% AWE, then flat rate", () => {

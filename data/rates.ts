@@ -29,6 +29,15 @@ export const currentRates = {
     additionalRate: 0.45,
     additionalThreshold: 125140, // adjusted net income
   },
+  dividendTax: {
+    allowance: 500,
+    basicRate: 0.0875,
+    higherRate: 0.3375,
+    additionalRate: 0.3935,
+  },
+  corporationTax: {
+    smallProfitsRate: 0.19,
+  },
   ssp: {
     weeklyRate: 123.25, // or 80% of AWE if lower
     maxWeeks: 28,

@@ -55,6 +55,26 @@ export interface SmpResult {
   monthlyEquivalent: number;
 }
 
+export interface Ir35ComparisonResult {
+  annualRevenue: number;
+  outside: {
+    expenses: number;
+    salary: number;
+    employerNi: number;
+    corporationTax: number;
+    dividendTax: number;
+    takeHome: number;
+  };
+  inside: {
+    employerNi: number;
+    deemedGrossSalary: number;
+    incomeTax: number;
+    employeeNi: number;
+    takeHome: number;
+  };
+  takeHomeDifference: number;
+}
+
 export interface MaternityAllowanceResult {
   situation: MaternityAllowanceSituation;
   eligible: boolean;
@@ -177,6 +197,72 @@ export function employerPensionContribution(
     Math.min(safeGross, currentRates.pension.qualifyingUpperLimit) - currentRates.pension.qualifyingLowerLimit,
   );
   return qualifyingPay * rate;
+}
+
+export function calculateIr35Comparison({
+  dayRate,
+  billableDays,
+  annualBusinessExpenses,
+}: {
+  dayRate: number;
+  billableDays: number;
+  annualBusinessExpenses: number;
+}): Ir35ComparisonResult {
+  const toPence = (value: number) => Math.round((value + Number.EPSILON) * 100) / 100;
+  const safeDayRate = Number.isFinite(dayRate) ? Math.max(0, dayRate) : 0;
+  const safeDays = Number.isFinite(billableDays) ? Math.max(0, billableDays) : 0;
+  const annualRevenue = toPence(safeDayRate * safeDays);
+  const expenses = Math.min(
+    annualRevenue,
+    Number.isFinite(annualBusinessExpenses) ? Math.max(0, annualBusinessExpenses) : 0,
+  );
+
+  // Competitor contract: outside-IR35 PSC uses a PA salary, its associated employer NI,
+  // 19% small-profits corporation tax, then dividends after the £500 allowance.
+  const outsideSalary = Math.min(currentRates.incomeTax.personalAllowance, Math.max(0, annualRevenue - expenses));
+  const outsideEmployerNi = employerNi(outsideSalary);
+  const taxableCompanyProfit = Math.max(0, annualRevenue - expenses - outsideSalary - outsideEmployerNi);
+  const corporationTax = taxableCompanyProfit * currentRates.corporationTax.smallProfitsRate;
+  const dividends = Math.max(0, taxableCompanyProfit - corporationTax);
+  const taxableDividends = Math.max(0, dividends - currentRates.dividendTax.allowance);
+  const basicDividend = Math.min(taxableDividends, currentRates.incomeTax.basicRateLimit);
+  const higherDividend = Math.min(
+    Math.max(0, taxableDividends - basicDividend),
+    currentRates.incomeTax.additionalThreshold - currentRates.incomeTax.personalAllowance - currentRates.incomeTax.basicRateLimit,
+  );
+  const additionalDividend = Math.max(0, taxableDividends - basicDividend - higherDividend);
+  const dividendTax = basicDividend * currentRates.dividendTax.basicRate
+    + higherDividend * currentRates.dividendTax.higherRate
+    + additionalDividend * currentRates.dividendTax.additionalRate;
+  const outsideTakeHome = outsideSalary + dividends - dividendTax;
+
+  // Inside IR35: split revenue above the secondary threshold between employer NI and deemed pay.
+  const aboveThreshold = Math.max(0, annualRevenue - currentRates.employerNi.secondaryThreshold);
+  const insideEmployerNi = aboveThreshold * currentRates.employerNi.rate / (1 + currentRates.employerNi.rate);
+  const deemedGrossSalary = annualRevenue - insideEmployerNi;
+  const insideIncomeTax = incomeTaxRuk(deemedGrossSalary);
+  const insideEmployeeNi = employeeNi(deemedGrossSalary);
+  const insideTakeHome = deemedGrossSalary - insideIncomeTax - insideEmployeeNi;
+
+  return {
+    annualRevenue,
+    outside: {
+      expenses: toPence(expenses),
+      salary: toPence(outsideSalary),
+      employerNi: toPence(outsideEmployerNi),
+      corporationTax: toPence(corporationTax),
+      dividendTax: toPence(dividendTax),
+      takeHome: toPence(outsideTakeHome),
+    },
+    inside: {
+      employerNi: toPence(insideEmployerNi),
+      deemedGrossSalary: toPence(deemedGrossSalary),
+      incomeTax: toPence(insideIncomeTax),
+      employeeNi: toPence(insideEmployeeNi),
+      takeHome: toPence(insideTakeHome),
+    },
+    takeHomeDifference: toPence(outsideTakeHome - insideTakeHome),
+  };
 }
 
 export function calculateP11d({

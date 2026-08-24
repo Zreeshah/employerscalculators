@@ -4,26 +4,26 @@ export default calculator({
   type: "calculator",
   slug: "nhs-take-home-pay",
   kind: "nhs-take-home-pay",
-  title: "NHS Take Home Pay Calculator UK 2026/27",
+  title: "NHS Pay Calculator 2026/27: Take-Home Pay & Pension",
   metaDescription:
-    "Estimate NHS take-home pay after income tax, employee NI, NHS pension contributions and student loan deductions. Built for Agenda for Change staff.",
-  h1: "NHS Take Home Pay Calculator",
+    "NHS pay calculator for Agenda for Change staff. Estimate NHS take-home pay after tax, NI, NHS pension contributions and student-loan deductions for 2026/27.",
+  h1: "NHS Pay Calculator & Take-Home Pay",
   intro:
-    "Use this NHS take-home pay calculator to estimate monthly net pay from an Agenda for Change salary. Enter the annual NHS salary, your pension contribution percentage and any monthly student loan deduction to see the main payroll deductions in one place. It is designed for NHS staff comparing bands, hours, promotions and pension impact before relying on a payslip.",
+    "Use this NHS pay calculator to estimate monthly net pay for Agenda for Change staff in England, Scotland or Wales. Select your nation, band, spine point and contracted hours, then add pension, student-loan and qualifying unsocial-hours details to see the main deductions in one place. It is designed for NHS staff comparing bands, hours, promotions and pension impact before relying on a payslip.",
   formulaExplainer:
-    "The calculator estimates annual gross NHS salary, deducts the selected NHS pension contribution, applies rUK income tax to pay after pension, applies employee National Insurance to gross pay, then subtracts any monthly student loan deduction you enter. It is a planning estimate only: tax code, nation-specific income tax, arrears, overtime, unsocial hours, salary sacrifice and payroll corrections can change the actual payslip.",
+    "The calculator starts with the selected Agenda for Change band, spine point, nation and contracted-hours fraction. It adds the selected English HCAS or Section 2 unsocial-hours inputs where applicable, deducts the NHS pension tier for actual pensionable pay, then applies the correct rUK or Scottish income-tax calculation, employee National Insurance and any selected student-loan plan. It is a planning estimate only: tax code, arrears, overtime, salary sacrifice and payroll corrections can change the actual payslip.",
   howToSteps: [
     {
-      name: "Enter your NHS annual salary",
-      text: "Use the full annual salary for your band, point and contracted hours. If you are part-time, enter the pro-rated annual salary rather than the full-time figure.",
+      name: "Choose your nation, band and spine point",
+      text: "Choose England, Scotland or Wales, then select the Agenda for Change band and spine point shown in your offer or payslip. The calculator starts with the corresponding official full-time salary.",
     },
     {
-      name: "Add your NHS pension percentage",
-      text: "Use the pension tier shown by your payroll or payslip. NHS pension contributions are normally taken before income tax, so the calculator deducts pension before estimating tax.",
+      name: "Set contracted hours and pension membership",
+      text: "Enter your weekly contracted hours and confirm whether you are in the NHS Pension Scheme. The calculator pro-rates the full-time salary and uses the pension tier for that actual pensionable pay.",
     },
     {
-      name: "Add student loan deductions if needed",
-      text: "If your payslip shows a regular student loan deduction, enter the monthly amount so the net pay estimate is closer to the money actually received.",
+      name: "Add student loan and eligible enhancements",
+      text: "Select the appropriate student-loan plan, then add eligible HCAS, night, Saturday, Sunday or bank-holiday hours if they apply. Read the separate deduction lines before treating the output as a payslip.",
     },
   ],
   sections: [

@@ -4,10 +4,10 @@ export default calculator({
   type: "calculator",
   slug: "pro-rata-calculator",
   kind: "pro-rata",
-  title: "Pro Rata Salary Calculator UK 2026/27 — Free Part-Time Pay Tool",
+  title: "Pro Rata Calculator UK 2026/27: Part-Time Salary & FTE",
   metaDescription:
-    "Free UK pro rata salary calculator for 2026/27. Work out part-time pay from a full-time equivalent salary using the standard hours-ratio formula. Used by employers, HR and employees.",
-  h1: "Pro Rata Salary Calculator",
+    "Pro rata calculator for UK part-time pay. Work out a pro rata salary, FTE and monthly pay from a full-time salary and contracted hours for 2026/27.",
+  h1: "Pro Rata Calculator: Part-Time Salary & FTE",
   intro:
     "This pro rata salary calculator works out what a part-time or reduced-hours employee should earn compared with the full-time equivalent salary, using the standard hours-ratio formula used across UK payroll. It is built for employers setting part-time pay, HR teams drafting contracts, and employees checking whether an offer is fair. Enter the full-time annual salary and the two sets of weekly hours and the calculator returns the pro rata annual figure in seconds — with no sign-up and no data leaving your browser.",
   formulaExplainer:

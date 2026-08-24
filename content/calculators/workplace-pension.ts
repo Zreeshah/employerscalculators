@@ -4,18 +4,18 @@ export default calculator({
   type: "calculator",
   slug: "workplace-pension-calculator",
   kind: "workplace-pension",
-  title: "Workplace Pension Contribution Calculator UK 2026/27",
+  title: "Workplace Pension Calculator UK 2026/27: Auto-Enrolment",
   metaDescription:
-    "Work out employee, employer and total workplace pension contributions for 2026/27. Auto-enrolment minimums: 3% employer, 5% employee on earnings over £10,000.",
-  h1: "Workplace Pension Calculator",
+    "Workplace pension calculator for 2026/27. Calculate employer, employee and total auto-enrolment pension contributions on qualifying or total earnings.",
+  h1: "Workplace Pension & Auto-Enrolment Calculator",
   intro:
     "Calculate annual workplace pension contributions from gross salary and any employee and employer percentages. Built for UK employers running payroll, HR teams checking auto-enrolment compliance, and employees checking their own deductions. For 2026/27 the **auto-enrolment minimums are 3% from the employer and 5% from the employee — 8% in total** — for eligible workers earning over £10,000 a year (GOV.UK).",
   formulaExplainer:
-    ":::callout info\nFor a gross salary **S**, employee percentage **e** and employer percentage **p**:\n\n- **Employee contribution: S × e** (with tax relief added on top for relief-at-source schemes)\n- **Employer contribution: S × p**\n- **Total pension contribution: S × (e + p)**\n\nThe calculator applies the percentages to the full gross salary you enter. Some schemes instead calculate minimum contributions on the **qualifying earnings band** (roughly earnings between £6,240 and £50,270 a year for 2026/27), which produces a lower figure for the same percentages — check your scheme rules if your payroll result differs.\n:::",
+    ":::callout info\nFor a gross salary **S**, employee percentage **e** and employer percentage **p**:\n\n- **Employee contribution: S × e** (with tax relief added on top for relief-at-source schemes)\n- **Employer contribution: S × p**\n- **Total pension contribution: S × (e + p)**\n\nBy default, the calculator applies the percentages to the **qualifying earnings band** (earnings between £6,240 and £50,270 a year for 2026/27). You can switch it to total earnings if that matches your scheme rules. The contribution basis is why payroll can differ from a simple salary-times-percentage calculation.\n:::",
   howToSteps: [
     {
       name: "Enter the gross annual salary",
-      text: "Use the employee's pensionable pay for the year. If the scheme runs on qualifying earnings, the calculator will over-state the minimum contribution; for a like-for-like minimums check, run the figures on the qualifying band instead.",
+      text: "Use the employee's annual pensionable pay. The calculator defaults to qualifying earnings for an auto-enrolment minimums check; switch to total earnings only if that is the basis set in your pension scheme.",
     },
     {
       name: "Set the employee and employer percentages",
@@ -37,7 +37,7 @@ export default calculator({
     },
     {
       heading: "How workplace pension contributions are calculated",
-      body: "The minimum contribution for 2026/27 is **8% of qualifying earnings in total**, made up of at least **3% from the employer** and at least **5% from the employee** (including any tax relief). The figures in the table below show the minimums on a £35,000 salary for context, both on qualifying earnings and on full salary.\n\n:::table\n| Basis | Employer (3%) | Employee (5%) | Total (8%) |\n|---|---|---|---|\n| On £35,000 full salary | £1,050 | £1,750 | £2,800 |\n| On qualifying earnings (≈£44,030 band) | £1,050 cap applies | £1,750 cap applies | ~£2,800 |\n| Above 8% (typical enhanced scheme, 10%) | £1,750 | £1,750 | £3,500 |\n:::\n\nMany employers voluntarily pay more than 3% to attract staff — enhanced schemes of 6% or 8% employer contributions are common in professional and finance roles.",
+      body: "The minimum contribution for 2026/27 is **8% of qualifying earnings in total**, made up of at least **3% from the employer** and at least **5% from the employee** (including any tax relief). The figures in the table below show the minimums on a £35,000 salary for context, both on qualifying earnings and on full salary.\n\n:::table\n| Basis | Employer (3%) | Employee (5%) | Total (8%) |\n|---|---|---|---|\n| On £35,000 full salary | £1,050.00 | £1,750.00 | £2,800.00 |\n| On £28,760 qualifying earnings | £862.80 | £1,438.00 | £2,300.80 |\n| On £35,000 total earnings at 10% (5% + 5%) | £1,750.00 | £1,750.00 | £3,500.00 |\n:::\n\nMany employers voluntarily pay more than 3% to attract staff — enhanced schemes of 6% or 8% employer contributions are common in professional and finance roles.",
     },
     {
       heading: "Who has to be automatically enrolled?",
@@ -82,7 +82,7 @@ export default calculator({
     {
       question: "Does this calculator use qualifying earnings?",
       answer:
-        "No — it applies your percentages to **full gross salary**. Many schemes calculate minimum contributions on qualifying earnings (a band of pay) rather than total salary, which produces lower figures. Your scheme documents or pension provider will confirm which basis applies.",
+        "By default it applies your percentages to **qualifying earnings**. You can switch to total earnings if that matches the scheme rules. Check your pension documents before reconciling the result with payroll.",
     },
     {
       question: "Can an employee contribute more than the 5% minimum?",

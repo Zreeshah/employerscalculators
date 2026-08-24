@@ -4,10 +4,10 @@ export default calculator({
   type: "calculator",
   slug: "ssp-calculator",
   kind: "ssp",
-  title: "SSP Calculator UK 2026/27 — SSP Rate, Weekly & Daily Amount",
+  title: "SSP Calculator 2026/27: Statutory Sick Pay Rate & Daily Pay",
   metaDescription:
-    "How much is SSP in 2026/27? SSP rate £123.25/week (or 80% of AWE), from day 1 for up to 28 weeks. Work out the weekly statutory sick pay, the daily rate for SSP, and the total SSP amount. Free UK calculator.",
-  h1: "SSP Calculator",
+    "How much is SSP in 2026/27? Use this UK SSP calculator for the £123.25 weekly rate, daily sick-pay rate and total statutory sick pay for an absence.",
+  h1: "SSP Calculator: Statutory Sick Pay Rate",
   intro:
     "How much is Statutory Sick Pay? For 2026/27 the **SSP rate is £123.25 a week** — or 80% of your average weekly earnings if that is lower — paid from the first qualifying day of sickness for up to 28 weeks. This SSP calculator works out the **weekly rate of SSP**, the **daily rate for SSP**, and the **SSP amount** owed to an employee over a spell of sickness, using the official HMRC rules in force from 6 April 2026.\n\n:::callout info\n**The new SSP rates for 2026/27:** £123.25 a week (the **SSP weekly rate** for 2026/27), or 80% of average weekly earnings if lower. The **statutory sick pay daily rate** depends on how many qualifying days the employee works per week. The **SSP amount** for a spell is the daily rate multiplied by the qualifying days of sickness, up to 28 weeks.\n:::",
   formulaExplainer:

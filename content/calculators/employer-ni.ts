@@ -4,10 +4,10 @@ export default calculator({
   type: "calculator",
   slug: "employer-ni-calculator",
   kind: "employer-ni",
-  title: "Employer NI Calculator UK 2026/27: NIC Cost Tool",
+  title: "Employers NI Calculator UK 2026/27: Employer NIC Cost",
   metaDescription:
-    "Employer NI calculator for 2026/27: work out 15% Class 1 secondary NIC above the £5,000 threshold, monthly cost and total salary plus NI",
-  h1: "Employer NI Calculator",
+    "Employers NI calculator for 2026/27. Calculate employer National Insurance, monthly NIC and salary-plus-NI cost at 15% above the £5,000 threshold.",
+  h1: "Employers NI Calculator",
   intro:
     "Use this **Employer NI calculator** to estimate the Class 1 secondary National Insurance a UK employer pays on top of an employee's salary in 2026/27. Enter the annual gross salary and the tool shows the annual employer NIC, the monthly equivalent and the total salary plus employer NI cost. The estimate uses the GOV.UK 2026/27 employer NI rate of **15% above the £5,000 secondary threshold** for a standard employee, before any Employment Allowance is applied.",
   formulaExplainer:

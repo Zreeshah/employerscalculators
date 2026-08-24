@@ -18,6 +18,7 @@ import { NhsPayComparisonCalculatorParity, NhsTakeHomeCalculatorParity } from "@
 import {
   calculate,
   calculatorInputs,
+  calculateIr35Comparison,
   calculateMaternityAllowance,
   calculateSalarySacrificeImpact,
   calculateSmp,
@@ -69,6 +70,7 @@ export default function CalculatorForm({
   nhsPreset?: NhsCalculatorPreset;
 }) {
   if (kind === "employer-ni") return <EmployerNiCalculator defaults={defaults} />;
+  if (kind === "ir35") return <Ir35Calculator />;
   if (kind === "employee-cost") return <EmployeeCostCalculator defaults={defaults} />;
   if (kind === "smp") return <SmpCalculator defaults={defaults} />;
   if (kind === "p11d") return <P11dCalculator defaults={defaults} />;
@@ -89,6 +91,79 @@ export default function CalculatorForm({
     return <SalarySacrificeCalculator defaults={defaults} pensionMode={kind === "salary-sacrifice-pension"} />;
   }
   return <GenericCalculatorForm kind={kind} defaults={defaults} />;
+}
+
+function Ir35Calculator() {
+  const [dayRate, setDayRate] = useState(500);
+  const [billableDays, setBillableDays] = useState(220);
+  const [annualBusinessExpenses, setAnnualBusinessExpenses] = useState(3000);
+  const result = useMemo(
+    () => calculateIr35Comparison({ dayRate, billableDays, annualBusinessExpenses }),
+    [dayRate, billableDays, annualBusinessExpenses],
+  );
+
+  function resetCalculator() {
+    setDayRate(500);
+    setBillableDays(220);
+    setAnnualBusinessExpenses(3000);
+  }
+
+  return (
+    <div className="space-y-6">
+      <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.05fr)]">
+        <form className="card space-y-5 bg-white p-6 shadow-sm" aria-label="IR35 comparison inputs">
+          <div>
+            <h2 className="text-2xl font-semibold">Contractor details</h2>
+            <p className="mt-2 text-sm text-ink/60">Enter your day rate and working days to compare inside and outside IR35.</p>
+          </div>
+          <div>
+            <label htmlFor="ir35-day-rate" className="mb-1.5 block text-sm font-medium">Day rate <span className="text-accent-strong">*</span> <span className="font-normal text-ink/70">(£)</span></label>
+            <input id="ir35-day-rate" type="number" inputMode="decimal" min={0} step="any" value={dayRate === 0 ? "" : dayRate} onChange={(event) => setDayRate(Number(event.target.value))} className="tabular w-full rounded-lg border border-ink/15 bg-white px-3 py-2.5 text-base transition-colors hover:border-ink/30 focus:border-accent-strong focus:ring-2 focus:ring-accent/20 focus:outline-none" />
+          </div>
+          <div>
+            <label htmlFor="ir35-billable-days" className="mb-1.5 block text-sm font-medium">Billable days per year <span className="text-accent-strong">*</span></label>
+            <input id="ir35-billable-days" type="number" inputMode="numeric" min={0} max={366} step={1} value={billableDays === 0 ? "" : billableDays} onChange={(event) => setBillableDays(Number(event.target.value))} className="tabular w-full rounded-lg border border-ink/15 bg-white px-3 py-2.5 text-base transition-colors hover:border-ink/30 focus:border-accent-strong focus:ring-2 focus:ring-accent/20 focus:outline-none" />
+          </div>
+          <div>
+            <label htmlFor="ir35-expenses" className="mb-1.5 block text-sm font-medium">Annual business expenses <span className="font-normal text-ink/70">(£)</span></label>
+            <input id="ir35-expenses" type="number" inputMode="decimal" min={0} step="any" value={annualBusinessExpenses === 0 ? "" : annualBusinessExpenses} onChange={(event) => setAnnualBusinessExpenses(Number(event.target.value))} className="tabular w-full rounded-lg border border-ink/15 bg-white px-3 py-2.5 text-base transition-colors hover:border-ink/30 focus:border-accent-strong focus:ring-2 focus:ring-accent/20 focus:outline-none" />
+          </div>
+          <button type="button" onClick={resetCalculator} className="w-full rounded-lg border border-ink/15 px-4 py-2.5 text-sm font-semibold transition-colors hover:border-accent-strong hover:text-accent-strong">Reset</button>
+        </form>
+
+        <section className="card number-box min-w-0 bg-paper/70 p-6 shadow-sm" aria-live="polite">
+          <p className="text-sm text-ink/60">Annual revenue</p>
+          <p className="tabular safe-number-md mt-2 font-semibold text-accent-strong">{gbp.format(result.annualRevenue)}</p>
+          <p className="mt-1 text-sm text-ink/60">{gbp.format(dayRate)} per day × {billableDays || 0} days</p>
+          <div className="mt-6 grid gap-3 sm:grid-cols-2">
+            <div className="rounded-xl border border-ink/10 bg-white p-4">
+              <p className="text-xs font-semibold uppercase tracking-widest text-ink/55">Outside IR35</p>
+              <p className="tabular safe-number-sm mt-2 font-semibold text-accent-strong">{gbp.format(result.outside.takeHome)}</p>
+              <p className="mt-1 text-xs text-ink/60">Estimated annual take-home</p>
+            </div>
+            <div className="rounded-xl border border-ink/10 bg-white p-4">
+              <p className="text-xs font-semibold uppercase tracking-widest text-ink/55">Inside IR35</p>
+              <p className="tabular safe-number-sm mt-2 font-semibold text-accent-strong">{gbp.format(result.inside.takeHome)}</p>
+              <p className="mt-1 text-xs text-ink/60">Estimated annual take-home</p>
+            </div>
+          </div>
+          <p className="mt-5 rounded-xl bg-accent/[0.08] p-4 text-sm text-ink/75">Outside IR35 pays <strong className="text-accent-strong">{gbp.format(Math.abs(result.takeHomeDifference))} {result.takeHomeDifference >= 0 ? "more" : "less"}</strong> in this illustration.</p>
+        </section>
+      </div>
+
+      <div className="grid gap-6 lg:grid-cols-2">
+        <section className="card bg-white p-6 shadow-sm">
+          <h2 className="text-xl font-semibold">Outside IR35 breakdown</h2>
+          <dl className="mt-5 divide-y divide-ink/10 text-sm"><div className="flex justify-between gap-4 py-3 first:pt-0"><dt>Annual revenue</dt><dd className="tabular font-semibold">{gbp.format(result.annualRevenue)}</dd></div><div className="flex justify-between gap-4 py-3"><dt>Business expenses</dt><dd className="tabular font-semibold">− {gbp.format(result.outside.expenses)}</dd></div><div className="flex justify-between gap-4 py-3"><dt>Salary at personal allowance</dt><dd className="tabular font-semibold">− {gbp.format(result.outside.salary)}</dd></div><div className="flex justify-between gap-4 py-3"><dt>Employer NI on salary</dt><dd className="tabular font-semibold">− {gbp.format(result.outside.employerNi)}</dd></div><div className="flex justify-between gap-4 py-3"><dt>Corporation tax</dt><dd className="tabular font-semibold">− {gbp.format(result.outside.corporationTax)}</dd></div><div className="flex justify-between gap-4 py-3"><dt>Dividend tax</dt><dd className="tabular font-semibold">− {gbp.format(result.outside.dividendTax)}</dd></div><div className="flex justify-between gap-4 pt-3 text-base"><dt className="font-semibold">Take-home</dt><dd className="tabular font-semibold text-accent-strong">{gbp.format(result.outside.takeHome)}</dd></div></dl>
+        </section>
+        <section className="card bg-white p-6 shadow-sm">
+          <h2 className="text-xl font-semibold">Inside IR35 breakdown</h2>
+          <dl className="mt-5 divide-y divide-ink/10 text-sm"><div className="flex justify-between gap-4 py-3 first:pt-0"><dt>Annual revenue</dt><dd className="tabular font-semibold">{gbp.format(result.annualRevenue)}</dd></div><div className="flex justify-between gap-4 py-3"><dt>Employer NI</dt><dd className="tabular font-semibold">− {gbp.format(result.inside.employerNi)}</dd></div><div className="flex justify-between gap-4 py-3"><dt>Deemed gross salary</dt><dd className="tabular font-semibold">{gbp.format(result.inside.deemedGrossSalary)}</dd></div><div className="flex justify-between gap-4 py-3"><dt>Employee NI</dt><dd className="tabular font-semibold">− {gbp.format(result.inside.employeeNi)}</dd></div><div className="flex justify-between gap-4 py-3"><dt>Income tax</dt><dd className="tabular font-semibold">− {gbp.format(result.inside.incomeTax)}</dd></div><div className="flex justify-between gap-4 pt-3 text-base"><dt className="font-semibold">Take-home</dt><dd className="tabular font-semibold text-accent-strong">{gbp.format(result.inside.takeHome)}</dd></div></dl>
+        </section>
+      </div>
+      <p className="text-xs leading-relaxed text-ink/60">Illustrative comparison only. It uses the competitor’s standard assumptions: a personal-allowance salary, the small-profits corporation-tax rate and the dividend allowance. Actual contractor tax depends on company profit, other income, expenses, employment status and professional advice.</p>
+    </div>
+  );
 }
 
 function GenericCalculatorForm({

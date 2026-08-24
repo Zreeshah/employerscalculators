@@ -4,10 +4,10 @@ export default calculator({
   type: "calculator",
   slug: "employee-cost-calculator",
   kind: "employee-cost",
-  title: "Cost of Employing Someone Calculator UK 2026/27",
+  title: "True Cost of Employee Calculator UK 2026/27",
   metaDescription:
-    "Work out the true annual cost of an employee in 2026/27: gross salary, employer NI, workplace pension and optional additional employer costs.",
-  h1: "Employee Cost Calculator",
+    "How much does it cost to employ someone? Calculate the true UK employee cost: salary, employer NI, pension and optional on-costs for 2026/27.",
+  h1: "Cost of Employing Someone Calculator",
   intro:
     "See the real annual cost of employing someone in the UK, not just their salary. Designed for small-business owners budgeting a new hire and accountants advising on headcount. For 2026/27 the calculator combines **gross salary, employer National Insurance at 15% on earnings above £5,000, workplace pension contributions, Employment Allowance where selected, and any extra annual employer costs**.",
   formulaExplainer:

@@ -4,10 +4,10 @@ export default calculator({
   type: "calculator",
   slug: "p11d-calculator",
   kind: "p11d",
-  title: "P11D Benefit in Kind Calculator UK 2026/27",
+  title: "Benefit in Kind Calculator & P11D Tax Calculator UK 2026/27",
   metaDescription:
-    "Work out the cost of a benefit in kind for 2026/27: extra income tax for the employee at their marginal rate plus 15% Class 1A NI for the employer.",
-  h1: "P11D Benefit in Kind Calculator",
+    "Benefit in kind calculator for 2026/27. Work out P11D taxable value, employee BIK tax and employer Class 1A NI, including employee contributions.",
+  h1: "Benefit in Kind Calculator (P11D)",
   intro:
     "This P11D calculator shows the tax cost of a benefit in kind — such as private medical insurance, a company car or a gym membership — for both the employee and the employer in 2026/27. It is built for UK employers completing P11D returns, payroll teams checking liabilities, and employees working out what a perk really costs them. Employers pay **Class 1A National Insurance at 15%** on the taxable value of most benefits in kind (HMRC).",
   formulaExplainer:
