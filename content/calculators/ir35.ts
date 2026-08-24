@@ -14,16 +14,16 @@ export default calculator({
     ":::callout info\n**Inside IR35:** deemed gross = **contract fee − (15% × max(0, fee − £5,000))**; then deduct income tax (20% / 40% / 45% after the £12,570 Personal Allowance, tapered to nil between £100,000 and £125,140) and employee NI (8% to £50,270, 2% above).\n\n**Outside IR35:** the same fee is paid into the contractor's PSC. The PSC pays 25% corporation tax on profits, then pays the contractor by dividend — taxed at 8.75% basic / 33.75% higher / 39.35% additional dividend rate. No employer NI, no employee NI on dividends.\n:::\n\nThe **inside-IR35 take-home** is what the calculator above models. The **outside-IR35 take-home** is a worked example for comparison — actual outside figures depend on how the PSC mixes salary and dividends, so the comparison is illustrative, not a forecast. Both sides use 2026/27 HMRC rates.",
   howToSteps: [
     {
-      name: "Enter the annual contract fee",
-      text: "Type the gross amount the fee payer will pay the contractor for the year — the total fee before any deductions, including VAT if the contractor is VAT-registered and outside the scope of the deemed payment calculation.",
+      name: "Enter the day rate and billable days",
+      text: "Enter the pre-VAT day rate and the number of days you expect to bill in the year. The calculator multiplies them to calculate annual revenue for both scenarios.",
     },
     {
-      name: "Read the employer NI deduction",
-      text: "The calculator shows the 15% employer NI applied to fee above the £5,000 secondary threshold. This is deducted first; the contractor never sees it as take-home.",
+      name: "Add annual business expenses",
+      text: "Enter genuine annual costs of running the PSC, such as accountancy, insurance and software. They reduce the outside-IR35 company profit in this illustration but do not reduce the inside-IR35 PAYE comparison.",
     },
     {
-      name: "Read the income tax and employee NI",
-      text: "The next line shows the income tax and employee NI on the deemed gross pay. Both are deducted through PAYE in the same way as for a regular employee.",
+      name: "Compare both take-home figures",
+      text: "Read the outside-IR35 and inside-IR35 take-home cards, then open each breakdown to see employer NI, corporation tax, dividend tax, income tax and employee NI."
     },
     {
       name: "Read the inside-IR35 take-home",
