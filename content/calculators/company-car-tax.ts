@@ -4,7 +4,7 @@ export default calculator({
   type: "calculator",
   slug: "company-car-tax-calculator",
   kind: "company-car-tax",
-  title: "Company Car Tax Calculator UK 2026/27",
+  title: "Company Car Tax Calculator UK 2026/27: BIK & P11D",
   metaDescription:
     "Calculate 2026/27 company car BIK tax from P11D price, CO2, fuel type and PHEV range, plus employee contribution and employer Class 1A NI",
   h1: "Company Car Tax Calculator",

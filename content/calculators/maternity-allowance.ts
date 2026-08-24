@@ -4,9 +4,9 @@ export default calculator({
   type: "calculator",
   slug: "maternity-allowance-calculator",
   kind: "maternity-allowance",
-  title: "Maternity Allowance Calculator UK 2026/27",
+  title: "Maternity Allowance Calculator UK 2026/27: How Much You Get",
   metaDescription:
-    "Maternity Allowance calculator for 2026/27 — £194.32 a week or 90% of average weekly earnings if lower, paid for up to 39 weeks",
+    "How much is Maternity Allowance in 2026/27? Estimate £194.32 a week or 90% of average weekly earnings if lower, paid for up to 39 weeks, including self-employed claims.",
   h1: "Maternity Allowance Calculator",
   intro:
     "Estimate Maternity Allowance (MA) for people who do not qualify for Statutory Maternity Pay in 2026/27. This UK maternity allowance calculator is built for self-employed claimants, recently employed workers, and employers checking what an ineligible employee should claim instead. For 2026/27 Maternity Allowance is £194.32 a week, or 90% of average weekly earnings if lower, paid for up to 39 weeks.",
@@ -88,6 +88,14 @@ export default calculator({
     {
       "question": "What evidence is needed for Maternity Allowance?",
       "answer": "Common evidence includes payslips, proof of self-employment earnings, MATB1 and SMP1 if SMP was refused."
+    },
+    {
+      "question": "How much is Maternity Allowance if you are unemployed?",
+      "answer": "Unemployed claimants with a recent employment record may still qualify — the rate is 90% of average weekly earnings in the test period (up to £194.32), for up to 39 weeks, provided at least 26 of the 66 weeks before the baby is due were spent working or self-employed."
+    },
+    {
+      "question": "What is the Maternity Allowance test period?",
+      "answer": "The test period is the 66 weeks before the week the baby is due. You must have worked or been self-employed for at least 26 of those weeks, and your average weekly earnings are taken from the highest-earning 13 weeks in that window."
     },
   ],
   relatedSlugs: [],

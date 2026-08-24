@@ -4,7 +4,7 @@ export default calculator({
   type: "calculator",
   slug: "salary-sacrifice-pension-calculator",
   kind: "salary-sacrifice-pension",
-  title: "Salary Sacrifice Pension Calculator UK 2026/27",
+  title: "Salary Sacrifice Pension Calculator UK 2026/27: NI Savings",
   metaDescription:
     "See the employee and employer National Insurance savings when pension contributions are made by salary sacrifice in 2026/27, plus the reduced gross salary.",
   h1: "Salary Sacrifice Pension Calculator",

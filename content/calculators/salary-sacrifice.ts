@@ -4,7 +4,7 @@ export default calculator({
   type: "calculator",
   slug: "salary-sacrifice-calculator",
   kind: "salary-sacrifice",
-  title: "Salary Sacrifice Calculator UK 2026/27",
+  title: "Salary Sacrifice Calculator UK 2026/27: NI Savings",
   metaDescription:
     "Salary sacrifice calculator for 2026/27. Work out the reduced gross and the employee and employer National Insurance savings from any sacrifice",
   h1: "Salary Sacrifice Calculator",

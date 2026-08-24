@@ -3,7 +3,7 @@ import { guide } from "../types";
 export default guide({
   type: "guide",
   slug: "statutory-holiday-entitlement-uk",
-  title: "Statutory Holiday Entitlement UK 2026/27: 5.6 Weeks, Part-Time & Irregular Hours",
+  title: "Statutory Holiday Entitlement UK: 28 Days & Bank Holidays",
   metaDescription:
     "UK statutory holiday entitlement explained: 5.6 weeks (28 days for 5-day week), part-time pro-rata, 12.07% accrual for irregular hours, rolled-up pay, bank holidays & carry-over rules.",
   h1: "Statutory Holiday Entitlement in the UK",
@@ -81,26 +81,6 @@ export default guide({
     },
     {
       question: "Can bank holidays be included in the 28 days?",
-      answer:
-        "Yes. Employers can count the eight usual UK bank holidays within the **5.6-week (28-day) statutory minimum**, leaving 20 days of flexible leave. There is no separate legal right to paid bank holidays unless the contract says so.",
-    },
-    {
-      question: "Is rolled-up holiday pay legal in the UK?",
-      answer:
-        "Rolled-up holiday pay is lawful **only for irregular-hours and part-year workers**, for leave years starting **on or after 1 April 2024**. It must be calculated at **12.07%**, shown separately on the payslip, and workers must still be allowed to take their leave unpaid.",
-    },
-    {
-      question: "Can unused statutory holiday be carried over?",
-      answer:
-        "Normally statutory holiday must be taken within the leave year, but workers off sick can carry over up to **4 weeks for 18 months**, and those on maternity or family-related leave can carry over the **full 5.6 weeks**. Further carry-over is a contractual matter for the employer to decide.",
-    },
-    {
-      question: "What is the 12.07% holiday accrual method?",
-      answer:
-        "For irregular-hours and part-year workers, holiday accrues at **12.07% of hours worked** in each pay period. The figure comes from **5.6 weeks of leave divided by the 46.4 working weeks of the year**. A worker logging 60 hours accrues about **7.24 hours** of paid holiday.",
-    },
-    {
-      question: "Can bank holidays be included in the 5.6 weeks?",
       answer:
         "Yes. Employers can count the eight usual UK bank holidays within the **5.6-week (28-day) statutory minimum**, leaving 20 days of flexible leave. There is no separate legal right to paid bank holidays unless the contract says so.",
     },

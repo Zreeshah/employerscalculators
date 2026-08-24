@@ -4,7 +4,7 @@ export default calculator({
   type: "calculator",
   slug: "two-jobs-tax-calculator",
   kind: "two-jobs-tax",
-  title: "Two Jobs Tax Calculator UK 2026/27",
+  title: "Two Jobs Tax Calculator UK 2026/27: Second Job Take-Home",
   metaDescription:
     "Two jobs tax calculator for 2026/27: combine take-home pay, tax codes, NI, pensions, loans, overtime and employer costs for two UK jobs",
   h1: "Two Jobs Tax Calculator",
