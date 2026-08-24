@@ -21,7 +21,7 @@ function stepLabel(index: number, length: number) {
 }
 
 function NationTabs({ nation, onChange }: { nation: NhsNation; onChange: (nation: NhsNation) => void }) {
-  return <div role="tablist" aria-label="Choose UK nation" className="flex flex-wrap gap-1 rounded-lg border border-ink/10 bg-paper p-1">{nationOptions.map((item) => <button key={item.value} type="button" role="tab" aria-selected={nation === item.value} onClick={() => onChange(item.value)} className={nation === item.value ? "rounded-md bg-accent-strong px-4 py-2 text-sm font-semibold text-white shadow-sm" : "rounded-md px-4 py-2 text-sm font-medium hover:bg-white"}>{item.label}</button>)}<span className="px-3 py-2 text-xs font-medium text-ink/45">Northern Ireland pending</span></div>;
+  return <div role="tablist" aria-label="Choose UK nation" className="flex flex-wrap gap-1 rounded-lg border border-ink/10 bg-paper p-1">{nationOptions.map((item) => <button key={item.value} type="button" role="tab" aria-selected={nation === item.value} onClick={() => onChange(item.value)} className={nation === item.value ? "rounded-md bg-accent-strong px-4 py-2 text-sm font-semibold text-white shadow-sm" : "rounded-md px-4 py-2 text-sm font-medium hover:bg-white"}>{item.label}</button>)}</div>;
 }
 
 function NhsCoreInputs({ input, onChange, showNationTabs = true }: { input: NhsSalaryInput; onChange: (input: NhsSalaryInput) => void; showNationTabs?: boolean }) {
