@@ -10,6 +10,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const staticRoutes: MetadataRoute.Sitemap = [
     { url: `${SITE_URL}/`, changeFrequency: "weekly", priority: 1 },
     { url: `${SITE_URL}/guides`, changeFrequency: "weekly", priority: 0.8 },
+    { url: `${SITE_URL}/embed`, changeFrequency: "monthly", priority: 0.6 },
     ...simplePages.map((p) => ({
       url: `${SITE_URL}/${p.slug}`,
       changeFrequency: "yearly" as const,

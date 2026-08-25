@@ -5,6 +5,7 @@ import { lastUpdated, taxYearLabel } from "@/data/rates";
 import { SITE_NAME } from "@/lib/seo";
 
 const COMPANY = [
+  { href: "/embed", label: "Embed Our Calculators" },
   { href: "/about", label: "About" },
   { href: "/methodology", label: "Methodology" },
   { href: "/contact", label: "Contact" },

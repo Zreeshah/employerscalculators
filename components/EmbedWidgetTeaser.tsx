@@ -10,10 +10,10 @@ export default function EmbedWidgetTeaser() {
         attribution. Embeds are in early access.
       </p>
       <Link
-        href="/contact"
+        href="/embed"
         className="mt-4 inline-block rounded-lg bg-accent-strong px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-accent-deep"
       >
-        Register interest
+        Get the embed code
       </Link>
     </section>
   );
