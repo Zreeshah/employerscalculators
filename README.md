@@ -1,6 +1,6 @@
 # Employers Calculators
 
-Free UK payroll & employment calculator platform at **employerscalculators.co.uk** — pro rata, SSP, SMP, employer NI, pensions, IR35, NHS pay bands and more. Every figure is sourced to the official HMRC 2026/27 rates.
+Free UK payroll & employment calculator platform at **employerscalculators.co.uk** — 54 calculators, 12 guides and 5 utility pages, covering pro rata, SSP, SMP, employer NI, pensions, IR35, NHS pay bands and more. Every figure is sourced to the official HMRC 2026/27 rates.
 
 ## Stack
 
@@ -44,7 +44,7 @@ components/
   CalculatorForm.tsx ('use client')  # the ONLY client component — live inputs + sticky result panel
   Header.tsx, Footer.tsx
   Breadcrumbs.tsx                # also emits BreadcrumbList JSON-LD
-  ReviewedByByline.tsx           # reviewer/credential/date (placeholders until claimed)
+  ReviewedByByline.tsx           # reviewer/credential/date (James Sheridan, CIPP-qualified payroll specialist)
   RatesTable.tsx                 # reads /data/rates.ts
   FaqAccordion.tsx               # CSS-only details/summary
   RelatedContent.tsx             # pulls links from /content/taxonomy.ts
@@ -54,17 +54,17 @@ components/
 
 content/
   types.ts                       # CalculatorContent, GuideContent, SimplePageContent
-  calculators/<slug>.ts          # 18 core calculator content files (one per calculator)
-  calculators/nhs.ts             # generates 11 NHS band × England pages from data
+  calculators/<slug>.ts          # 26 calculator modules (core + NHS/teachers/police generators)
+  calculators/nhs.ts             # generates 23 NHS pay pages from data
   calculators/index.ts           # registry + homepage groups
-  guides/<slug>.ts               # 9 guide content files
+  guides/<slug>.ts               # 12 guide content files
   guides/index.ts                # registry
   pages.ts                       # 5 utility pages (about, methodology, contact, privacy, terms)
   taxonomy.ts                    # related-slugs map (RelatedContent source of truth)
 
 data/
   rates.ts                       # SINGLE SOURCE for all 2026/27 HMRC figures
-  nhs-pay-bands.ts               # Agenda for Change pay scales (England 2025/26, pending 2026/27 award)
+  nhs-pay-bands.ts               # Agenda for Change pay scales (England, Scotland, Wales)
   future-pay-scales.ts           # empty stub for teachers' / police pay matrices
 
 lib/
@@ -129,7 +129,7 @@ Performance is throttled-mobile simulation; the only client JS is the small calc
 
 ## Known ceilings
 
-- NHS matrix is England-only — Scotland/Wales/NI scales land once verified (see `data/nhs-pay-bands.ts → publishedNations`)
+- NHS matrix now covers England, Scotland and Wales; Northern Ireland is still pending
 - Company car tax uses a user-supplied BIK% — pulling live CO2-based BIK bands from HMRC is a future task
 - IR35 calculator shows an inside-IR35 estimate only; the outside-IR35 comparison needs the user's chosen mix of salary vs dividends
 - Occupational sick-pay calculators are out of scope (the SSP floor is shown for comparison)

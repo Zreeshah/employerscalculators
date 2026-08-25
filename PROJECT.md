@@ -1,6 +1,6 @@
 # Employers Calculators — Project Documentation
 
-> **Free UK payroll & employment calculator platform** — 18 core calculators, 11 NHS pay-band pages, 9 in-depth guides, all built on official HMRC 2026/27 rates.
+> **Free UK payroll & employment calculator platform** — 54 calculator routes, 12 guide pages, 5 utility pages, all built on official HMRC 2026/27 rates.
 
 ---
 
@@ -12,7 +12,7 @@
 
 **Positioning:** Most accurate, clearly sourced, fastest-loading calculator in each category — not a content farm.
 
-**Live URL:** https://employerscalculators.vercel.app/
+**Live URL:** https://employerscalculators.co.uk/
 
 ---
 
@@ -75,17 +75,17 @@ employerscalculators/
 │   ├── pages.ts                # Simple pages (about, methodology, contact, privacy, terms)
 │   ├── calculators/
 │   │   ├── index.ts            # Registry + homepage groups + NHS generator
-│   │   ├── nhs.ts              # Generates 11 NHS band pages from data/
-│   │   ├── pro-rata.ts ...     # 18 core calculator content files
+│   │   ├── nhs.ts              # Generates 23 NHS pay pages from data/
+│   │   ├── pro-rata.ts ...     # 26 calculator modules (core + NHS/teachers/police generators)
 │   │   └── ir35.ts ...         # All with Prose blocks, HowTo steps, FAQs
 │   ├── guides/
 │   │   ├── index.ts            # Guide registry
-│   │   ├── employer-ni-rates-2026-27.ts  (and 8 more)
+│   │   ├── employer-ni-rates-2026-27.ts  (and 11 more)
 │   │   └── index.ts
 │   └── calculatorIcons.ts
 ├── data/
 │   ├── rates.ts                # SINGLE source of truth for all 2026/27 HMRC figures
-│   ├── nhs-pay-bands.ts        # NHS Agenda for Change 2025/26 (England only, pending 2026/27)
+│   ├── nhs-pay-bands.ts        # NHS Agenda for Change pay scales (England, Scotland, Wales)
 │   └── future-pay-scales.ts    # Stub for future teachers/police matrices
 ├── lib/
 │   ├── calculators.ts          # CalculatorKind, input specs, REAL formulas + helpers
@@ -155,7 +155,7 @@ interface SimplePageContent {   // about, methodology, contact, privacy, terms
 | File | Purpose |
 |------|---------|
 | `content/calculators/index.ts` | Exports `allCalculators`, `calculatorBySlug`, `calculatorGroups` (homepage groups) |
-| `content/calculators/nhs.ts` | Generates 11 NHS pages from `data/nhs-pay-bands.ts` |
+| `content/calculators/nhs.ts` | Generates 23 NHS pages from `data/nhs-pay-bands.ts` |
 | `content/guides/index.ts` | Exports `allGuides`, `guideBySlug` |
 | `content/taxonomy.ts` | `relatedMap` + `relatedFor(slug)` — single source for `RelatedContent` |
 | `content/calculatorIcons.ts` | Maps slug → `{icon, featured, stat, caption}` for FeatureCard |
@@ -177,7 +177,7 @@ interface SimplePageContent {   // about, methodology, contact, privacy, terms
 | `Breadcrumbs` | `<ol>` + `BreadcrumbList` JSON-LD | |
 | `JsonLd` | `<script type="application/ld+json">` wrapper | |
 | `Header` / `Footer` | Logo, nav, mobile menu (CSS-only), footer columns | |
-| `ReviewedByByline` | Placeholder reviewer/credential/date | |
+| `ReviewedByByline` | James Sheridan, CIPP-qualified payroll specialist | |
 | `EmbedWidgetTeaser` | Placeholder CTA for future embed feature | |
 
 ---
@@ -354,9 +354,9 @@ python3 -m http.server 4173 --directory out
 
 ### NHS Matrix
 
-- Data: `data/nhs-pay-bands.ts` (England 2025/26, pending 2026/27)
-- Generator: `content/calculators/nhs.ts` → 11 pages (`/nhs-band-2-pay-calculator/` …)
-- Scotland/Wales/NI: `publishedNations = ["england"]` — add when verified
+- Data: `data/nhs-pay-bands.ts` (England, Scotland and Wales pay scales)
+- Generator: `content/calculators/nhs.ts` → 23 pages (`/nhs-band-2-pay-calculator/` … `/nhs-wales-band-8a-pay-calculator/`)
+- Scotland/Wales: live; Northern Ireland pending
 
 ---
 
@@ -399,18 +399,17 @@ python3 -m http.server 4173 --directory out
 | Tables | Use for 3+ comparable items across 2+ attributes |
 | Internal links | Mention tool names in prose; taxonomy handles related cards |
 | Rates | All from `data/rates.ts` — single source, updated annually |
-| NHS | England only until Scotland/Wales/NI figures verified |
+| NHS | England, Scotland and Wales live; Northern Ireland pending |
 | Token hygiene | Never commit tokens; `.env*` gitignored; rotate after use |
 
 ---
 
-## 14. Next Up (Roadmap)
+## 14. Next Up (Maintenance)
 
-- [ ] Rewrite remaining 7 guides with korrey treatment
-- [ ] Add Scotland/Wales/NI NHS scales when published
-- [ ] Add teachers' pay matrix (`data/future-pay-scales.ts`)
-- [ ] Add police pay matrix
-- [ ] Replace reviewer placeholders with real credentials
+- [ ] Keep PROJECT/README counts in sync with the current 66 content pages
+- [ ] Monitor Search Console indexing and sitemap reads after deploys
+- [ ] Refresh rates, page copy and screenshots for the next tax-year cycle
+- [ ] Add future pay matrices when official data appears
 - [ ] Add Open Graph images (`og:image`) per page
 - [ ] Set up GitHub Actions for `npm run build && npm test` on PRs
 
