@@ -2,8 +2,8 @@ import { lastUpdated, taxYearLabel } from "@/data/rates";
 
 // Site-wide reviewer defaults — E-E-A-T signals.
 // Override per page by passing props.
-const DEFAULT_REVIEWER = "James Sheridan";
-const DEFAULT_CREDENTIAL = "CIPP-qualified payroll specialist";
+const DEFAULT_REVIEWER = "Employers Calculators Editorial Team";
+const DEFAULT_CREDENTIAL = "verified against GOV.UK sources";
 
 interface Props {
   reviewer?: string;

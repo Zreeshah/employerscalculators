@@ -62,9 +62,9 @@ export function pageMetadata({ title, description, path, image }: SeoFields): Me
 // Reviewer identity for E-E-A-T structured data.
 // Must match the ReviewedByByline component defaults.
 export const REVIEWER = {
-  name: "James Sheridan",
-  credential: "CIPP-qualified payroll specialist",
-  description: "Payroll compliance specialist with over 10 years\u2019 experience in UK employer obligations, PAYE, National Insurance and statutory pay calculations.",
+  name: "Employers Calculators Editorial Team",
+  credential: "verified against GOV.UK sources",
+  description: "The Employers Calculators editorial team verifies every rate, threshold and formula against primary GOV.UK and HMRC sources at the start of each tax year and after mid-year changes.",
 };
 
 export function organizationJsonLd() {
@@ -172,9 +172,9 @@ export function articleJsonLd({
     author: { "@type": "Organization", name: SITE_NAME, url: SITE_URL },
     publisher: { "@type": "Organization", name: SITE_NAME, url: SITE_URL },
     reviewedBy: {
-      "@type": "Person",
+      "@type": "Organization",
       name: REVIEWER.name,
-      jobTitle: REVIEWER.credential,
+      url: `${SITE_URL}/methodology/`,
       description: REVIEWER.description,
     },
   };
