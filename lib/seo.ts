@@ -19,17 +19,23 @@ interface SeoFields {
   image?: SeoImage;
 }
 
+const DEFAULT_OG_IMAGE: SeoImage = {
+  url: "/images/og-default.png",
+  alt: "Employers Calculators — Free UK Payroll & Employment Calculators 2026/27",
+  width: 1200,
+  height: 630,
+};
+
 export function pageMetadata({ title, description, path, image }: SeoFields): Metadata {
-  const socialImage = image
-    ? [
-        {
-          url: `${SITE_URL}${image.url}`,
-          alt: image.alt,
-          width: image.width ?? 1200,
-          height: image.height ?? 630,
-        },
-      ]
-    : undefined;
+  const img = image ?? DEFAULT_OG_IMAGE;
+  const socialImage = [
+    {
+      url: `${SITE_URL}${img.url}`,
+      alt: img.alt,
+      width: img.width ?? 1200,
+      height: img.height ?? 630,
+    },
+  ];
 
   return {
     title,
@@ -42,13 +48,13 @@ export function pageMetadata({ title, description, path, image }: SeoFields): Me
       siteName: SITE_NAME,
       type: "website",
       locale: "en_GB",
-      ...(socialImage ? { images: socialImage } : {}),
+      images: socialImage,
     },
     twitter: {
-      card: image ? "summary_large_image" : "summary",
+      card: "summary_large_image",
       title,
       description,
-      ...(socialImage ? { images: socialImage } : {}),
+      images: socialImage,
     },
   };
 }
@@ -67,6 +73,27 @@ export function organizationJsonLd() {
     "@type": "Organization",
     name: SITE_NAME,
     url: SITE_URL,
+    logo: `${SITE_URL}/icon.jpeg`,
+    contactPoint: {
+      "@type": "ContactPoint",
+      email: "contact@employerscalculators.co.uk",
+      contactType: "customer support",
+    },
+  };
+}
+
+export function websiteJsonLd() {
+  return {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    name: SITE_NAME,
+    url: SITE_URL,
+    inLanguage: "en-GB",
+    publisher: {
+      "@type": "Organization",
+      name: SITE_NAME,
+      url: SITE_URL,
+    },
   };
 }
 
@@ -105,14 +132,6 @@ export function softwareAppJsonLd({
       "@type": "Organization",
       name: SITE_NAME,
       url: SITE_URL,
-    },
-    review: {
-      "@type": "Review",
-      author: {
-        "@type": "Person",
-        name: REVIEWER.name,
-        description: REVIEWER.description,
-      },
     },
   };
 }

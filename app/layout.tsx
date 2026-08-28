@@ -4,7 +4,7 @@ import "./globals.css";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import JsonLd from "@/components/JsonLd";
-import { organizationJsonLd, SITE_NAME, SITE_URL, THEME_COLOR } from "@/lib/seo";
+import { organizationJsonLd, websiteJsonLd, SITE_NAME, SITE_URL, THEME_COLOR } from "@/lib/seo";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -15,6 +15,13 @@ export const metadata: Metadata = {
   description:
     "Free UK payroll and employment calculators built on official 2026/27 HMRC rates — pro rata pay, employer NI, SSP, SMP, pensions, IR35 and NHS pay bands.",
   themeColor: THEME_COLOR,
+  robots: {
+    index: true,
+    follow: true,
+    "max-image-preview": "large",
+    "max-snippet": -1,
+    "max-video-preview": -1,
+  },
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {
@@ -33,6 +40,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         </main>
         <Footer />
         <JsonLd data={organizationJsonLd()} />
+        <JsonLd data={websiteJsonLd()} />
       </body>
     </html>
   );
