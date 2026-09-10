@@ -134,3 +134,10 @@ Performance is throttled-mobile simulation; the only client JS is the small calc
 - IR35 calculator shows an inside-IR35 estimate only; the outside-IR35 comparison needs the user's chosen mix of salary vs dividends
 - Occupational sick-pay calculators are out of scope (the SSP floor is shown for comparison)
 - `ReviewedByByline` still renders placeholder fields — fill in `name`, `credential`, `verifiedDate` per page once reviewers are onboarded
+
+
+## Live Site
+
+https://employerscalculators.co.uk/
+
+
