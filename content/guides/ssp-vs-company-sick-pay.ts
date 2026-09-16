@@ -7,7 +7,7 @@ export default guide({
     file: "ssp-vs-company-sick-pay-comparison",
     alt: "Comparison illustration of Statutory Sick Pay against enhanced company sick pay policies in the UK",
   },
-  title: "Company Sick Pay vs SSP: UK Employer Guide 2026/27",
+  title: "SSP vs Company Sick Pay UK",
   metaDescription:
     "Compare SSP vs company sick pay, including statutory and contractual rights, inclusive and additive policies, payroll treatment and worked examples",
   h1: "SSP vs Company Sick Pay",

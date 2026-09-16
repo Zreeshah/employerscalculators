@@ -4,9 +4,9 @@ export default calculator({
   type: "calculator",
   slug: "bradford-factor-calculator",
   kind: "bradford-factor",
-  title: "Bradford Factor Calculator UK: Score, Thresholds & Absence Cost",
+  title: "Bradford Factor Calculator UK",
   metaDescription:
-    "Bradford Factor calculator UK for S² × D scores, thresholds and absence-cost context. Compare episodes, understand review triggers and apply fair absence-management rules.",
+    "Bradford Factor calculator UK: S² × D scores, thresholds, review triggers and fair absence-management rules for UK employers.",
   h1: "Bradford Factor Calculator: Score & Thresholds",
   intro:
     "Add each sickness absence episode and calculate the **Bradford Factor score** as S² × D over the period used by your organisation, often a rolling 52 weeks. The score deliberately weights repeated short absences more heavily than one continuous absence. This page also explains the difference between a pattern score and the underlying absence cost. It is not a statutory measure or a disciplinary decision, so review the record, policy, disability adjustments and individual context before acting.",

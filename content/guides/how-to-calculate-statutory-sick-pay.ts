@@ -7,9 +7,9 @@ export default guide({
     file: "how-to-calculate-statutory-sick-pay-uk",
     alt: "Illustration of an employer calculating UK Statutory Sick Pay using a checklist and absence calendar",
   },
-  title: "How to Calculate Statutory Sick Pay (SSP) UK 2026/27",
+  title: "How to Calculate SSP UK 2026/27",
   metaDescription:
-    "Step-by-step guide to calculating Statutory Sick Pay in 2026/27: £123.25 weekly rate, 80% of earnings cap, qualifying days, worked examples, and common mistakes to avoid.",
+    "How to calculate SSP in 2026/27: £123.25 weekly rate, 80% earnings cap, qualifying days, worked examples and common mistakes to avoid.",
   h1: "How to Calculate Statutory Sick Pay",
   intro:
     "Statutory Sick Pay (SSP) is the legal minimum you must pay eligible employees when they are off work sick. For 2026/27 the weekly rate is **£123.25**, or **80% of average weekly earnings** if that is lower, and it is payable **from the first day of sickness** — the old three waiting days no longer apply. This guide walks through the full calculation for the 2026/27 tax year with worked examples you can copy.\n\n:::callout info\n**Quick answers — how much is SSP and how do you calculate it?**\n\n- **SSP rate 2026/27:** £123.25/week (or 80% of average weekly earnings if lower)\n- **Payable from:** first qualifying day of sickness (no waiting days from 6 April 2026)\n- **Maximum duration:** 28 weeks per period of incapacity for work\n- **Daily rate:** weekly rate ÷ qualifying days per week (e.g. £123.25 ÷ 5 = £24.65/day)\n- **Cap:** 80% of average weekly earnings if lower than £123.25/week\n- **Maximum duration:** 28 weeks per period of incapacity for work\n- **Not recoverable from HMRC** — unlike SMP, employers cannot reclaim SSP\n- **Taxable:** subject to income tax, employee NI, and employer NI\n:::\n\nThis guide walks you through the **full SSP calculation for 2026/27** with the official HMRC rates, worked examples, a daily-rate table, and common mistakes to avoid. All figures are from HMRC's \"Rates and thresholds for employers 2026 to 2027\" on GOV.UK.",

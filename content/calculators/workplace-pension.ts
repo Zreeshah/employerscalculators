@@ -4,7 +4,7 @@ export default calculator({
   type: "calculator",
   slug: "workplace-pension-calculator",
   kind: "workplace-pension",
-  title: "Workplace Pension Calculator UK 2026/27: Auto-Enrolment",
+  title: "Workplace Pension Calculator 2026/27",
   metaDescription:
     "Workplace pension calculator for 2026/27. Calculate employer, employee and total auto-enrolment pension contributions on qualifying or total earnings.",
   h1: "Workplace Pension & Auto-Enrolment Calculator",

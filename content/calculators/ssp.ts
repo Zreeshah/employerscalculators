@@ -4,7 +4,7 @@ export default calculator({
   type: "calculator",
   slug: "ssp-calculator",
   kind: "ssp",
-  title: "SSP Calculator 2026/27: Statutory Sick Pay Rate & Daily Pay",
+  title: "SSP Calculator UK 2026/27",
   metaDescription:
     "How much is SSP in 2026/27? Use this UK SSP calculator for the £123.25 weekly rate, daily sick-pay rate and total statutory sick pay for an absence.",
   h1: "SSP Calculator: Statutory Sick Pay Rate",

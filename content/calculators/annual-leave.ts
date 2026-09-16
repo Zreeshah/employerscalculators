@@ -4,7 +4,7 @@ export default calculator({
   type: "calculator",
   slug: "annual-leave-calculator",
   kind: "annual-leave",
-  title: "Annual Leave Calculator UK 2026/27: Pro Rata Accrual & Leave Balance",
+  title: "Annual Leave Calculator UK 2026/27",
   metaDescription:
     "Annual leave calculator UK for pro rata entitlement, leave accrual, taken and booked days. Track a leave-year balance and understand 5.6-week statutory rules.",
   h1: "Annual Leave Calculator: Pro Rata Accrual & Balance",

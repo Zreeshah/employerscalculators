@@ -4,7 +4,7 @@ export default calculator({
   type: "calculator",
   slug: "p11d-calculator",
   kind: "p11d",
-  title: "Benefit in Kind Calculator & P11D Tax Calculator UK 2026/27",
+  title: "P11D BIK Calculator UK 2026/27",
   metaDescription:
     "Benefit in kind calculator for 2026/27. Work out P11D taxable value, employee BIK tax and employer Class 1A NI, including employee contributions.",
   h1: "Benefit in Kind Calculator (P11D)",

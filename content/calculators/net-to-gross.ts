@@ -4,7 +4,7 @@ export default calculator({
   type: "calculator",
   slug: "net-to-gross-calculator",
   kind: "net-to-gross",
-  title: "Net to Gross Salary Calculator UK 2026/27",
+  title: "Net to Gross Calculator UK 2026/27",
   metaDescription:
     "Convert monthly or yearly take-home pay to gross salary for 2026/27, with UK regions, tax codes, pensions, student loans and employer costs",
   h1: "Net to Gross Salary Calculator",

@@ -5,7 +5,7 @@ export default calculator({
   slug: "nhs-midwife-salary",
   kind: "nhs-band",
   nhsPreset: { nation: "england", band: "5", stepIndex: 0, hoursPerWeek: 37.5 },
-  title: "NHS Midwife Salary Calculator 2026/27 England",
+  title: "NHS Midwife Salary Calculator UK",
   metaDescription:
     "Calculate NHS midwife salary in England for 2026/27. Check Band 5 pay points, part-time FTE, pension tiers, shift enhancements and career progression",
   h1: "NHS Midwife Salary Calculator",

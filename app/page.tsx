@@ -8,9 +8,9 @@ import { allGuides } from "@/content/guides";
 import { pageMetadata, SITE_NAME } from "@/lib/seo";
 
 export const metadata: Metadata = pageMetadata({
-  title: `Free UK Payroll & Employment Calculators (2026/27) — ${SITE_NAME}`,
+  title: `Free UK Payroll Calculators 2026/27`,
   description:
-    "Free UK payroll calculators built on the official 2026/27 HMRC rates: pro rata pay, employer NI, SSP, SMP, pensions, IR35 and NHS pay bands. Instant results, no sign-up.",
+    "Free UK payroll calculators for 2026/27 on official HMRC rates: pro rata, employer NI, SSP, SMP, pensions, IR35 and NHS pay bands. No sign-up.",
   path: "/",
 });
 

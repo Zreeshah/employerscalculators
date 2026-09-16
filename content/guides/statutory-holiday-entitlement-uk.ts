@@ -7,9 +7,9 @@ export default guide({
     file: "statutory-holiday-entitlement-uk-28-days",
     alt: "Calendar illustration showing UK statutory holiday entitlement of 5.6 weeks paid annual leave",
   },
-  title: "Statutory Holiday Entitlement UK: 28 Days & Bank Holidays",
+  title: "Statutory Holiday Entitlement UK",
   metaDescription:
-    "UK statutory holiday entitlement explained: 5.6 weeks (28 days for 5-day week), part-time pro-rata, 12.07% accrual for irregular hours, rolled-up pay, bank holidays & carry-over rules.",
+    "UK statutory holiday: 5.6 weeks (28 days for 5-day week), part-time pro-rata, 12.07% accrual for irregular hours, rolled-up pay and carry-over rules.",
   h1: "Statutory Holiday Entitlement in the UK",
   intro:
     "How much paid holiday are you entitled to in the UK? Almost all workers are legally entitled to **5.6 weeks of paid holiday per leave year** — **28 days for a five-day week**, which can include the eight usual bank holidays. This guide explains how to calculate statutory annual leave for full-time, part-time and irregular-hours staff, including the **12.07% accrual method** for irregular-hours workers (effective from 1 April 2024). Rules are from GOV.UK and the Working Time Regulations 1998.\n\n:::callout info\n**Quick answers — statutory holiday entitlement at a glance**\n\n- **Statutory minimum:** **5.6 weeks** (28 days for a 5-day week, can include bank holidays)\n- **Part-time pro-rata:** days per week × 5.6 (e.g. 3 days → 16.8 days)\n- **Irregular hours accrual:** **12.07%** of hours worked per pay period (from 1 April 2024)\n- **Rolled-up holiday pay:** 12.07% on top of pay — only for irregular-hours/part-year workers from 1 April 2024\n- **Bank holidays:** no automatic right — can be included in the 5.6 weeks or added on top\n- **Carry-over:** 4 weeks (EU-derived) for 18 months if sick; full 5.6 weeks for maternity/family leave\n:::\n\nThis guide covers **statutory holiday entitlement**, **part-time pro-rata calculation**, **12.07% accrual for irregular-hours workers**, **rolled-up holiday pay**, **bank holiday rules**, **carry-over rules**, and **what holiday pay must include**. All rules are from the Working Time Regulations 1998 and GOV.UK guidance.",

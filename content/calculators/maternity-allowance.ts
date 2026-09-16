@@ -4,9 +4,9 @@ export default calculator({
   type: "calculator",
   slug: "maternity-allowance-calculator",
   kind: "maternity-allowance",
-  title: "Maternity Allowance Calculator UK 2026/27: How Much You Get",
+  title: "Maternity Allowance Calculator UK",
   metaDescription:
-    "How much is Maternity Allowance in 2026/27? Estimate £194.32 a week or 90% of average weekly earnings if lower, paid for up to 39 weeks, including self-employed claims.",
+    "Maternity Allowance 2026/27: £194.32/week or 90% of average weekly earnings if lower, for up to 39 weeks. Includes self-employed claims.",
   h1: "Maternity Allowance Calculator",
   intro:
     "Estimate Maternity Allowance (MA) for people who do not qualify for Statutory Maternity Pay in 2026/27. This UK maternity allowance calculator is built for self-employed claimants, recently employed workers, and employers checking what an ineligible employee should claim instead. For 2026/27 Maternity Allowance is £194.32 a week, or 90% of average weekly earnings if lower, paid for up to 39 weeks.",

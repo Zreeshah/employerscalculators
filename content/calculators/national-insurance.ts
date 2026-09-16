@@ -4,7 +4,7 @@ export default calculator({
   type: "calculator",
   slug: "national-insurance-calculator",
   kind: "national-insurance",
-  title: "National Insurance Calculator UK 2026/27",
+  title: "National Insurance Calculator UK",
   metaDescription:
     "National insurance calculation for 2026/27: how much NI per month as an employee, employer or self-employed worker, with band breakdowns and effective rates.",
   h1: "National Insurance Calculator",

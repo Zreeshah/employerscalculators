@@ -4,7 +4,7 @@ export default calculator({
   type: "calculator",
   slug: "ir35-calculator",
   kind: "ir35",
-  title: "Outside IR35 Calculator UK 2026/27: Inside vs Outside Take-Home",
+  title: "IR35 Calculator UK 2026/27",
   metaDescription:
     "Outside IR35 calculator for 2026/27. Compare inside-IR35 and outside-IR35 take-home pay from the same contract fee, including employer NI, PAYE and dividends.",
   h1: "Outside vs Inside IR35 Calculator",

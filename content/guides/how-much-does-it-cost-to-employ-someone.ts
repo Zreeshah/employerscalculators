@@ -7,7 +7,7 @@ export default guide({
     file: "cost-of-employing-someone-uk-breakdown",
     alt: "Illustration breaking down the cost of employing someone in the UK including salary, employer NI and pension",
   },
-  title: "How Much Does It Cost to Employ Someone in the UK?",
+  title: "Cost to Employ Someone UK 2026/27",
   metaDescription:
     "The true cost of employing someone in the UK for 2026/27: employer NI at 15%, pension contributions, and a worked example for a £30,000 salary.",
   h1: "How Much Does It Cost to Employ Someone in the UK?",

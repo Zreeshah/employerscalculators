@@ -86,9 +86,9 @@ const pillarPage: CalculatorContent = calculator({
   type: "calculator",
   slug: "police-pay-scale-calculator",
   kind: "police-pay",
-  title: "Police Pay Scale Calculator UK 2026/27 | Salary by Rank",
+  title: "Police Pay Calculator UK 2026/27",
   metaDescription:
-    "UK police officer salary calculator for 2026/27. See pay scales for every rank from Constable to Chief Superintendent, including hourly rates, overtime and take-home pay.",
+    "UK police salary calculator 2026/27: pay scales for every rank from Constable to Chief Superintendent, hourly rates, overtime and take-home pay.",
   h1: "Police Pay Scale Calculator UK 2026/27",
   intro:
     "Police officer pay in England and Wales ranges from **" + gbp(constablePP[0]) + "** for a starting constable to **" + gbp(chiefSuperintendentPP[2]) + "** for a top-of-scale Chief Superintendent in 2026/27, following the confirmed 3.5% pay award from 1 September 2026. Use this calculator to estimate your take-home pay after pension, income tax and National Insurance. The pay scales below cover every rank from Constable through Chief Superintendent, with hourly rates, overtime calculations and [London Weighting](#london-weighting-and-allowances). For NHS staff, see the [NHS take-home pay calculator](/nhs-take-home-pay/).",
@@ -191,7 +191,7 @@ const constablePage: CalculatorContent = calculator({
   type: "calculator",
   slug: "police-constable-pay-calculator",
   kind: "police-pay",
-  title: "Police Constable Pay Scale 2026/27 | PP1\u2013PP7 Salary UK",
+  title: "Police Constable Pay Scale 2026/27",
   metaDescription:
     "Police constable salary for 2026/27: PP1 starts at " + gbp(constablePP[0]) + ", rising to " + gbp(constablePP[6]) + " at PP7. See the full pay scale, hourly rates, overtime and take-home estimates.",
   h1: "Police Constable Pay Scale 2026/27",
@@ -285,7 +285,7 @@ const sergeantPage: CalculatorContent = calculator({
   type: "calculator",
   slug: "police-sergeant-pay-calculator",
   kind: "police-pay",
-  title: "Police Sergeant Pay Scale 2026/27 | UK Salary & Overtime",
+  title: "Police Sergeant Pay Scale 2026/27",
   metaDescription:
     "Police sergeant salary 2026/27: " + gbp(sergeantPP[0]) + " to " + gbp(sergeantPP[2]) + " across three pay points. See hourly rates, overtime, pension and take-home estimates.",
   h1: "Police Sergeant Pay Scale 2026/27",
@@ -379,7 +379,7 @@ const inspectorPage: CalculatorContent = calculator({
   type: "calculator",
   slug: "police-inspector-pay-calculator",
   kind: "police-pay",
-  title: "Police Inspector Pay Scale 2026/27 | UK Salary Guide",
+  title: "Police Inspector Pay Scale 2026/27",
   metaDescription:
     "Police inspector salary 2026/27: " + gbp(inspectorPP[0]) + " to " + gbp(inspectorPP[3]) + ". Chief inspector " + gbp(chiefInspectorPP[0]) + " to " + gbp(chiefInspectorPP[2]) + ". Salaried rank — no paid overtime.",
   h1: "Police Inspector & Chief Inspector Pay Scale 2026/27",

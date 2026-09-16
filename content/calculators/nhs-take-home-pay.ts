@@ -4,7 +4,7 @@ export default calculator({
   type: "calculator",
   slug: "nhs-take-home-pay",
   kind: "nhs-take-home-pay",
-  title: "NHS Pay Calculator 2026/27: Take-Home Pay & Pension",
+  title: "NHS Take-Home Pay Calculator 2026/27",
   metaDescription:
     "NHS pay calculator for Agenda for Change staff. Estimate NHS take-home pay after tax, NI, NHS pension contributions and student-loan deductions for 2026/27.",
   h1: "NHS Pay Calculator & Take-Home Pay",

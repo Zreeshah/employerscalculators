@@ -4,7 +4,7 @@ export default calculator({
   type: "calculator",
   slug: "employer-ni-calculator",
   kind: "employer-ni",
-  title: "Employers NI Calculator UK 2026/27: Employer NIC Cost",
+  title: "Employer NI Calculator UK 2026/27",
   metaDescription:
     "Employers NI calculator for 2026/27. Calculate employer National Insurance, monthly NIC and salary-plus-NI cost at 15% above the £5,000 threshold.",
   h1: "Employers NI Calculator",

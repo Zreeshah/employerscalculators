@@ -4,7 +4,7 @@ export default calculator({
   type: "calculator",
   slug: "employee-cost-calculator",
   kind: "employee-cost",
-  title: "True Cost of Employee Calculator UK 2026/27",
+  title: "Employee Cost Calculator UK 2026/27",
   metaDescription:
     "How much does it cost to employ someone? Calculate the true UK employee cost: salary, employer NI, pension and optional on-costs for 2026/27.",
   h1: "Cost of Employing Someone Calculator",

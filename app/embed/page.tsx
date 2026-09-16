@@ -5,9 +5,9 @@ import JsonLd from "@/components/JsonLd";
 import { SITE_URL } from "@/lib/seo";
 
 export const metadata: Metadata = pageMetadata({
-  title: "Free Embeddable UK Payroll Calculators (2026/27)",
+  title: "Free Embeddable UK Calculators",
   description:
-    "Embed any Employers Calculators tool on your website free — pro rata pay, employer NI, SSP, SMP, take-home pay and more. Copy-paste iframe snippets, attribution required.",
+    "Embed any Employers Calculators tool on your site for free: pro rata, employer NI, SSP, SMP, take-home pay. Copy-paste iframe, attribution required.",
   path: "/embed",
 });
 

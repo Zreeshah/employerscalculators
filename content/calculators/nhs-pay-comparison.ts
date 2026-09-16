@@ -4,7 +4,7 @@ export default calculator({
   type: "calculator",
   slug: "nhs-pay-comparison",
   kind: "nhs-pay-comparison",
-  title: "NHS Pay Comparison Calculator UK 2026/27",
+  title: "NHS Pay Comparison Calculator UK",
   metaDescription:
     "Compare two NHS pay scenarios by band salary and FTE. Estimate annual and monthly gross pay differences before checking take-home pay.",
   h1: "NHS Pay Comparison Calculator",

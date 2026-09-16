@@ -7,7 +7,7 @@ export default guide({
     file: "pro-rata-holiday-entitlement-part-time-workers",
     alt: "Illustration of a pro rata holiday entitlement calculation for a part-time worker with a three-day working pattern",
   },
-  title: "How to Calculate Pro Rata Holidays for Part-Time Workers UK",
+  title: "Part-Time Holiday Entitlement UK",
   metaDescription:
     "How to calculate pro rata holidays for part-time workers: fixed days, fixed hours and irregular hours, with 5.6-week, 12.07% and bank-holiday examples.",
   h1: "How to Calculate Pro Rata Holidays for Part-Time Workers",

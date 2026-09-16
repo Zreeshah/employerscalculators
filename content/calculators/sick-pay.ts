@@ -4,7 +4,7 @@ export default calculator({
   type: "calculator",
   slug: "sick-pay-calculator",
   kind: "sick-pay",
-  title: "Sick Pay Calculator UK 2026/27: Company Pay & SSP",
+  title: "Sick Pay Calculator UK 2026/27",
   metaDescription:
     "Sick pay calculator for 2026/27. Compare a company sick-pay policy with Statutory Sick Pay, including enhanced full, half or custom pay and SSP already used.",
   h1: "Company Sick Pay Calculator",

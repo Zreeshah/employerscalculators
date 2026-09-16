@@ -7,7 +7,7 @@ export default guide({
     file: "true-cost-of-hiring-an-employee-uk",
     alt: "Illustration of the true first-year cost of hiring an employee in the UK, from recruitment to onboarding",
   },
-  title: "True Cost of Hiring an Employee UK: First Year",
+  title: "True Cost of Hiring Employee UK",
   metaDescription:
     "Calculate the true first-year cost of hiring an employee in the UK, including recruitment, setup, onboarding, ramp-up and year-one versus year-two costs",
   h1: "True Cost of Hiring an Employee in the UK",

@@ -4,7 +4,7 @@ export default calculator({
   type: "calculator",
   slug: "pro-rata-calculator",
   kind: "pro-rata",
-  title: "Pro Rata Calculator UK 2026/27: Part-Time Salary & FTE",
+  title: "Pro Rata Calculator UK 2026/27",
   metaDescription:
     "Pro rata calculator for UK part-time pay. Work out a pro rata salary, FTE and monthly pay from a full-time salary and contracted hours for 2026/27.",
   h1: "Pro Rata Calculator: Part-Time Salary & FTE",

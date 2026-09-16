@@ -7,7 +7,7 @@ export default guide({
     file: "salary-sacrifice-pension-scheme-uk",
     alt: "Illustration of a UK salary sacrifice pension scheme redirecting salary into pension contributions",
   },
-  title: "What Is a Salary Sacrifice Pension Scheme? UK Guide 2026/27",
+  title: "Salary Sacrifice Pension Guide UK",
   metaDescription:
     "What is a salary sacrifice scheme? This UK pension guide explains tax relief, employee and employer NI savings, minimum-wage limits and the April 2029 NIC cap.",
   h1: "What Is a Salary Sacrifice Pension Scheme?",

@@ -7,9 +7,9 @@ import { pageMetadata } from "@/lib/seo";
 const CARD_IMAGE_SIZES = "(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 320px";
 
 export const metadata: Metadata = pageMetadata({
-  title: "UK Payroll & Employment Guides (2026/27)",
+  title: "UK Payroll & Employment Guides",
   description:
-    "Plain-English UK payroll guides for 2026/27: employer NI rates, statutory sick pay, holiday entitlement, salary sacrifice pensions and the true cost of employing someone.",
+    "UK payroll guides for 2026/27: employer NI rates, statutory sick pay, holiday entitlement, salary sacrifice pensions and the cost of employing someone.",
   path: "/guides",
 });
 
