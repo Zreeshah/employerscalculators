@@ -10,6 +10,7 @@ export default calculator({
   h1: "Workplace Pension & Auto-Enrolment Calculator",
   intro:
     "Calculate annual workplace pension contributions from gross salary and any employee and employer percentages. Built for UK employers running payroll, HR teams checking auto-enrolment compliance, and employees checking their own deductions. For 2026/27 the **auto-enrolment minimums are 3% from the employer and 5% from the employee — 8% in total** — for eligible workers earning over £10,000 a year (GOV.UK).",
+  introVisual: "workplacePensionBasis",
   formulaExplainer:
     ":::callout info\nFor a gross salary **S**, employee percentage **e** and employer percentage **p**:\n\n- **Employee contribution: S × e** (with tax relief added on top for relief-at-source schemes)\n- **Employer contribution: S × p**\n- **Total pension contribution: S × (e + p)**\n\nBy default, the calculator applies the percentages to the **qualifying earnings band** (earnings between £6,240 and £50,270 a year for 2026/27). You can switch it to total earnings if that matches your scheme rules. The contribution basis is why payroll can differ from a simple salary-times-percentage calculation.\n:::",
   howToSteps: [

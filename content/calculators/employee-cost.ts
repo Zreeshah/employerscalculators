@@ -10,6 +10,7 @@ export default calculator({
   h1: "Cost of Employing Someone Calculator",
   intro:
     "See the real annual cost of employing someone in the UK, not just their salary. Designed for small-business owners budgeting a new hire and accountants advising on headcount. For 2026/27 the calculator combines **gross salary, employer National Insurance at 15% on earnings above £5,000, workplace pension contributions, Employment Allowance where selected, and any extra annual employer costs**.",
+  introVisual: "employeeCostStack",
   formulaExplainer:
     ":::callout info\nFor a gross salary **S**:\n\n- **Gross salary: S**\n- **Employer NI: (S − £5,000) × 15%** for a standard employee before Employment Allowance\n- **Employer pension: qualifying earnings × selected employer rate** by default, or total earnings if selected\n- **Total employment cost: salary + payable employer NI + pension + additional annual costs**\n\nThe default pension basis is **qualifying earnings**, matching common auto-enrolment setups. You can switch to total earnings, change the employer pension rate, include or exclude workplace pension, add extra annual costs, and apply Employment Allowance where the employer is eligible.\n:::",
   howToSteps: [

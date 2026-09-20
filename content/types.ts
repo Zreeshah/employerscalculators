@@ -46,6 +46,9 @@ export interface CalculatorContent {
   metaDescription: string;
   h1: string;
   intro: string;
+  introVisual?: IntroVisual;
+  /** A responsive explanatory image shown directly below the calculator introduction. */
+  introImage?: FeaturedImage;
   formulaExplainer: string;
   sections?: CalculatorSection[];
   howToSteps?: HowToStep[];
@@ -57,6 +60,11 @@ export interface CalculatorContent {
   nhsPreset?: NhsCalculatorPreset;
 }
 
+export type IntroVisual =
+  | "companyCarBikBands"
+  | "employeeCostStack"
+  | "workplacePensionBasis";
+
 /**
  * Featured image for a guide. `file` is the shared basename in
  * /public/images/guides; the FeaturedImage component appends the width and
@@ -65,6 +73,7 @@ export interface CalculatorContent {
 export interface FeaturedImage {
   file: string;
   alt: string;
+  caption?: string;
 }
 
 export interface GuideContent {

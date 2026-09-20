@@ -10,6 +10,7 @@ export default calculator({
   h1: "Company Car Tax Calculator",
   intro:
     "Calculate the 2026/27 taxable benefit, employee income tax and employer Class 1A National Insurance for a company car. The planned controls use HMRC's official CO2 bands automatically, including electric and plug-in hybrid rates, rather than making you look up a BIK percentage. You can also account for an employee contribution and compare the annual and monthly cost of different cars.",
+  introVisual: "companyCarBikBands",
   formulaExplainer: `:::callout info
 **Taxable car benefit = (P11D list price × HMRC BIK percentage) − qualifying employee contribution.** Employee tax is the taxable benefit multiplied by the employee's marginal income tax rate. Employer Class 1A National Insurance is the taxable benefit multiplied by **15%** for 2026/27.
 

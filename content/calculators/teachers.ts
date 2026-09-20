@@ -45,6 +45,11 @@ const pillarPage = (): CalculatorContent => {
     metaDescription: "UK teachers pay calculator for 2026/27. Check Main, Upper, Leadership and Unqualified pay across England, London, Scotland and Wales.",
     h1: "Teachers Pay Calculator UK 2026/27",
     intro: `The 2026/27 teachers pay scale runs from ${gbp(eMain[0])} at M1 to ${gbp(eUpper[2])} at UPS3 outside London, and up to ${gbp(148829)} for the most senior head teachers. Use this calculator to check your gross pay, TPS pension contribution and estimated take-home at any pay point or FTE fraction. The tables below cover **Main, Upper, Unqualified, Leading Practitioner and Leadership** ranges across all four England regions, plus links to the separate [Scottish](/teachers-pay-scale-scotland/) and [Welsh](/teachers-pay-scale-wales/) scales.`,
+    introImage: {
+      file: "teachers-pay-scale-progression-2026-27",
+      alt: "Illustration of teacher career progression from early career teacher to school leadership, with a rising five-step pay scale.",
+      caption: "Teacher pay progression: early career, classroom and leadership roles",
+    },
     formulaExplainer: `Teacher take-home pay is calculated as **gross salary \u2212 Teachers\u2019 Pension \u2212 income tax \u2212 employee National Insurance**. Part-time pay uses the FTE fraction: contracted hours divided by 32.5 (the standard directed-time week in most schools). A 0.6 FTE teacher on M6 outside London earns ${gbp(Math.round(eMain[5] * 0.6))} gross. TPS contributions are tiered: ${(teacherPensionRate(eMain[0]) * 100).toFixed(1)}% at M1 rising to ${(teacherPensionRate(eUpper[2]) * 100).toFixed(1)}% at UPS3. Use the [take-home pay calculator](/take-home-pay-calculator/) for a full gross-to-net breakdown, or the [national insurance calculator](/national-insurance-calculator/) to see NI in isolation.`,
     howToSteps: [
       { name: "Find your pay range", text: "Qualified classroom teachers are on the Main (M1\u2013M6) or Upper (UPS1\u2013UPS3) range. Unqualified teachers, leading practitioners and leaders have separate scales." },

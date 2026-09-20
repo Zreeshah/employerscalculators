@@ -136,6 +136,26 @@ export function softwareAppJsonLd({
   };
 }
 
+export function imageObjectJsonLd({
+  image,
+  path,
+}: {
+  image: SeoImage;
+  path: string;
+}) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "ImageObject",
+    contentUrl: `${SITE_URL}${image.url}`,
+    url: `${SITE_URL}${image.url}`,
+    caption: image.alt,
+    width: image.width,
+    height: image.height,
+    representativeOfPage: true,
+    isPartOf: { "@type": "WebPage", "@id": `${SITE_URL}${path}` },
+  };
+}
+
 export function articleJsonLd({
   headline,
   description,

@@ -92,6 +92,11 @@ const pillarPage: CalculatorContent = calculator({
   h1: "Police Pay Scale Calculator UK 2026/27",
   intro:
     "Police officer pay in England and Wales ranges from **" + gbp(constablePP[0]) + "** for a starting constable to **" + gbp(chiefSuperintendentPP[2]) + "** for a top-of-scale Chief Superintendent in 2026/27, following the confirmed 3.5% pay award from 1 September 2026. Use this calculator to estimate your take-home pay after pension, income tax and National Insurance. The pay scales below cover every rank from Constable through Chief Superintendent, with hourly rates, overtime calculations and [London Weighting](#london-weighting-and-allowances). For NHS staff, see the [NHS take-home pay calculator](/nhs-take-home-pay/).",
+  introImage: {
+    file: "police-pay-scale-progression-2026-27",
+    alt: "Illustration of police officer rank progression from constable to chief officer, with a rising four-step pay scale.",
+    caption: "Police pay progression: constable through senior officer ranks",
+  },
   formulaExplainer:
     `Police hourly rate is **annual salary \u00f7 ${policeAnnualHours.toLocaleString("en-GB")}** (40 hours \u00d7 52.14 weeks). Rest-day overtime is **time and a third** (\u00d71.33); bank-holiday overtime is **double time** (\u00d72). Inspector and above are salaried ranks and do not normally receive paid overtime.\n\n:::callout info\n**Take-home pay = gross salary \u2212 police pension (${pensionPct}%) \u2212 income tax \u2212 employee NI.** Use the [take-home pay calculator](/take-home-pay-calculator/) or the [national insurance calculator](/national-insurance-calculator/) for a full gross-to-net breakdown.\n:::`,
   howToSteps: [
