@@ -10,6 +10,7 @@ export default calculator({
   h1: "Annual Leave Calculator: Pro Rata Accrual & Balance",
   intro:
     "Use this **annual leave calculator UK** to track a worker's entitlement from the actual leave-year start date, including full-year entitlement, leave already taken and future leave booked. If you are asking how to calculate pro rata holidays, the tool shows both the accrued position as of today and the projected balance for the complete leave year, so a future booking is not mistaken for leave already earned. It works with statutory or contractual entitlement entered in days.",
+  introVisual: "annualLeaveAccrualProcess",
   formulaExplainer: `:::callout info
 **Full-year remaining leave = max(0, annual entitlement − leave taken − leave booked).** **Accrued entitlement to date = annual entitlement × elapsed proportion of the leave year.** The calculator shows accrued balances after taken leave and after both taken and booked leave, with negative results displayed as zero.
 

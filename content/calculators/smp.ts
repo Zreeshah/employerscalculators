@@ -10,6 +10,7 @@ export default calculator({
   h1: "SMP Calculator: Statutory Maternity Pay",
   intro:
     "This Statutory Maternity Pay (SMP) calculator works out how much an employee receives over her maternity leave in 2026/27. It is built for UK employers budgeting for cover, HR and payroll teams processing the entitlement, and expectant employees checking what they will receive. SMP is paid at **90% of average weekly earnings for the first 6 weeks**, then £194.32 a week — or 90% of earnings if that is lower — for up to 33 further weeks (GOV.UK).",
+  introVisual: "smpPaymentTimeline",
   formulaExplainer:
     "SMP is split into two tiers: the first six weeks of paid leave always use 90% of the employee's average weekly earnings, with no upper cap. The remaining 33 weeks use the lower of the statutory weekly rate and 90% of earnings, so high earners receive the flat rate and lower earners stay on 90%.\n\n:::callout info\nSMP = **(first 6 weeks × 90% of AWE) + (remaining weeks × lower of £194.32 or 90% of AWE)**, capped at 39 weeks\n:::\n\nThe **average weekly earnings** figure is the gross pay the employee earned over the eight-week (or two monthly pay period) reference window ending with the last payday before the end of the 15th week before the baby is due. Bonuses, overtime and commission paid in that window all count towards AWE.",
   howToSteps: [

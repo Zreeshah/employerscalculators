@@ -63,7 +63,12 @@ export interface CalculatorContent {
 export type IntroVisual =
   | "companyCarBikBands"
   | "employeeCostStack"
-  | "workplacePensionBasis";
+  | "workplacePensionBasis"
+  | "sspPaymentProcess"
+  | "smpPaymentTimeline"
+  | "annualLeaveAccrualProcess"
+  | "companySickPayProcess"
+  | "nationalInsuranceThresholds";
 
 /**
  * Featured image for a guide. `file` is the shared basename in

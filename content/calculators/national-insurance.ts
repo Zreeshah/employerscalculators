@@ -10,6 +10,7 @@ export default calculator({
   h1: "National Insurance Calculator",
   intro:
     "Use this **National Insurance calculator** to work out how much NI is due for 2026/27 as an employee, employer or self-employed worker. Enter an annual salary or profit figure to see the exact NI liability split across each threshold band, plus the effective rate and monthly amount. The calculator uses the official 2026/27 rates confirmed by HMRC, including the employee Primary Threshold at £12,570, the employer Secondary Threshold at £5,000 and the self-employed Class 4 thresholds.",
+  introVisual: "nationalInsuranceThresholds",
   formulaExplainer: `:::callout info
 **Employee NI** = 8% on earnings between £12,570 and £50,270, plus 2% on earnings above £50,270. **Employer NI** = 15% on earnings above £5,000. **Self-employed Class 4 NI** = 6% on profits between £12,570 and £50,270, plus 2% on profits above £50,270.
 :::

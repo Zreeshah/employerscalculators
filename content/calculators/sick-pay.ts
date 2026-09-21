@@ -10,6 +10,7 @@ export default calculator({
   h1: "Company Sick Pay Calculator",
   intro:
     "Benchmark an employee's contractual sick pay against the SSP floor for 2026/27. This company sick pay calculator is built for UK employers comparing their occupational scheme, HR teams drafting policies, and employees checking entitlement. For 2026/27 SSP is £123.25 a week, or 80% of average weekly earnings if lower, paid from day one of sickness for up to 28 weeks.",
+  introVisual: "companySickPayProcess",
   formulaExplainer:
     ":::callout info\n**SSP formula (2026/27):** weekly payable = lower of **£123.25** or **80% of average weekly earnings**, then divided by the employee's qualifying days per week to give a daily rate. SSP is paid from day 1 for up to 28 weeks.\n\nThe calculator returns the £123.25 weekly SSP rate as the statutory floor. Occupational sick pay is contractual and sits on top of — or inclusive of — that floor. Check the employment contract or sickness policy for the actual entitlement.\n:::",
   sections: [
