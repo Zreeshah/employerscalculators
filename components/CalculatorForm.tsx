@@ -896,13 +896,15 @@ function EmployeeCostCalculator({ defaults }: { defaults?: Record<string, number
 
   const categoryHelp = employerNiCategories.find((item) => item.value === category)?.help;
   const circumference = 2 * Math.PI * 42;
-  let dashOffset = 0;
-  const chartSegments = calculation.segments.map((segment) => {
-    const dash = segment.share * circumference;
-    const item = { ...segment, dash, offset: dashOffset };
-    dashOffset -= dash;
-    return item;
-  });
+  const chartSegments = calculation.segments.reduce<{ key: string; label: string; value: number; colour: string; share: number; dash: number; offset: number }[]>(
+    (segments, segment) => {
+      const dash = segment.share * circumference;
+      const offset = segments.length === 0 ? 0 : segments[segments.length - 1].offset - segments[segments.length - 1].dash;
+      segments.push({ ...segment, dash, offset });
+      return segments;
+    },
+    [],
+  );
 
   function resetCalculator() {
     setSalary(initialSalary);

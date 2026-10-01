@@ -6,6 +6,7 @@ import type { ReactNode } from "react";
 //   Bulleted list:        consecutive lines starting with "- "
 //   Numbered list:        consecutive lines starting with "1. " / "2. " etc
 //   Bold:                 **text** (inline)
+//   Links:                [descriptive text](/internal-path) or [source](https://example.gov.uk)
 //   Table:                :::table ... rows of | a | b | c | ... ::::
 //   Callout:              :::callout [tip|warn|info]   body   ::::
 //
@@ -18,20 +19,40 @@ type Block =
   | { kind: "callout"; variant: "tip" | "warn" | "info"; body: string }
   | { kind: "table"; rows: string[][] };
 
+function isSafeHref(href: string) {
+  return href.startsWith("/") || /^https:\/\//.test(href);
+}
+
 function renderInline(text: string): ReactNode {
-  // Replace **bold** with <strong>
+  // Render the small, content-only inline syntax without allowing raw HTML.
   const parts: ReactNode[] = [];
-  const regex = /\*\*([^*]+)\*\*/g;
+  const regex = /\[([^\]]+)\]\(([^\s)]+)\)|\*\*([^*]+)\*\*/g;
   let last = 0;
   let match: RegExpExecArray | null;
   let key = 0;
   while ((match = regex.exec(text)) !== null) {
     if (match.index > last) parts.push(text.slice(last, match.index));
-    parts.push(
-      <strong key={`b${key++}`} className="font-semibold text-ink">
-        {match[1]}
-      </strong>,
-    );
+    if (match[1] && match[2] && isSafeHref(match[2])) {
+      const external = match[2].startsWith("https://");
+      parts.push(
+        <a
+          key={`a${key++}`}
+          href={match[2]}
+          className="font-medium text-accent-strong underline decoration-accent-strong/30 underline-offset-2 hover:decoration-accent-strong"
+          {...(external ? { target: "_blank", rel: "noreferrer" } : {})}
+        >
+          {match[1]}
+        </a>,
+      );
+    } else if (match[3]) {
+      parts.push(
+        <strong key={`b${key++}`} className="font-semibold text-ink">
+          {match[3]}
+        </strong>,
+      );
+    } else {
+      parts.push(match[0]);
+    }
     last = match.index + match[0].length;
   }
   if (last < text.length) parts.push(text.slice(last));
@@ -118,7 +139,7 @@ function parseBlocks(body: string): Block[] {
     while (i < lines.length) {
       const next = lines[i];
       const t = next.trim();
-      if (t === "" || t.startsWith("- ") || /^d+\.\s/.test(t) || t.startsWith(":::") || t.startsWith("|")) break;
+      if (t === "" || t.startsWith("- ") || /^\d+\.\s/.test(t) || t.startsWith(":::") || t.startsWith("|")) break;
       paraLines.push(next);
       i++;
     }

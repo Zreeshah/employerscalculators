@@ -1,5 +1,7 @@
 import type { GuideContent } from "../types";
 import EmployerNiRates from "./employer-ni-rates-2026-27";
+import EmployerNiOnSalary from "./employer-ni-on-salary-2026-27";
+import EmployerNiCategoryLetters from "./employer-ni-category-letters-2026-27";
 import EmploymentAllowance from "./employment-allowance-guide";
 import HolidayEntitlementPartTime from "./holiday-entitlement-part-time-workers";
 import HolidayEntitlementUk from "./statutory-holiday-entitlement-uk";
@@ -9,11 +11,15 @@ import TrueCostHiring from "./true-cost-of-hiring-employee-uk";
 import WorkplacePensionExplained from "./workplace-pension-contributions-explained";
 import SspChanges from "./ssp-changes-april-2026";
 import NiRates from "./national-insurance-rates-2026-27";
+import MonthlyEmployerNi from "./monthly-employer-ni-2026-27";
 import SalarySacrificePension from "./salary-sacrifice-pension-guide";
 import SspVsCompany from "./ssp-vs-company-sick-pay";
 
 export const allGuides: GuideContent[] = [
   EmployerNiRates,
+  EmployerNiOnSalary,
+  MonthlyEmployerNi,
+  EmployerNiCategoryLetters,
   NiRates,
   HolidayEntitlementUk,
   HowToSsp,

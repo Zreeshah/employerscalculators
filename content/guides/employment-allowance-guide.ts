@@ -12,7 +12,7 @@ export default guide({
     "Employment Allowance 2026/27 explained: up to £10,500 off your employer NI bill. Who qualifies, who is excluded, how to claim via EPS, and worked examples.",
   h1: "Employment Allowance 2026/27: Eligibility & Claim Guide",
   intro:
-    "The Employment Allowance lets eligible employers cut their employer Class 1 National Insurance bill by up to £10,500 in the 2026/27 tax year. With employer NI charged at 15% on pay above the £5,000 secondary threshold, the allowance can wipe out the entire employer NI cost for many small businesses. This guide covers who qualifies, how to claim through payroll, and the mistakes that cost employers the relief.",
+    "The Employment Allowance lets eligible employers cut their employer Class 1 National Insurance bill by up to £10,500 in the 2026/27 tax year. With employer NI charged at 15% on pay above the £5,000 secondary threshold, the allowance can wipe out the entire employer NI cost for many small businesses. This guide covers who qualifies, how to claim through payroll, and the mistakes that cost employers the relief. Check [GOV.UK's current eligibility guidance](https://www.gov.uk/claim-employment-allowance/eligibility) before making the payroll declaration.",
   sections: [
     {
       heading: "What the Employment Allowance is",

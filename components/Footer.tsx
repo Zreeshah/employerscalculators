@@ -1,6 +1,5 @@
 import Link from "next/link";
 import { coreCalculators } from "@/content/calculators";
-import { allGuides } from "@/content/guides";
 import { lastUpdated, taxYearLabel } from "@/data/rates";
 import { SITE_NAME } from "@/lib/seo";
 
@@ -40,15 +39,12 @@ export default function Footer() {
         </div>
         <div>
           <p className="mb-3 text-sm font-semibold">Guides</p>
-          <ul className="space-y-2">
-            {allGuides.slice(0, 6).map((g) => (
-              <li key={g.slug}>
-                <Link href={`/guides/${g.slug}`} className="text-sm text-ink/70 hover:text-ink">
-                  {g.h1}
-                </Link>
-              </li>
-            ))}
-          </ul>
+          <p className="text-sm leading-relaxed text-ink/60">
+            Browse our payroll, National Insurance and employment resources by topic.
+          </p>
+          <Link href="/guides" className="mt-3 inline-block text-sm font-medium text-accent-strong hover:underline">
+            Browse all guides
+          </Link>
         </div>
         <div className="space-y-6">
           <div>
