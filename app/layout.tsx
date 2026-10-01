@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import type { ReactNode } from "react";
 import "./globals.css";
 import Footer from "@/components/Footer";
@@ -14,7 +14,6 @@ export const metadata: Metadata = {
   },
   description:
     "Free UK payroll and employment calculators built on official 2026/27 HMRC rates — pro rata pay, employer NI, SSP, SMP, pensions, IR35 and NHS pay bands.",
-  themeColor: THEME_COLOR,
   robots: {
     index: true,
     follow: true,
@@ -22,6 +21,10 @@ export const metadata: Metadata = {
     "max-snippet": -1,
     "max-video-preview": -1,
   },
+};
+
+export const viewport: Viewport = {
+  themeColor: THEME_COLOR,
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {
