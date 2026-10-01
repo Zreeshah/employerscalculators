@@ -58,7 +58,7 @@ export default calculator({
     {
       heading: "Under-21 employees, apprentices and special NI categories",
       body:
-        "Not every employee uses the standard employer NI rule. GOV.UK gives higher upper secondary thresholds for employees under 21, apprentices under 25 and qualifying veterans, usually **£50,270 per year** for 2026/27. Freeport and Investment Zone employees can also have a £25,000 upper secondary threshold. These categories can make employer NI zero up to the relevant threshold, then 15% above it. Use the correct NI category letter in payroll because this calculator assumes the standard category A treatment unless you adjust the salary comparison manually.",
+        "Not every employee uses the standard employer NI rule. GOV.UK gives higher upper secondary thresholds for employees under 21, apprentices under 25 and qualifying veterans, usually **£50,270 per year** for 2026/27. Freeport and Investment Zone employees can also have a £25,000 upper secondary threshold. These categories can make employer NI zero up to the relevant threshold, then 15% above it. Select the relevant category in this calculator for a planning estimate, then use the correct NI category letter and supporting evidence in payroll.",
     },
     {
       heading: "Directors, bonuses, overtime and irregular pay",
