@@ -8,7 +8,7 @@ export default guide({
     "Calculate employer NI on a salary in 2026/27 with £20k, £30k, £40k, £50k and £60k examples, threshold rules and Employment Allowance context",
   h1: "Employer NI on a Salary: 2026/27 Examples",
   intro:
-    "Use this guide when you know the offered salary and need a quick employer National Insurance budget. For a standard category A employee, the annual planning estimate is **15% of pay above £5,000**. The examples below show the NI cost separately from salary so a hiring budget does not mistake gross pay for the full payroll cost. For a live estimate, use the [employer NI calculator](/employer-ni-calculator/).",
+    "Use this guide when you know the offered salary and need a quick employer National Insurance budget. For a standard category A employee, the annual planning estimate is **15% of pay above £5,000**. The examples below show the NI cost separately from salary so a hiring budget does not mistake gross pay for the full payroll cost. For a live estimate, use the [employer NI calculator](/employer-ni-calculator/). The figures are based on [HMRC’s 2026/27 employer rates and thresholds](https://www.gov.uk/guidance/rates-and-thresholds-for-employers-2026-to-2027).",
   sections: [
     {
       heading: "The salary-to-employer-NI formula",
