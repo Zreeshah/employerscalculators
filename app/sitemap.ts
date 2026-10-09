@@ -6,6 +6,10 @@ import { SITE_URL } from "@/lib/seo";
 
 export const dynamic = "force-static";
 
+// The NHS calculator matrix received source-level verification and visible
+// primary-source citations on 9 October 2026.
+const nhsContentUpdatedAt = new Date("2026-10-09T00:00:00.000Z");
+
 export default function sitemap(): MetadataRoute.Sitemap {
   const staticRoutes: MetadataRoute.Sitemap = [
     { url: `${SITE_URL}/`, changeFrequency: "weekly", priority: 1 },
@@ -20,10 +24,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   return [
     ...staticRoutes,
-    ...[...calculatorBySlug.keys()].map((slug) => ({
+    ...[...calculatorBySlug.entries()].map(([slug, calculator]) => ({
       url: `${SITE_URL}/${slug}/`,
       changeFrequency: "monthly" as const,
       priority: 0.9,
+      ...(calculator.nhsPreset ? { lastModified: nhsContentUpdatedAt } : {}),
     })),
     ...allGuides.map((g) => ({
       url: `${SITE_URL}/guides/${g.slug}/`,

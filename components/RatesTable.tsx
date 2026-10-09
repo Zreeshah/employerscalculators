@@ -7,7 +7,16 @@ export default function RatesTable() {
         Key rates — tax year {taxYearLabel}
       </h2>
       <p className="mt-1 text-xs text-ink/60">
-        Source: GOV.UK, &quot;Rates and thresholds for employers 2026 to 2027&quot; (HMRC).
+        Source: {" "}
+        <a
+          href="https://www.gov.uk/guidance/rates-and-thresholds-for-employers-2026-to-2027"
+          target="_blank"
+          rel="noreferrer"
+          className="underline decoration-ink/30 underline-offset-2 hover:decoration-ink"
+        >
+          GOV.UK, &quot;Rates and thresholds for employers 2026 to 2027&quot; (HMRC)
+        </a>
+        .
       </p>
       <table className="mt-4 w-full text-sm">
         <tbody>

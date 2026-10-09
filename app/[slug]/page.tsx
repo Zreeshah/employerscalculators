@@ -8,6 +8,7 @@ import EmbedWidgetTeaser from "@/components/EmbedWidgetTeaser";
 import FaqAccordion from "@/components/FaqAccordion";
 import FeaturedImage, { FEATURED_IMAGE_HEIGHT, FEATURED_IMAGE_WIDTH, featuredImagePath } from "@/components/FeaturedImage";
 import JsonLd from "@/components/JsonLd";
+import OfficialSources from "@/components/OfficialSources";
 import { renderInline } from "@/components/Prose";
 import Prose from "@/components/Prose";
 import RelatedContent from "@/components/RelatedContent";
@@ -149,6 +150,8 @@ export default async function SlugPage({ params }: SlugPageProps) {
             <Prose text={calc.formulaExplainer} />
           </div>
         </section>
+
+        {calc.sources && <OfficialSources sources={calc.sources} />}
 
         {sections.map((section) => (
           <section key={section.heading} aria-labelledby={slugify(section.heading)}>

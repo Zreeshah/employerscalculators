@@ -12,6 +12,12 @@ export interface CalculatorSection {
   body: string;
 }
 
+/** Primary or official reference used to verify a calculator's figures. */
+export interface SourceLink {
+  label: string;
+  url: string;
+}
+
 export interface HowToStep {
   name: string;
   text: string;
@@ -50,6 +56,7 @@ export interface CalculatorContent {
   /** A responsive explanatory image shown directly below the calculator introduction. */
   introImage?: FeaturedImage;
   formulaExplainer: string;
+  sources?: SourceLink[];
   sections?: CalculatorSection[];
   howToSteps?: HowToStep[];
   inlineWidgets?: InlineBarChart[];
