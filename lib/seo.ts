@@ -211,29 +211,3 @@ export function faqPageJsonLd(faq: { question: string; answer: string }[]) {
     })),
   };
 }
-
-export function howToJsonLd({
-  name,
-  description,
-  path,
-  steps,
-}: {
-  name: string;
-  description: string;
-  path: string;
-  steps: { name: string; text: string }[];
-}) {
-  return {
-    "@context": "https://schema.org",
-    "@type": "HowTo",
-    name,
-    description,
-    url: `${SITE_URL}${path}`,
-    step: steps.map((step, i) => ({
-      "@type": "HowToStep",
-      position: i + 1,
-      name: step.name,
-      text: step.text.replace(/\*\*([^*]+)\*\*/g, "$1"),
-    })),
-  };
-}

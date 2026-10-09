@@ -16,7 +16,7 @@ import RatesTable from "@/components/RatesTable";
 import { calculatorBySlug } from "@/content/calculators";
 import { simplePages, simplePageBySlug } from "@/content/pages";
 import { PENDING } from "@/content/types";
-import { faqPageJsonLd, howToJsonLd, imageObjectJsonLd, pageMetadata, softwareAppJsonLd } from "@/lib/seo";
+import { faqPageJsonLd, imageObjectJsonLd, pageMetadata, softwareAppJsonLd } from "@/lib/seo";
 
 export const dynamicParams = false;
 
@@ -186,16 +186,6 @@ export default async function SlugPage({ params }: SlugPageProps) {
           />
         )}
         {calc.faq.length > 0 && <JsonLd data={faqPageJsonLd(calc.faq)} />}
-        {hasHowTo && (
-          <JsonLd
-            data={howToJsonLd({
-              name: `How to calculate a pro rata salary with the ${calc.h1}`,
-              description: calc.metaDescription || PENDING,
-              path: `/${calc.slug}`,
-              steps: calc.howToSteps!,
-            })}
-          />
-        )}
       </div>
     );
   }
