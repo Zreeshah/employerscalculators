@@ -2,6 +2,9 @@ import {
   teacherPayScales,
   teacherPensionRate,
   teacherPensionTiers,
+  scottishTeacherPensionRate,
+  scottishTeacherPensionTiers,
+  scottishCharteredTeacherPay,
   leadershipRanges,
   leadingPractitionerRanges,
   regionLabel,
@@ -50,17 +53,17 @@ const pillarPage = (): CalculatorContent => {
       alt: "Illustration of teacher career progression from early career teacher to school leadership, with a rising five-step pay scale.",
       caption: "Teacher pay progression: early career, classroom and leadership roles",
     },
-    formulaExplainer: `Teacher take-home pay is calculated as **gross salary \u2212 Teachers\u2019 Pension \u2212 income tax \u2212 employee National Insurance**. Part-time pay uses the FTE fraction: contracted hours divided by 32.5 (the standard directed-time week in most schools). A 0.6 FTE teacher on M6 outside London earns ${gbp(Math.round(eMain[5] * 0.6))} gross. TPS contributions are tiered: ${(teacherPensionRate(eMain[0]) * 100).toFixed(1)}% at M1 rising to ${(teacherPensionRate(eUpper[2]) * 100).toFixed(1)}% at UPS3. Use the [take-home pay calculator](/take-home-pay-calculator/) for a full gross-to-net breakdown, or the [national insurance calculator](/national-insurance-calculator/) to see NI in isolation.`,
+    formulaExplainer: `Teacher take-home pay is calculated as **gross salary \u2212 relevant teacher-pension contribution \u2212 income tax \u2212 employee National Insurance**. Part-time pay uses the FTE fraction: contracted hours divided by 32.5 (the standard directed-time week in most schools). A 0.6 FTE teacher on M6 outside London earns ${gbp(Math.round(eMain[5] * 0.6))} gross. The calculator uses Teachers’ Pensions rates for England and Wales and Scottish Teachers’ Pension Scheme rates for Scotland. Use the [take-home pay calculator](/take-home-pay-calculator/) for a general gross-to-net estimate, or the [national insurance calculator](/national-insurance-calculator/) to see NI in isolation.`,
     howToSteps: [
       { name: "Find your pay range", text: "Qualified classroom teachers are on the Main (M1\u2013M6) or Upper (UPS1\u2013UPS3) range. Unqualified teachers, leading practitioners and leaders have separate scales." },
       { name: "Select your region", text: "England has four pay bands: Rest of England, Inner London, Outer London and London Fringe. Scotland and Wales have their own structures." },
       { name: "Enter your pay point and FTE", text: "Full-time is 1.0 FTE. Part-time is your contracted hours divided by 32.5. For example, 3 days a week is typically 0.6 FTE." },
-      { name: "Read your take-home estimate", text: "The calculator deducts TPS pension, income tax and National Insurance from your gross pay." },
+      { name: "Read your take-home estimate", text: "The calculator deducts the applicable teacher-pension contribution, income tax and National Insurance from your gross pay." },
     ],
     sections: [
       {
         heading: "Main Pay Range (M1\u2013M6) 2026/27",
-        body: `The **Main Pay Range** covers newly qualified teachers through to experienced classroom teachers who have not yet moved to the Upper Pay Range. The 2026/27 figures below apply from 1 September 2026, following the confirmed 5.5% pay award. For a detailed breakdown of each pay point, see the [Main Pay Range page](/teachers-main-pay-scale/).\n\n:::table\n| Pay point | Rest of England | Inner London | Outer London | Fringe |\n|---|---|---|---|---|\n${mainRows}\n:::\n\nProgression from M1 to M6 is not automatic. Schools make annual pay decisions based on performance, and teachers normally need a successful appraisal to move up. Academy and free schools can set their own pay structures outside the STPCD.`,
+        body: `The **Main Pay Range** covers newly qualified teachers through to experienced classroom teachers who have not yet moved to the Upper Pay Range. The 2026/27 figures below apply from 1 September 2026, following the confirmed 3.5% pay award. For a detailed breakdown of each pay point, see the [Main Pay Range page](/teachers-main-pay-scale/).\n\n:::table\n| Pay point | Rest of England | Inner London | Outer London | Fringe |\n|---|---|---|---|---|\n${mainRows}\n:::\n\nProgression from M1 to M6 is not automatic. Schools make annual pay decisions based on performance, and teachers normally need a successful appraisal to move up. Academy and free schools can set their own pay structures outside the STPCD.`,
       },
       {
         heading: "Upper Pay Range (UPS1\u2013UPS3) 2026/27",
@@ -84,11 +87,11 @@ const pillarPage = (): CalculatorContent => {
       },
       {
         heading: "TLR, SEN and other allowances",
-        body: `**Teaching and Learning Responsibility (TLR) payments** are additional amounts for significant sustained responsibility. TLR1 ranges from \u00a39,956 to \u00a316,919; TLR2 from \u00a33,391 to \u00a38,279; TLR3 is a fixed-term payment of \u00a3639 to \u00a33,169. **SEN allowance** ranges from \u00a32,679 to \u00a35,285 for teachers working with pupils with special educational needs.\n\nThese allowances are added to basic salary and are pensionable. They are not included in the pay scale tables above but should be added before calculating pension contributions and take-home pay. Use the [pro rata calculator](/pro-rata-calculator/) if you need to pro-rate a TLR for part-time work.`,
+        body: `**Teaching and Learning Responsibility (TLR) payments** are additional amounts for significant sustained responsibility. For 2026/27 in England, TLR1 ranges from \u00a310,531 to \u00a317,819; TLR2 from \u00a33,651 to \u00a38,913; TLR3 is a fixed-term payment of \u00a3727 to \u00a33,600. **SEN allowance** ranges from \u00a32,885 to \u00a35,690 for eligible teachers. These England figures do not apply to Wales or Scotland.\n\nThese allowances are added to basic salary and are pensionable. They are not included in the pay scale tables above but should be added before calculating pension contributions and take-home pay. Use the [pro rata calculator](/pro-rata-calculator/) if you need to pro-rate a TLR for part-time work.`,
       },
       {
         heading: "Summary: use the teachers pay calculator",
-        body: `Find your pay range and region, enter the pay point and FTE fraction, and the calculator estimates your gross pay, TPS contribution and take-home. Add any TLR or SEN allowance separately. For Scottish teachers, use the [Scotland pay scale page](/teachers-pay-scale-scotland/); for Welsh teachers, see the [Wales page](/teachers-pay-scale-wales/); and for London rates, check the [London pay scale page](/teachers-pay-scale-london/). The [NHS take-home pay calculator](/nhs-take-home-pay/) is available if you are comparing careers across the public sector.`,
+        body: `Find your pay range and region, enter the pay point and FTE fraction, and the calculator estimates your gross pay, applicable teacher-pension contribution and take-home. Add any TLR or SEN allowance separately. For Scottish teachers, use the [Scotland pay scale page](/teachers-pay-scale-scotland/); for Welsh teachers, see the [Wales page](/teachers-pay-scale-wales/); and for London rates, check the [London pay scale page](/teachers-pay-scale-london/). The [NHS take-home pay calculator](/nhs-take-home-pay/) is available if you are comparing careers across the public sector.`,
       },
     ],
     faq: [
@@ -99,6 +102,12 @@ const pillarPage = (): CalculatorContent => {
       { question: "How do I move from M6 to UPS1?", answer: "You need to apply through your school\u2019s pay policy. The application requires evidence of sustained high performance and a substantial and sustained contribution to the school. The head teacher or pay committee makes the decision." },
       { question: "Are academy teachers on the same pay scale?", answer: "Academies and free schools are not required to follow the STPCD and can set their own pay structures. Many still use STPCD as a reference, but they are not legally bound to it. Check your contract." },
       { question: "Does Scotland use the same teachers pay scale?", answer: "No. Scotland uses the SNCT (Scottish Negotiating Committee for Teachers) pay structure, which has different pay points and progression rules. See the Scottish teachers pay scale page for details." },
+    ],
+    sources: [
+      { label: "Department for Education: School teachers’ pay and conditions 2026", url: "https://www.gov.uk/government/publications/school-teachers-pay-and-conditions" },
+      { label: "Teachers’ Pensions: calculating contributions", url: "https://www.teacherspensions.co.uk/employers/managing-members/contributions/calculating-contributions.aspx" },
+      { label: "Scottish Public Pensions Agency: teacher pension contributions", url: "https://pensions.gov.scot/teachers/about-teachers-pensions/how-your-pension-works" },
+      { label: "Welsh Government: teacher pay award 2026 to 2027", url: "https://www.gov.wales/written-statement-teacher-pay-award-2026-2027" },
     ],
     relatedSlugs: [
       "teachers-main-pay-scale", "teachers-upper-pay-scale", "teachers-leadership-pay-scale",
@@ -136,7 +145,7 @@ const mainPayPage = (): CalculatorContent => {
     sections: [
       {
         heading: "Main Pay Range table 2026/27",
-        body: `All figures are gross annual salaries effective from 1 September 2026, following the confirmed 5.5% pay award.\n\n:::table\n| Pay point | Rest of England | Inner London | Outer London | Fringe |\n|---|---|---|---|---|\n${regionRows}\n:::\n\nThe gap between M1 and M6 outside London is ${gbp(eng[5] - eng[0])} a year (${gbp(Math.round((eng[5] - eng[0]) / 12))} per month). In Inner London, the gap is ${gbp(inn[5] - inn[0])}.`,
+        body: `All figures are gross annual salaries effective from 1 September 2026, following the confirmed 3.5% pay award.\n\n:::table\n| Pay point | Rest of England | Inner London | Outer London | Fringe |\n|---|---|---|---|---|\n${regionRows}\n:::\n\nThe gap between M1 and M6 outside London is ${gbp(eng[5] - eng[0])} a year (${gbp(Math.round((eng[5] - eng[0]) / 12))} per month). In Inner London, the gap is ${gbp(inn[5] - inn[0])}.`,
       },
       {
         heading: "How Main Pay Range progression works",
@@ -167,7 +176,7 @@ const mainPayPage = (): CalculatorContent => {
       { question: "What is M1 teacher salary in 2026/27?", answer: `M1 is ${gbp(eng[0])} outside London, ${gbp(inn[0])} in Inner London, ${gbp(out[0])} in Outer London and ${gbp(fri[0])} in the Fringe area.` },
       { question: "How long does it take to go from M1 to M6?", answer: "There is no fixed timeline. Each pay point increase requires a successful appraisal. In practice, most teachers reach M6 in 5\u20136 years if they meet performance standards each year." },
       { question: "Can I start above M1?", answer: "Yes. Schools can appoint at any point on the Main Pay Range to reflect prior experience, qualifications or recruitment needs." },
-      { question: "Is the pay award automatic?", answer: "The national 5.5% pay award applies to the scale itself. Individual progression through pay points still requires a successful appraisal." },
+      { question: "Is the pay award automatic?", answer: "The national 3.5% pay award applies to the scale itself. Individual progression through pay points still requires a successful appraisal." },
       { question: "Do academies use the same M1\u2013M6 scale?", answer: "Academies are not required to follow the STPCD. Many do use it as a reference, but they can set their own pay structures. Check your contract." },
       { question: "What pension rate applies at M1?", answer: `At ${gbp(eng[0])}, the TPS contribution is ${(teacherPensionRate(eng[0]) * 100).toFixed(1)}%, which is approximately ${gbp(Math.round(eng[0] * teacherPensionRate(eng[0])))} per year.` },
     ],
@@ -310,58 +319,45 @@ const leadershipPage = (): CalculatorContent => {
 const scotlandPage = (): CalculatorContent => {
   const scot = salariesFor("main", "scotland");
   const eng = salariesFor("main", "england");
-  const compRows = scot.map((s, i) => `| M${i + 1} | ${gbp(s)} | ${gbp(eng[i])} | ${gbp(s - eng[i])} |`).join("\n");
+  const pointLabels = ["Probationer", "Main Grade 1", "Main Grade 2", "Main Grade 3", "Main Grade 4", "Main Grade 5"];
+  const compRows = scot.map((salary, index) =>
+    `| ${pointLabels[index]} | ${gbp(salary)} | ${index === 0 ? "—" : gbp(eng[index - 1])} | ${index === 0 ? "—" : gbp(salary - eng[index - 1])} |`,
+  ).join("\n");
 
   return calculator({
     type: "calculator",
     slug: "teachers-pay-scale-scotland",
     kind: "teachers-pay",
     title: "Scottish Teachers Pay Scale 2026/27",
-    metaDescription: "Scottish teachers pay scale 2026/27 under SNCT. Compare M1\u2013M6 rates with England, check Chartered Teacher pay, Scottish tax impact and TPS pension tiers.",
+    metaDescription: "Scottish teachers pay scale 2026/27 under SNCT. Compare M1–M6 rates with England, check Chartered Teacher pay, Scottish tax impact and TPS pension tiers.",
     h1: "Scottish Teachers Pay Scale 2026/27",
-    intro: `Scottish teachers are paid under the **SNCT (Scottish Negotiating Committee for Teachers)** pay structure, which differs from England\u2019s STPCD. The 2026/27 main grade runs from ${gbp(scot[0])} at M1 to ${gbp(scot[5])} at M6. Scotland does not use the Upper Pay Range; instead, teachers can progress to **Chartered Teacher** status at ${gbp(52539)}. Scottish residents also pay Scottish Income Tax through an S-prefix tax code, which affects take-home pay at higher salary levels. For the English pay scale, see the [teachers pay scale calculator](/teachers-pay-scale-calculator/).`,
-    formulaExplainer: `Scottish teacher take-home pay uses the same formula as England (**gross \u2212 pension \u2212 tax \u2212 NI**) but with Scottish Income Tax rates applied through the S-prefix tax code (e.g. S1257L). The starter rate is 19%, basic 20%, intermediate 21%, higher 42%, advanced 45% and top 48%. Use the [take-home pay calculator](/take-home-pay-calculator/) for a full Scottish gross-to-net breakdown.`,
+    intro: `Scottish teachers are paid under the **SNCT (Scottish Negotiating Committee for Teachers)** pay structure, which differs from England’s STPCD. The verified 2026/27 scale runs from ${gbp(scot[0])} for a probationer to ${gbp(scot[5])} at Main Grade 5. Scotland does not use England’s Upper Pay Range. Scottish residents also pay Scottish Income Tax through an S-prefix tax code. For the English pay scale, see the [teachers pay scale calculator](/teachers-pay-scale-calculator/).`,
+    formulaExplainer: `Scottish teacher take-home pay is **gross − Scottish Teachers’ Pension − Scottish Income Tax − National Insurance**. The pension scheme and contribution tiers are specific to Scotland. The generic [take-home pay calculator](/take-home-pay-calculator/) can model Scottish tax, but not a Scottish teacher pension automatically.`,
+    sources: [
+      { label: "EIS: current salary scales (effective 1 August 2026)", url: "https://www.eis.org.uk/pay-and-conditions-of-service/salary-scales" },
+      { label: "Scottish Public Pensions Agency: teacher pension contributions", url: "https://pensions.gov.scot/teachers/about-teachers-pensions/how-your-pension-works" },
+      { label: "GOV.UK: Scottish Income Tax rates 2026/27", url: "https://www.gov.uk/scottish-income-tax" },
+    ],
     howToSteps: [
-      { name: "Identify your SNCT pay point", text: "Scottish teachers start as probationers, then move to the main grade M1\u2013M6." },
-      { name: "Check Chartered Teacher status", text: "If you have completed the Chartered Teacher programme, you may be on the Chartered Teacher rate." },
-      { name: "Apply Scottish Income Tax", text: "Scottish residents use S-prefix tax codes with different income tax bands." },
+      { name: "Identify your SNCT pay point", text: "Scottish teachers start as probationers, then move through Main Grade 1 to 5." },
+      { name: "Check pension deductions", text: "Use the Scottish Teachers’ Pension Scheme tier for actual pensionable pay." },
+      { name: "Apply Scottish Income Tax", text: "Scottish residents use S-prefix tax codes with different income-tax bands." },
     ],
     sections: [
-      {
-        heading: "Scottish teachers pay scale 2026/27",
-        body: `The SNCT main grade for 2026/27:\n\n:::table\n| Pay point | Scotland | England | Difference |\n|---|---|---|---|\n${compRows}\n:::\n\nScottish pay points are generally higher than their English equivalents at most points on the scale. Probationer teachers (in their induction year) are typically paid at or around M1.`,
-      },
-      {
-        heading: "Chartered Teacher",
-        body: `Scotland does not use England\u2019s Upper Pay Range (UPS1\u2013UPS3). Instead, teachers who have completed the Chartered Teacher programme can access the Chartered Teacher rate of ${gbp(52539)}. This route recognises advanced professional skills and ongoing commitment to professional development.\n\nThe Chartered Teacher programme was closed to new entrants in 2012, but teachers who achieved the status before that date retain their pay entitlement. Some local authorities have introduced alternative senior teacher scales.`,
-      },
-      {
-        heading: "How Scottish pay progression works",
-        body: `SNCT pay progression follows a different model from England. Teachers on the main grade progress through annual increments based on satisfactory performance, with the expectation of moving up one point per year. This is more predictable than the performance-related pay decisions in England, though it still requires satisfactory professional review.\n\nThe probationary year (Teacher Induction Scheme) is a guaranteed one-year placement. Probationers who meet the Standard for Full Registration move to a permanent position on the main grade.`,
-      },
-      {
-        heading: "Scottish Income Tax impact",
-        body: `Scottish residents pay income tax at different rates from the rest of the UK. The 2026/27 Scottish bands are:\n\n:::table\n| Band | Rate | Taxable income |\n|---|---|---|\n| Starter | 19% | \u00a30\u2013\u00a32,306 |\n| Basic | 20% | \u00a32,306\u2013\u00a313,517 |\n| Intermediate | 21% | \u00a313,517\u2013\u00a331,044 |\n| Higher | 42% | \u00a331,044\u2013\u00a362,430 |\n| Advanced | 45% | \u00a362,430\u2013\u00a3125,140 |\n| Top | 48% | Above \u00a3125,140 |\n:::\n\nAt M6 (${gbp(scot[5])}), a Scottish teacher\u2019s taxable income of ${gbp(scot[5] - 12570)} falls partly into the higher rate band at 42%, compared to 40% in England. This means slightly lower take-home pay at the same gross salary. Employee National Insurance uses the same UK-wide thresholds.`,
-      },
-      {
-        heading: "TPS pension in Scotland",
-        body: `Scottish teachers are in the Teachers\u2019 Pension Scheme (TPS) with the same contribution tiers as England. The pension is administered by the Scottish Public Pensions Agency (SPPA) but uses the same scheme rules and contribution rates. At M1 (${gbp(scot[0])}), the rate is ${(teacherPensionRate(scot[0]) * 100).toFixed(1)}%; at M6 (${gbp(scot[5])}), it is ${(teacherPensionRate(scot[5]) * 100).toFixed(1)}%.`,
-      },
-      {
-        heading: "Summary",
-        body: `Scottish teachers are paid under the SNCT, with generally higher gross pay than England but lower take-home at higher salary levels due to Scottish Income Tax. Progression is incremental rather than performance-based, and the Chartered Teacher route replaces England\u2019s Upper Pay Range. For English rates, see the [teachers pay scale calculator](/teachers-pay-scale-calculator/). For a full Scottish gross-to-net breakdown, use the [take-home pay calculator](/take-home-pay-calculator/).`,
-      },
+      { heading: "Scottish teachers pay scale 2026/27", body: `The published SNCT main-grade scale for 2026/27:\n\n:::table\n| Pay point | Scotland | England reference | Difference |\n|---|---|---|---|\n${compRows}\n:::\n\nThe probationer rate is a separate induction-year point. Main Grade 1 to 5 should be compared with England only as a broad salary reference, not as equivalent contractual pay points.` },
+      { heading: "Chartered Teacher", body: `Scotland does not use England’s Upper Pay Range (UPS1–UPS3). The retained Chartered Teacher scale runs from ${gbp(scottishCharteredTeacherPay[0])} to ${gbp(scottishCharteredTeacherPay[scottishCharteredTeacherPay.length - 1])}. The programme was closed to new entrants in 2012, but teachers who achieved the status retain their pay entitlement.` },
+      { heading: "Scottish Income Tax impact", body: `Scottish residents pay income tax at different rates from the rest of the UK. For 2026/27 the taxable bands are 19% to £3,967, 20% to £16,956, 21% to £31,092, 42% to £62,430, 45% to £112,570 and 48% above that. Employee National Insurance uses the same UK-wide thresholds.` },
+      { heading: "Scottish Teachers’ Pension Scheme", body: `Scottish teachers are in the Scottish Teachers’ Pension Scheme, administered by the Scottish Public Pensions Agency. It has its own 2026/27 contribution tiers. At the probationer rate (${gbp(scot[0])}), the member rate is ${(scottishTeacherPensionRate(scot[0]) * 100).toFixed(2)}%; at Main Grade 5 (${gbp(scot[5])}), it is ${(scottishTeacherPensionRate(scot[5]) * 100).toFixed(2)}%. The employer rate is 26%.` },
+      { heading: "Summary", body: `Scottish teachers are paid under the SNCT, with a separate pay structure, tax treatment and pension scheme. Check the cited sources and your employer’s payroll information for the contractual amount.` },
     ],
     faq: [
-      { question: "What is a Scottish teacher\u2019s starting salary?", answer: `M1 on the SNCT main grade is ${gbp(scot[0])} for 2026/27.` },
-      { question: "Does Scotland have UPS?", answer: "No. Scotland uses the Chartered Teacher route instead of England\u2019s Upper Pay Range, though new entrants to Chartered Teacher status are no longer accepted." },
-      { question: "Is Scottish teacher pay higher than England?", answer: `At most pay points, yes. M6 in Scotland is ${gbp(scot[5])} versus ${gbp(eng[5])} in England, a difference of ${gbp(scot[5] - eng[5])}. However, Scottish Income Tax rates mean take-home pay may be closer.` },
-      { question: "Do Scottish teachers pay a different pension rate?", answer: "No. The TPS contribution tiers are the same across the UK. Administration is handled by SPPA in Scotland." },
-      { question: "How does probation work in Scotland?", answer: "The Teacher Induction Scheme provides a one-year guaranteed placement. Probationers who meet the Standard for Full Registration move to a permanent main grade position." },
-      { question: "Do Scottish teachers use a different tax code?", answer: "Yes. Scottish residents use an S-prefix tax code (e.g. S1257L) which applies Scottish Income Tax rates instead of the rest-of-UK rates." },
+      { question: "What is a Scottish teacher’s starting salary?", answer: `The probationer rate is ${gbp(scot[0])} from 1 August 2026. Main Grade 1 is ${gbp(scot[1])}.` },
+      { question: "Does Scotland have UPS?", answer: "No. Scotland uses a separate SNCT structure; it does not use England’s Upper Pay Range." },
+      { question: "Is Scottish teacher pay higher than England?", answer: "The structures and points are different, so they should not be treated as direct equivalents. Compare the published gross rates alongside tax and pension treatment." },
+      { question: "Do Scottish teachers pay a different pension rate?", answer: `Yes. The Scottish Teachers’ Pension Scheme has separate 2026/27 tiers, from ${(scottishTeacherPensionTiers[0].rate * 100).toFixed(2)}% to ${(scottishTeacherPensionTiers[scottishTeacherPensionTiers.length - 1].rate * 100).toFixed(2)}%.` },
     ],
     relatedSlugs: ["teachers-pay-scale-calculator", "teachers-main-pay-scale", "take-home-pay-calculator"],
-    defaults: { annualSalary: scot[0] },
+    defaults: { annualSalary: scot[1] },
   });
 };
 
@@ -378,46 +374,30 @@ const walesPage = (): CalculatorContent => {
     title: "Teachers Pay Scale Wales 2026/27",
     metaDescription: "Teachers pay scale Wales 2026/27: Main M1-M6, Upper UPS1-UPS3 and Unqualified rates under STPCD with Welsh tax and pension tiers.",
     h1: "Teachers Pay Scale Wales 2026/27",
-    intro: `Welsh teachers are paid under the **School Teachers\u2019 Pay and Conditions Document (STPCD)**, with pay policy set by the Welsh Government through the Independent Welsh Pay Review Body (IWPRB). The 2026/27 Main Pay Range runs from ${gbp(wal[0])} at M1 to ${gbp(wal[5])} at M6, matching the Rest of England rates. Welsh residents use a **C-prefix tax code** (e.g. C1257L), with income tax rates currently matching the rest-of-UK bands. For English rates including London weighting, see the [teachers pay scale calculator](/teachers-pay-scale-calculator/).`,
-    formulaExplainer: `Welsh teacher take-home pay follows the standard formula: **gross salary \u2212 TPS pension \u2212 income tax \u2212 National Insurance**. The C-prefix tax code currently applies the same rates as England, so take-home at the same gross salary is identical. If the Senedd sets different rates in future, the C-prefix code ensures the correct Welsh rates are applied automatically.`,
+    intro: `Teacher pay in Wales is set separately by the Welsh Government. The announced 2026/27 qualified classroom scale has five points, from ${gbp(wal[0])} at M2 to ${gbp(wal[4])} at M6. The revised statutory Welsh document had not yet been published when these figures were checked, so the award is labelled as announced and backdated to 1 September 2026 rather than presented as an in-force document. Welsh residents use a **C-prefix tax code** (for example C1257L), with rates currently matching the rest of the UK.`,
+    formulaExplainer: `Welsh teacher take-home pay is **gross salary − Teachers’ Pension contribution − income tax − National Insurance**. The C-prefix tax code currently uses the same income-tax rates as England, Wales and Northern Ireland.`,
+    sources: [
+      { label: "Welsh Government: teacher pay award 2026 to 2027", url: "https://www.gov.wales/written-statement-teacher-pay-award-2026-2027" },
+      { label: "NASUWT: Welsh pay-scale reference", url: "https://www.nasuwt.org.uk/advice/pay-pensions/pay-scales/pay-scales-wales.html" },
+      { label: "Teachers’ Pensions: calculating contributions", url: "https://www.teacherspensions.co.uk/employers/managing-members/contributions/calculating-contributions.aspx" },
+    ],
     howToSteps: [
-      { name: "Find your pay point", text: "The Welsh STPCD uses the same Main (M1\u2013M6) and Upper (UPS1\u2013UPS3) ranges as England outside London." },
-      { name: "Check the Welsh tax code", text: "Welsh residents use a C-prefix tax code. Current rates match England, but this can change." },
-      { name: "Calculate part-time pay", text: "Same formula: full-time salary \u00d7 FTE (contracted hours \u00f7 32.5)." },
+      { name: "Find your pay point", text: "The announced qualified classroom scale uses M2 to M6, with U1 to U3 above it." },
+      { name: "Check the Welsh tax code", text: "Welsh residents use a C-prefix tax code. Current Welsh rates match the rest of the UK." },
+      { name: "Calculate part-time pay", text: "Multiply the full-time salary by your contractual FTE fraction." },
     ],
     sections: [
-      {
-        heading: "Welsh teachers pay scale 2026/27",
-        body: `The Welsh STPCD rates for 2026/27, matching the Rest of England:\n\n:::table\n| Pay point | Annual salary | Monthly gross |\n|---|---|---|\n${wal.map((s, i) => `| M${i + 1} | ${gbp(s)} | ${gbp(Math.round(s / 12))} |`).join("\n")}\n| UPS1 | ${gbp(walU[0])} | ${gbp(Math.round(walU[0] / 12))} |\n| UPS2 | ${gbp(walU[1])} | ${gbp(Math.round(walU[1] / 12))} |\n| UPS3 | ${gbp(walU[2])} | ${gbp(Math.round(walU[2] / 12))} |\n:::`,
-      },
-      {
-        heading: "How Welsh teacher pay is set",
-        body: `Since 2018, teachers\u2019 pay in Wales has been devolved to the Welsh Government. The IWPRB (Independent Welsh Pay Review Body) makes annual recommendations, which the Education Minister accepts or modifies. The pay award applies to all maintained schools in Wales.\n\nAcademies do not exist in Wales in the same form as England. All state-funded schools in Wales are maintained schools and must follow the Welsh STPCD. This gives Welsh teachers more pay consistency than their English counterparts, where academy trusts can set independent pay structures.`,
-      },
-      {
-        heading: "Welsh income tax (C-prefix code)",
-        body: `Since April 2019, Welsh residents have had their own income tax rates, shown on payslips through a C-prefix tax code. For 2026/27, the Welsh rates match the rest-of-UK bands: 20% basic, 40% higher, 45% additional. The Senedd has the power to vary these rates by up to 10p in the pound in future.\n\nEmployee National Insurance uses the same UK-wide thresholds regardless of where you live. The [national insurance calculator](/national-insurance-calculator/) shows your NI separately.`,
-      },
-      {
-        heading: "TPS pension for Welsh teachers",
-        body: `Welsh teachers are in the Teachers\u2019 Pension Scheme with the same contribution tiers as England and Scotland. At M1 (${gbp(wal[0])}), the rate is ${(teacherPensionRate(wal[0]) * 100).toFixed(1)}%; at M6 (${gbp(wal[5])}), it is ${(teacherPensionRate(wal[5]) * 100).toFixed(1)}%; at UPS3 (${gbp(walU[2])}), it is ${(teacherPensionRate(walU[2]) * 100).toFixed(1)}%.`,
-      },
-      {
-        heading: "Key differences from England",
-        body: `While pay rates currently match England (outside London), Welsh teachers have several structural differences:\n\n- **No academies**: all state schools follow the Welsh STPCD\n- **Curriculum for Wales**: different curriculum framework from the National Curriculum in England\n- **Registration**: teachers must register with the Education Workforce Council (EWC) in Wales\n- **Pay review**: the IWPRB is separate from England\u2019s STRB (School Teachers\u2019 Review Body)\n- **Welsh language**: some posts require Welsh language skills and may attract additional allowances`,
-      },
-      {
-        heading: "Summary",
-        body: `Welsh teachers are paid under the STPCD with rates currently matching England outside London. The C-prefix tax code applies Welsh income tax rates (currently identical to rUK). All maintained schools in Wales follow the same pay structure. For English rates including London weighting, see the [teachers pay scale calculator](/teachers-pay-scale-calculator/). For Scottish SNCT rates, see the [Scotland page](/teachers-pay-scale-scotland/). Use the [take-home pay calculator](/take-home-pay-calculator/) for a full net pay estimate.`,
-      },
+      { heading: "Welsh teachers pay scale 2026/27", body: `The announced Welsh 2026/27 qualified-classroom rates are backdated to 1 September 2026. The statutory document was pending publication when checked.\n\n:::table\n| Pay point | Annual salary | Monthly gross |\n|---|---|---|\n${wal.map((salary, index) => `| M${index + 2} | ${gbp(salary)} | ${gbp(Math.round(salary / 12))} |`).join("\n")}\n| U1 | ${gbp(walU[0])} | ${gbp(Math.round(walU[0] / 12))} |\n| U2 | ${gbp(walU[1])} | ${gbp(Math.round(walU[1] / 12))} |\n| U3 | ${gbp(walU[2])} | ${gbp(Math.round(walU[2] / 12))} |\n:::` },
+      { heading: "How Welsh teacher pay is set", body: `Teachers’ pay in Wales is devolved. The Welsh Government announced a 3.5% uplift for teachers and leaders and a 5% uplift for unqualified teachers, backdated to 1 September 2026. Until the revised STPC(W)D is published, employers should confirm the implementation and back-pay timing directly.` },
+      { heading: "Welsh income tax (C-prefix code)", body: `Welsh residents have a C-prefix tax code. For 2026/27, Welsh income-tax rates match the rest-of-UK bands: 20% basic, 40% higher and 45% additional. Employee National Insurance remains UK-wide.` },
+      { heading: "Teachers’ Pension Scheme for Welsh teachers", body: `Welsh teachers are in the Teachers’ Pension Scheme. At M2 (${gbp(wal[0])}), the member rate is ${(teacherPensionRate(wal[0]) * 100).toFixed(1)}%; at M6 (${gbp(wal[4])}), it is ${(teacherPensionRate(wal[4]) * 100).toFixed(1)}%; at U3 (${gbp(walU[2])}), it is ${(teacherPensionRate(walU[2]) * 100).toFixed(1)}%.` },
+      { heading: "Summary", body: `Use the Welsh values and sources on this page, not England figures. The pay award has been announced and backdated, while publication of the revised statutory document was pending at the time of checking.` },
     ],
     faq: [
-      { question: "Are Welsh teacher salaries the same as England?", answer: `Currently yes. The 2026/27 Welsh STPCD rates match England outside London: M1 is ${gbp(wal[0])} and M6 is ${gbp(wal[5])}. London weighting does not apply in Wales.` },
-      { question: "Do Welsh teachers pay different income tax?", answer: "Welsh residents have a C-prefix tax code. The current rates match the rest of the UK, but the Senedd has the power to change them in future." },
-      { question: "Are there academies in Wales?", answer: "No. All state-funded schools in Wales are maintained schools and must follow the Welsh STPCD." },
-      { question: "What pension scheme are Welsh teachers in?", answer: "The Teachers\u2019 Pension Scheme (TPS), with the same contribution tiers as England and Scotland." },
-      { question: "Who sets teacher pay in Wales?", answer: "The Welsh Government, advised by the Independent Welsh Pay Review Body (IWPRB). Pay has been devolved since 2018." },
-      { question: "Do Welsh-medium teachers get extra pay?", answer: "There is no national Welsh language allowance in the STPCD, but schools may consider language skills when setting pay within the range or through TLR payments." },
+      { question: "Are Welsh teacher salaries the same as England?", answer: `No. The announced 2026/27 Welsh qualified-classroom scale begins at M2 ${gbp(wal[0])} and ends at M6 ${gbp(wal[4])}; it is a separate structure.` },
+      { question: "Do Welsh teachers pay different income tax?", answer: "Welsh residents have a C-prefix tax code. The current Welsh rates match the rest of the UK, but Wales can set separate rates." },
+      { question: "What pension scheme are Welsh teachers in?", answer: "The Teachers’ Pension Scheme, with the England-and-Wales member contribution tiers." },
+      { question: "Who sets teacher pay in Wales?", answer: "The Welsh Government, advised by the Independent Welsh Pay Review Body." },
     ],
     relatedSlugs: ["teachers-pay-scale-calculator", "teachers-pay-scale-scotland", "take-home-pay-calculator"],
     defaults: { annualSalary: wal[0] },

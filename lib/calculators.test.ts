@@ -1,10 +1,12 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 import { calculateNhsSalary } from "./nhs.ts";
+import { calculateTeacherPay } from "./teacherPay.ts";
 import {
   calculateAnnualLeave,
   calculateBradfordEpisodes,
   calculateCompanyCarTax,
+  calculateEmployment,
   calculateHolidayEntitlement,
   calculateNetToGrossAdvanced,
   calculateTwoJobsTax,
@@ -455,6 +457,37 @@ test("company car PHEV benchmark applies electric range and employee payment", (
   assert.equal(result.taxableValue, 4000);
   assert.equal(result.employeeTaxAnnual, 1800);
   assert.equal(result.class1aAnnual, 600);
+});
+
+test("teacher M1 uses the verified 2026 TPS tier and full net calculation", () => {
+  const result = calculateTeacherPay({ region: "england", fullTimeSalary: 34069, fte: 1 });
+  assert.equal(result.pensionRate, 0.074);
+  assert.ok(Math.abs(result.pensionContribution - 2521.106) < 0.001);
+  assert.ok(Math.abs(result.monthlyTakeHome - 2169.37) < 0.01);
+});
+
+test("teacher part-time and Scottish pension thresholds use actual pay", () => {
+  const partTime = calculateTeacherPay({ region: "england", fullTimeSalary: 46940, fte: 0.6 });
+  assert.equal(partTime.pensionablePay, 28164);
+  assert.equal(partTime.pensionRate, 0.074);
+  const scotland = calculateTeacherPay({ region: "scotland", fullTimeSalary: 36159, fte: 1 });
+  assert.equal(scotland.pensionRate, 0.0735);
+});
+
+test("take-home salary benchmark matches the competitor's standard £35,000 case", () => {
+  const result = calculateEmployment({ gross: 35000, taxCode: "1257L" });
+  assert.equal(result.incomeTax, 4486);
+  assert.equal(result.employeeNi, 1794.4);
+  assert.equal(result.net, 28719.6);
+});
+
+test("take-home salary benchmark supports competitor pension and Plan 2 states", () => {
+  const pension = calculateEmployment({ gross: 35000, taxCode: "1257L", pensionMode: "salary-sacrifice", pensionPercent: 5 });
+  assert.equal(pension.pensionContribution, 1438);
+  assert.ok(Math.abs(pension.net - 27684.24) < 0.001);
+  const loan = calculateEmployment({ gross: 35000, taxCode: "1257L", studentLoanPlan: "plan2" });
+  assert.ok(Math.abs(loan.studentLoan - 505.35) < 0.001);
+  assert.ok(Math.abs(loan.net - 28214.25) < 0.001);
 });
 
 test("advanced net-to-gross matches default competitor benchmark", () => {

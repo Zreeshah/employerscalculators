@@ -12,9 +12,11 @@ import {
   HolidayEntitlementCalculator,
   NationalInsuranceCalculator,
   NetToGrossCalculator,
+  TakeHomePayCalculator,
   TwoJobsTaxCalculator,
 } from "@/components/AdvancedCalculators";
 import { NhsPayComparisonCalculatorParity, NhsTakeHomeCalculatorParity } from "@/components/NhsCalculators";
+import TeacherPayCalculator from "@/components/TeacherPayCalculator";
 import {
   calculate,
   calculatorInputs,
@@ -77,6 +79,8 @@ export default function CalculatorForm({
   if (kind === "sick-pay") return <SickPayCalculator />;
   if (kind === "company-car-tax") return <CompanyCarTaxCalculator defaults={defaults} />;
   if (kind === "net-to-gross") return <NetToGrossCalculator />;
+  if (kind === "take-home-pay") return <TakeHomePayCalculator />;
+  if (kind === "teachers-pay") return <TeacherPayCalculator />;
   if (kind === "two-jobs-tax") return <TwoJobsTaxCalculator />;
   if (kind === "bradford-factor") return <BradfordFactorCalculator />;
   if (kind === "holiday-entitlement") return <HolidayEntitlementCalculator />;
