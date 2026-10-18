@@ -17,6 +17,7 @@ import {
 } from "@/components/AdvancedCalculators";
 import { NhsPayComparisonCalculatorParity, NhsTakeHomeCalculatorParity } from "@/components/NhsCalculators";
 import TeacherPayCalculator from "@/components/TeacherPayCalculator";
+import PolicePayCalculator from "@/components/PolicePayCalculator";
 import {
   calculate,
   calculatorInputs,
@@ -81,6 +82,7 @@ export default function CalculatorForm({
   if (kind === "net-to-gross") return <NetToGrossCalculator />;
   if (kind === "take-home-pay") return <TakeHomePayCalculator />;
   if (kind === "teachers-pay") return <TeacherPayCalculator />;
+  if (kind === "police-pay") return <PolicePayCalculator />;
   if (kind === "two-jobs-tax") return <TwoJobsTaxCalculator />;
   if (kind === "bradford-factor") return <BradfordFactorCalculator />;
   if (kind === "holiday-entitlement") return <HolidayEntitlementCalculator />;

@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import test from "node:test";
 import { calculateNhsSalary } from "./nhs.ts";
 import { calculateTeacherPay } from "./teacherPay.ts";
+import { calculatePolicePay } from "./policePay.ts";
 import {
   calculateAnnualLeave,
   calculateBradfordEpisodes,
@@ -472,6 +473,20 @@ test("teacher part-time and Scottish pension thresholds use actual pay", () => {
   assert.equal(partTime.pensionRate, 0.074);
   const scotland = calculateTeacherPay({ region: "scotland", fullTimeSalary: 36159, fte: 1 });
   assert.equal(scotland.pensionRate, 0.0735);
+});
+
+test("police pension tier thresholds use annual pensionable pay", () => {
+  const entry = calculatePolicePay({ annualSalary: 32255 });
+  const topLowerTier = calculatePolicePay({ annualSalary: 37035 });
+  const middleTier = calculatePolicePay({ annualSalary: 37036 });
+  const topMiddleTier = calculatePolicePay({ annualSalary: 79587.99 });
+  const upperTier = calculatePolicePay({ annualSalary: 79588 });
+  assert.equal(entry.pensionRate, 0.1288);
+  assert.equal(topLowerTier.pensionRate, 0.1288);
+  assert.equal(middleTier.pensionRate, 0.1388);
+  assert.equal(topMiddleTier.pensionRate, 0.1388);
+  assert.equal(upperTier.pensionRate, 0.1422);
+  assert.ok(Math.abs(entry.monthlyTakeHome - 1951.64) < 0.01);
 });
 
 test("take-home salary benchmark matches the competitor's standard £35,000 case", () => {

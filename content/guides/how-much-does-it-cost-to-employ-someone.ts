@@ -28,7 +28,7 @@ export default guide({
     },
     {
       heading: "Worked example: the total cost of a £30,000 employee",
-      body: "Here is the mandatory minimum cost for a full-time employee on £30,000 in 2026/27:\n\n- Gross salary: £30,000\n- Employer NI: (£30,000 − £5,000) × 15% = £3,750\n- Pension at 3% of full salary: £900\n- Total employment cost: £34,650 a year, roughly £2,887.50 a month\n\nThat is £4,650 — about 15.5% — on top of the headline salary before any overheads. If your business qualifies for the Employment Allowance, the £3,750 NI bill can be wiped out entirely, bringing the total down to £30,900. Run your own figures through the employee cost calculator to see both scenarios.",
+      body: "Here is the statutory-minimum cost for a full-time employee on £30,000 in 2026/27, assuming contributions use qualifying earnings:\n\n- Gross salary: £30,000\n- Employer NI: (£30,000 − £5,000) × 15% = £3,750\n- Pension at 3% of qualifying earnings: (£30,000 − £6,240) × 3% = £712.80\n- Total employment cost: £34,462.80 a year, roughly £2,871.90 a month\n\nThat is £4,462.80 — about 14.9% — on top of the headline salary before any overheads. If your business qualifies for the Employment Allowance, the £3,750 NI bill can be wiped out entirely, bringing the total down to £30,712.80. Schemes that certify on total earnings can cost more: 3% of the full £30,000 salary is £900. Run your own figures through the employee cost calculator to compare both bases.",
     },
     {
       heading: "How the Employment Allowance cuts the bill",
@@ -63,7 +63,7 @@ export default guide({
     {
       question: "How much does a £30,000 employee really cost an employer?",
       answer:
-        "In 2026/27, the mandatory minimum is about £34,650 a year: £30,000 gross salary, £3,750 employer National Insurance (15% of earnings above £5,000) and £900 pension contributions at the 3% minimum. Employers eligible for the £10,500 Employment Allowance can remove the NI element, reducing the total to roughly £30,900 before overheads.",
+        "In 2026/27, the statutory-minimum example is £34,462.80 a year when pension uses qualifying earnings: £30,000 gross salary, £3,750 employer National Insurance (15% of earnings above £5,000) and £712.80 pension contributions at 3% of the £23,760 qualifying-earnings band. Employers eligible for the £10,500 Employment Allowance can remove the NI element, reducing the total to roughly £30,712.80 before overheads. A scheme that uses total earnings can cost more.",
     },
     {
       question: "What is the employer NI rate for 2026/27?",

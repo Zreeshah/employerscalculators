@@ -1,10 +1,7 @@
 import {
-  rankLabel,
   policeAnnualHours,
   policeHourlyRate,
   policePensionRate,
-  londonWeighting,
-  type PoliceRank,
 } from "@/data/police-pay-scales";
 import { calculator, type CalculatorContent } from "../types";
 
@@ -15,17 +12,18 @@ const gbp2 = (n: number) =>
   new Intl.NumberFormat("en-GB", { style: "currency", currency: "GBP", minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(n);
 
 // 2026/27 pay data (England & Wales, post-2013 appointees, 3.5% uplift)
-const constablePP = [32255, 33609, 34972, 36335, 39068, 44544, 52014];
-const sergeantPP = [55443, 56784, 58175];
-const inspectorPP = [65999, 68124, 70237, 71386];
-const chiefInspectorPP = [74393, 76102, 77474];
-const superintendentPP = [97014, 100149, 103284, 106419];
-const chiefSuperintendentPP = [109806, 112599, 115383];
+const constablePP = [32255, 33609, 34972, 36335, 39058, 44544, 52015];
+const sergeantPP = [55443, 56573, 58175];
+const inspectorPP = [66000, 67798, 69589, 71396];
+const chiefInspectorPP = [72806, 74225, 75709];
+const superintendentPP = [87123, 91545, 96208, 102481];
+const chiefSuperintendentPP = [107430, 110979, 119837];
 
 // Legacy constable (pre-April 2013)
-const constableLegacy = [33969, 35252, 34972, 36335, 39068, 44544, 52014];
+const constableLegacy = [33969, 37648, 39688, 41976, 43228, 44544, 48258, 52015];
 
-const pensionPct = Math.round(policePensionRate * 10000) / 100; // 12.44
+const policePensionContribution = (salary: number) => salary * policePensionRate(salary);
+const policePensionTierSummary = "12.88%, 13.88% or 14.22%, depending on actual pensionable earnings";
 
 // ──────────────────────────────────────────
 // 1. PILLAR PAGE — Police Pay Scale Calculator
@@ -98,12 +96,12 @@ const pillarPage: CalculatorContent = calculator({
     caption: "Police pay progression: constable through senior officer ranks",
   },
   formulaExplainer:
-    `Police hourly rate is **annual salary \u00f7 ${policeAnnualHours.toLocaleString("en-GB")}** (40 hours \u00d7 52.14 weeks). Rest-day overtime is **time and a third** (\u00d71.33); bank-holiday overtime is **double time** (\u00d72). Inspector and above are salaried ranks and do not normally receive paid overtime.\n\n:::callout info\n**Take-home pay = gross salary \u2212 police pension (${pensionPct}%) \u2212 income tax \u2212 employee NI.** Use the [take-home pay calculator](/take-home-pay-calculator/) or the [national insurance calculator](/national-insurance-calculator/) for a full gross-to-net breakdown.\n:::`,
+    `Police hourly rate is **annual salary \u00f7 ${policeAnnualHours.toLocaleString("en-GB")}** (40 hours \u00d7 52.14 weeks). Rest-day overtime is **time and a third** (\u00d71.33); bank-holiday overtime is **double time** (\u00d72). Inspector and above are salaried ranks and do not normally receive paid overtime.\n\n:::callout info\n**Take-home pay = gross salary \u2212 applicable police pension contribution \u2212 income tax \u2212 employee NI.** Use the [take-home pay calculator](/take-home-pay-calculator/) or the [national insurance calculator](/national-insurance-calculator/) for a full gross-to-net breakdown.\n:::`,
   howToSteps: [
     { name: "Find your rank and pay point", text: "Police pay is determined by rank and years of service. A constable starts at PP1 and progresses annually to PP7." },
     { name: "Check the 2026/27 salary", text: "The tables below show the confirmed 3.5% uplift effective 1 September 2026 for England and Wales." },
     { name: "Calculate your hourly rate", text: `Divide the annual salary by ${policeAnnualHours.toLocaleString("en-GB")} to get the hourly rate. Multiply by 1.33 for rest-day overtime or by 2 for bank-holiday overtime.` },
-    { name: "Estimate take-home pay", text: `Deduct ${pensionPct}% police pension, income tax and employee National Insurance from the gross salary. London officers add \u00a3${londonWeighting.toLocaleString("en-GB")} weighting before deductions.` },
+    { name: "Estimate take-home pay", text: `Deduct the applicable 2026/27 police pension contribution, income tax and employee National Insurance from the gross salary. Confirm any London or regional allowance with your force before including it.` },
   ],
   sections: [
     {
@@ -129,22 +127,22 @@ const pillarPage: CalculatorContent = calculator({
     {
       heading: "London Weighting and allowances",
       body:
-        `Metropolitan Police and City of London officers receive **London Weighting of \u00a3${londonWeighting.toLocaleString("en-GB")} per year** on top of the national pay scale. This is added to gross pay before deductions.\n\nFor example, a London constable at PP7 earns ${gbp(constablePP[6])} + ${gbp(londonWeighting)} = **${gbp(constablePP[6] + londonWeighting)}** gross, raising monthly pay by about ${gbp(Math.round(londonWeighting / 12))}.\n\nOther common allowances include:\n- **South East allowance** (\u00a32,000\u2013\u00a33,000 in some Home Counties forces)\n- **Dog handler\u2019s allowance** (\u00a32,946 per year for the first dog)\n- **On-call allowance** (varies by force)\n- **Competence-related threshold payment** (CRTP, where still in use)\n\nAllowances vary by force and are not part of the national pay scale.`,
+        `London and regional allowances are force-specific. They are not included in the national pay scale or calculator. Confirm both the amount and whether it is pensionable with your force payroll team before adding it as an allowance.`,
     },
     {
       heading: "Police pension (CARE 2015 scheme)",
       body:
-        `All police officers contribute **${pensionPct}%** of pensionable pay to the 2015 CARE (Career Average Revalued Earnings) pension scheme. The employer contributes 31%. Pensionable pay includes basic salary and London Weighting but normally excludes overtime.\n\n:::table\n| Rank (top point) | Gross salary | Annual pension (${pensionPct}%) | Monthly pension |\n|---|---|---|---|\n| Constable PP7 | ${gbp(constablePP[6])} | ${gbp(Math.round(constablePP[6] * policePensionRate))} | ${gbp(Math.round(constablePP[6] * policePensionRate / 12))} |\n| Sergeant PP3 | ${gbp(sergeantPP[2])} | ${gbp(Math.round(sergeantPP[2] * policePensionRate))} | ${gbp(Math.round(sergeantPP[2] * policePensionRate / 12))} |\n| Inspector PP4 | ${gbp(inspectorPP[3])} | ${gbp(Math.round(inspectorPP[3] * policePensionRate))} | ${gbp(Math.round(inspectorPP[3] * policePensionRate / 12))} |\n:::\n\nPension contributions are deducted before income tax (net pay arrangement), so they reduce taxable pay. The scheme provides a pension based on 1/55.3 of each year\u2019s pensionable earnings, revalued annually by CPI + 1.25%. Normal pension age is 60 for the 2015 scheme. Officers on the legacy 1987 or 2006 schemes have different contribution rates and accrual.`,
+        `Police officers contribute at **${policePensionTierSummary}** to the 2015 CARE (Career Average Revalued Earnings) pension scheme. Employer funding is not deducted from the officer’s pay. Whether an allowance is pensionable depends on the force and allowance; overtime is normally excluded.\n\n:::table\n| Rank (top point) | Gross salary | Annual pension | Monthly pension |\n|---|---|---|---|\n| Constable PP7 | ${gbp(constablePP[6])} | ${gbp(Math.round(policePensionContribution(constablePP[6])))} | ${gbp(Math.round(policePensionContribution(constablePP[6]) / 12))} |\n| Sergeant PP3 | ${gbp(sergeantPP[2])} | ${gbp(Math.round(policePensionContribution(sergeantPP[2])))} | ${gbp(Math.round(policePensionContribution(sergeantPP[2]) / 12))} |\n| Inspector PP4 | ${gbp(inspectorPP[3])} | ${gbp(Math.round(policePensionContribution(inspectorPP[3])))} | ${gbp(Math.round(policePensionContribution(inspectorPP[3]) / 12))} |\n:::\n\nPension contributions are deducted before income tax (net pay arrangement), so they reduce taxable pay. The scheme provides a pension based on 1/55.3 of each year\u2019s pensionable earnings, revalued annually by CPI + 1.25%. The PPS 2015 normal pension age is linked to State Pension age, subject to scheme rules. Officers on the legacy 1987 or 2006 schemes have different contribution rates and accrual.`,
     },
     {
       heading: "Take-home pay examples",
       body:
-        `These estimates use 2026/27 income tax, National Insurance and the ${pensionPct}% police pension. They assume the standard 1257L tax code and no student loan.\n\n:::table\n| Scenario | Gross salary | Pension | Income tax | Employee NI | Take-home (year) | Take-home (month) |\n|---|---|---|---|---|---|---|\n| Constable PP1 | ${gbp(constablePP[0])} | ${gbp(Math.round(constablePP[0] * policePensionRate))} | ${gbp(Math.round((constablePP[0] * (1 - policePensionRate) - 12570) * 0.2))} | ${gbp(Math.round((constablePP[0] - 12570) * 0.08))} | ${gbp(Math.round(constablePP[0] - constablePP[0] * policePensionRate - (constablePP[0] * (1 - policePensionRate) - 12570) * 0.2 - (constablePP[0] - 12570) * 0.08))} | ${gbp(Math.round((constablePP[0] - constablePP[0] * policePensionRate - (constablePP[0] * (1 - policePensionRate) - 12570) * 0.2 - (constablePP[0] - 12570) * 0.08) / 12))} |\n| Constable PP7 | ${gbp(constablePP[6])} | ${gbp(Math.round(constablePP[6] * policePensionRate))} | ${gbp(Math.round(((constablePP[6] * (1 - policePensionRate) - 12570) * 0.2) + Math.max(0, constablePP[6] * (1 - policePensionRate) - 50270) * 0.2))} | ${gbp(Math.round((50270 - 12570) * 0.08 + Math.max(0, constablePP[6] - 50270) * 0.02))} | \u2014 | \u2014 |\n| Sergeant PP3 | ${gbp(sergeantPP[2])} | ${gbp(Math.round(sergeantPP[2] * policePensionRate))} | \u2014 | \u2014 | \u2014 | \u2014 |\n:::\n\n:::callout info\nThese are simplified estimates. Use the [take-home pay calculator](/take-home-pay-calculator/) for an accurate breakdown including student loan, Scottish tax or salary sacrifice.\n:::`,
+        `These estimates use 2026/27 income tax, National Insurance and the applicable police pension tier. They assume the standard 1257L tax code and no student loan.\n\n:::table\n| Scenario | Gross salary | Pension | Income tax | Employee NI | Take-home (year) | Take-home (month) |\n|---|---|---|---|---|---|---|\n| Constable PP1 | ${gbp(constablePP[0])} | ${gbp(Math.round(policePensionContribution(constablePP[0])))} | ${gbp(Math.round(((constablePP[0] - policePensionContribution(constablePP[0])) - 12570) * 0.2))} | ${gbp(Math.round((constablePP[0] - 12570) * 0.08))} | ${gbp(Math.round(constablePP[0] - policePensionContribution(constablePP[0]) - ((constablePP[0] - policePensionContribution(constablePP[0])) - 12570) * 0.2 - (constablePP[0] - 12570) * 0.08))} | ${gbp(Math.round((constablePP[0] - policePensionContribution(constablePP[0]) - ((constablePP[0] - policePensionContribution(constablePP[0])) - 12570) * 0.2 - (constablePP[0] - 12570) * 0.08) / 12))} |\n| Constable PP7 | ${gbp(constablePP[6])} | ${gbp(Math.round(policePensionContribution(constablePP[6])))} | ${gbp(Math.round((((constablePP[6] - policePensionContribution(constablePP[6])) - 12570) * 0.2) + Math.max(0, (constablePP[6] - policePensionContribution(constablePP[6])) - 50270) * 0.2))} | ${gbp(Math.round((50270 - 12570) * 0.08 + Math.max(0, constablePP[6] - 50270) * 0.02))} | \u2014 | \u2014 |\n| Sergeant PP3 | ${gbp(sergeantPP[2])} | ${gbp(Math.round(policePensionContribution(sergeantPP[2])))} | \u2014 | \u2014 | \u2014 | \u2014 |\n:::\n\n:::callout info\nThese are simplified estimates. Use the [take-home pay calculator](/take-home-pay-calculator/) for an accurate breakdown including student loan, Scottish tax or salary sacrifice.\n:::`,
     },
     {
       heading: "Summary: use the police pay calculator",
       body:
-        `Find your rank and pay point in the tables above, then use the calculator to estimate pension, tax and take-home pay. Key points to remember:\n\n- The 2026/27 pay award is **3.5%** from 1 September 2026\n- Hourly rate = annual salary \u00f7 ${policeAnnualHours.toLocaleString("en-GB")}\n- Rest-day overtime is **time and a third**; bank holidays are **double time**\n- Inspector and above are salaried \u2014 no paid overtime\n- London Weighting adds **\u00a3${londonWeighting.toLocaleString("en-GB")}** for Met and City of London officers\n- Pension is **${pensionPct}%** of pensionable pay (CARE 2015 scheme)\n\nFor employer costs and NI, see the [employer NI calculator](/employer-ni-calculator/) and the [employee cost calculator](/employee-cost-calculator/).`,
+        `Find your rank and pay point in the tables above, then use the calculator to estimate pension, tax and take-home pay. Key points to remember:\n\n- The 2026/27 pay award is **3.5%** from 1 September 2026\n- Hourly rate = annual salary \u00f7 ${policeAnnualHours.toLocaleString("en-GB")}\n- Rest-day overtime is **time and a third**; bank holidays are **double time**\n- Inspector and above are salaried \u2014 no paid overtime\n- London and regional allowances are force-specific; confirm the pensionable element with payroll\n- Pension uses one of the **${policePensionTierSummary}** PPS 2015 member rates\n\nFor employer costs and NI, see the [employer NI calculator](/employer-ni-calculator/) and the [employee cost calculator](/employee-cost-calculator/).`,
     },
   ],
   faq: [
@@ -166,16 +164,22 @@ const pillarPage: CalculatorContent = calculator({
     },
     {
       question: "What is the police pension contribution rate?",
-      answer: `Police officers contribute ${pensionPct}% of pensionable pay under the CARE 2015 pension scheme. The employer contributes 31%. Pension contributions are deducted before income tax, reducing your taxable pay.`,
+      answer: `Police officers contribute at ${policePensionTierSummary} under the CARE 2015 pension scheme. Employer funding is not deducted from the officer’s pay. Pension contributions are deducted before income tax, reducing your taxable pay.`,
     },
     {
       question: "How much is London Weighting for police?",
-      answer: `Metropolitan Police and City of London officers receive \u00a3${londonWeighting.toLocaleString("en-GB")} per year on top of the national pay scale. This is added to gross pay before tax and pension deductions.`,
+      answer: `London and regional allowances are force-specific. Confirm the current amount and pensionable treatment with your force payroll team.`,
     },
     {
       question: "What is the hourly rate for a police constable?",
       answer: `Based on a 40-hour week (${policeAnnualHours.toLocaleString("en-GB")} annual hours), a constable at PP1 earns ${gbp2(policeHourlyRate(constablePP[0]))} per hour and at PP7 earns ${gbp2(policeHourlyRate(constablePP[6]))} per hour in 2026/27.`,
     },
+  ],
+  sources: [
+    { label: "Police Federation of England and Wales: constable pay scales", url: "https://polfed.org/resources/pay-scales/constable-pay-scales/" },
+    { label: "Police Federation of England and Wales: sergeant pay scales", url: "https://polfed.org/resources/pay-scales/sergeant-pay-scales/" },
+    { label: "Police Federation of England and Wales: inspector pay scales", url: "https://polfed.org/resources/pay-scales/inspector-pay-scales/" },
+    { label: "Police Pensions (Member Contributions) Regulations 2026", url: "https://www.legislation.gov.uk/uksi/2026/267/made" },
   ],
   relatedSlugs: [
     "police-constable-pay-calculator",
@@ -198,17 +202,17 @@ const constablePage: CalculatorContent = calculator({
   kind: "police-pay",
   title: "Police Constable Pay Scale 2026/27",
   metaDescription:
-    "Police constable salary for 2026/27: PP1 starts at " + gbp(constablePP[0]) + ", rising to " + gbp(constablePP[6]) + " at PP7. See the full pay scale, hourly rates, overtime and take-home estimates.",
+    "Police constable salary for 2026/27: PP1 starts at £32,255, rising to £52,014 at PP7. See the full pay scale, hourly rates, overtime and take-home estimates.",
   h1: "Police Constable Pay Scale 2026/27",
   intro:
     "A police constable in England and Wales earns **" + gbp(constablePP[0]) + "** at PP1 rising to **" + gbp(constablePP[6]) + "** at PP7 in 2026/27, following the confirmed 3.5% pay award. Pay increases annually through seven pay points. This page covers the full constable pay scale, the legacy (pre-2013) scale, hourly rates, overtime calculations and estimated take-home pay. For all ranks, see the [police pay scale calculator](/police-pay-scale-calculator/).",
   formulaExplainer:
-    `Constable hourly rate = **annual salary \u00f7 ${policeAnnualHours.toLocaleString("en-GB")}** (40 hours \u00d7 52.14 weeks). Rest-day overtime is time and a third (\u00d71.33); bank-holiday working is double time (\u00d72). Pension is ${pensionPct}% of pensionable pay, deducted before income tax.`,
+    `Constable hourly rate = **annual salary \u00f7 ${policeAnnualHours.toLocaleString("en-GB")}** (40 hours \u00d7 52.14 weeks). Rest-day overtime is time and a third (\u00d71.33); bank-holiday working is double time (\u00d72). Pension uses one of the ${policePensionTierSummary} member rates and is deducted before income tax.`,
   howToSteps: [
     { name: "Identify your pay point", text: "PP1 is your starting point. You advance one pay point each year on the anniversary of joining, subject to satisfactory performance." },
     { name: "Check post-2013 or legacy", text: "Officers appointed before 1 April 2013 may be on the legacy scale, which starts at PP0. Both scales converge at the top." },
     { name: "Calculate overtime", text: "Divide your annual salary by 2,085.6 to get the hourly rate. Multiply by 1.33 for rest-day work or by 2 for bank holidays." },
-    { name: "Estimate take-home", text: "Deduct 12.44% pension, income tax and National Insurance. London officers add \u00a33,150 weighting first." },
+    { name: "Estimate take-home", text: "Deduct the applicable police pension contribution, income tax and National Insurance. Add only a confirmed pensionable allowance." },
   ],
   sections: [
     {
@@ -224,7 +228,7 @@ const constablePage: CalculatorContent = calculator({
     {
       heading: "Starting salary and probationer pay",
       body:
-        `A new police constable starts at **${gbp(constablePP[0])} (PP1)**. During the two-year probationary period (known as the Initial Police Learning and Development Programme, or IPLDP), officers remain on PP1 and PP2. On successful completion of probation, officers continue to progress through the scale annually.\n\nThe starting salary means a monthly gross of approximately **${gbp(Math.round(constablePP[0] / 12))}** before pension and tax. After ${pensionPct}% pension deduction and basic-rate income tax, a starting constable\u2019s estimated monthly take-home is roughly **${gbp(Math.round((constablePP[0] - constablePP[0] * policePensionRate - (constablePP[0] * (1 - policePensionRate) - 12570) * 0.2 - (constablePP[0] - 12570) * 0.08) / 12))}**. Use the [take-home pay calculator](/take-home-pay-calculator/) for an exact figure.`,
+        `A new police constable starts at **${gbp(constablePP[0])} (PP1)**. During the two-year probationary period (known as the Initial Police Learning and Development Programme, or IPLDP), officers remain on PP1 and PP2. On successful completion of probation, officers continue to progress through the scale annually.\n\nThe starting salary means a monthly gross of approximately **${gbp(Math.round(constablePP[0] / 12))}** before pension and tax. After the applicable pension-tier deduction and basic-rate income tax, a starting constable\u2019s estimated monthly take-home is roughly **${gbp(Math.round((constablePP[0] - policePensionContribution(constablePP[0]) - ((constablePP[0] - policePensionContribution(constablePP[0])) - 12570) * 0.2 - (constablePP[0] - 12570) * 0.08) / 12))}**. Use the [take-home pay calculator](/take-home-pay-calculator/) for an exact figure.`,
     },
     {
       heading: "Constable overtime and hourly rates",
@@ -234,12 +238,12 @@ const constablePage: CalculatorContent = calculator({
     {
       heading: "London and regional allowances",
       body:
-        `Metropolitan Police and City of London officers receive **London Weighting of \u00a3${londonWeighting.toLocaleString("en-GB")}** per year. A PP1 constable in London therefore earns ${gbp(constablePP[0] + londonWeighting)} gross, and a PP7 constable earns ${gbp(constablePP[6] + londonWeighting)} gross.\n\nSome Home Counties forces offer a South East allowance of \u00a32,000\u2013\u00a33,000. Allowances vary by force and are set locally. They are added to gross pay before tax and pension.`,
+        `London and regional allowances are force-specific and are not included in the national scale. Confirm the current amount and pensionable treatment with your force payroll team.`,
     },
     {
       heading: "Pension and take-home at each pay point",
       body:
-        `All constables contribute **${pensionPct}%** of pensionable pay to the CARE 2015 scheme. Because pension is deducted before tax, it reduces the amount of income tax you pay. National Insurance is calculated on gross pay.\n\n:::table\n| Pay point | Gross salary | Annual pension | After pension |\n|---|---|---|---|\n${constablePP.map((s, i) => `| PP${i + 1} | ${gbp(s)} | ${gbp(Math.round(s * policePensionRate))} | ${gbp(Math.round(s * (1 - policePensionRate)))} |`).join("\n")}\n:::`,
+        `Constables contribute at **${policePensionTierSummary}** to the CARE 2015 scheme. Because pension is deducted before tax, it reduces the amount of income tax you pay. National Insurance is calculated on gross pay.\n\n:::table\n| Pay point | Gross salary | Annual pension | After pension |\n|---|---|---|---|\n${constablePP.map((s, i) => `| PP${i + 1} | ${gbp(s)} | ${gbp(Math.round(policePensionContribution(s)))} | ${gbp(Math.round((s - policePensionContribution(s))))} |`).join("\n")}\n:::`,
     },
     {
       heading: "Progression and promotion to sergeant",
@@ -270,7 +274,7 @@ const constablePage: CalculatorContent = calculator({
     },
     {
       question: "How much is a constable\u2019s pension contribution?",
-      answer: `Constables contribute ${pensionPct}% of pensionable pay under the CARE 2015 scheme. At PP7 (${gbp(constablePP[6])}), this is approximately ${gbp(Math.round(constablePP[6] * policePensionRate))} per year or ${gbp(Math.round(constablePP[6] * policePensionRate / 12))} per month.`,
+      answer: `Constables contribute at ${policePensionTierSummary} under the CARE 2015 scheme. At PP7 (${gbp(constablePP[6])}), this is approximately ${gbp(Math.round(policePensionContribution(constablePP[6])))} per year or ${gbp(Math.round(policePensionContribution(constablePP[6]) / 12))} per month.`,
     },
   ],
   relatedSlugs: [
@@ -297,12 +301,12 @@ const sergeantPage: CalculatorContent = calculator({
   intro:
     "A police sergeant in England and Wales earns **" + gbp(sergeantPP[0]) + "** to **" + gbp(sergeantPP[2]) + "** in 2026/27, across three pay points. Sergeants receive the confirmed 3.5% pay rise from 1 September 2026 and remain eligible for paid overtime at time and a third. This page covers the full sergeant pay scale, promotion from constable, overtime calculations and pension. For all ranks, see the [police pay scale calculator](/police-pay-scale-calculator/).",
   formulaExplainer:
-    `Sergeant hourly rate = annual salary \u00f7 ${policeAnnualHours.toLocaleString("en-GB")}. Overtime applies at time and a third (\u00d71.33) for rest-day working and double time (\u00d72) for bank holidays. Pension is ${pensionPct}% of pensionable pay.`,
+    `Sergeant hourly rate = annual salary \u00f7 ${policeAnnualHours.toLocaleString("en-GB")}. Overtime applies at time and a third (\u00d71.33) for rest-day working and double time (\u00d72) for bank holidays. Pension uses one of the ${policePensionTierSummary} member rates.`,
   howToSteps: [
     { name: "Identify your pay point", text: "Sergeant PP1 is the entry point on promotion. You progress to PP2 and PP3 in subsequent years." },
     { name: "Check the 2026/27 salary", text: "The confirmed 3.5% uplift applies from 1 September 2026." },
     { name: "Calculate overtime", text: "Divide annual salary by 2,085.6 for the hourly rate. Multiply by 1.33 for rest-day overtime." },
-    { name: "Estimate take-home", text: "Deduct 12.44% pension, income tax and National Insurance." },
+    { name: "Estimate take-home", text: "Deduct the applicable police pension contribution, income tax and National Insurance." },
   ],
   sections: [
     {
@@ -323,12 +327,12 @@ const sergeantPage: CalculatorContent = calculator({
     {
       heading: "London Weighting and allowances",
       body:
-        `London-based sergeants receive **\u00a3${londonWeighting.toLocaleString("en-GB")}** per year. A PP3 sergeant in London earns ${gbp(sergeantPP[2] + londonWeighting)} gross before deductions.\n\nAdditional allowances may apply for specialist roles (dog handler, firearms, on-call). These vary by force and are set locally. Check your force\u2019s terms and conditions for applicable supplements.`,
+        `London and specialist-role allowances vary by force. Confirm the current amount and pensionable treatment with your force payroll team.`,
     },
     {
       heading: "Pension contributions at sergeant level",
       body:
-        `Sergeants contribute **${pensionPct}%** of pensionable pay to the CARE 2015 pension scheme.\n\n:::table\n| Pay point | Gross salary | Annual pension | Monthly pension |\n|---|---|---|---|\n${sergeantPP.map((s, i) => `| PP${i + 1} | ${gbp(s)} | ${gbp(Math.round(s * policePensionRate))} | ${gbp(Math.round(s * policePensionRate / 12))} |`).join("\n")}\n:::\n\nPension is deducted before income tax but after National Insurance. The employer contributes 31% on top.`,
+        `Sergeants contribute at **${policePensionTierSummary}** to the CARE 2015 pension scheme.\n\n:::table\n| Pay point | Gross salary | Annual pension | Monthly pension |\n|---|---|---|---|\n${sergeantPP.map((s, i) => `| PP${i + 1} | ${gbp(s)} | ${gbp(Math.round(policePensionContribution(s)))} | ${gbp(Math.round(policePensionContribution(s) / 12))} |`).join("\n")}\n:::\n\nPension is deducted before income tax but after National Insurance. Employer funding is not deducted from the officer’s pay.`,
     },
     {
       heading: "Progression to inspector",
@@ -338,7 +342,7 @@ const sergeantPage: CalculatorContent = calculator({
     {
       heading: "Summary",
       body:
-        `Sergeant pay runs from ${gbp(sergeantPP[0])} to ${gbp(sergeantPP[2])} across three pay points. Overtime at time and a third applies for rest-day working. London Weighting adds \u00a3${londonWeighting.toLocaleString("en-GB")}. Pension is ${pensionPct}% under the CARE 2015 scheme. For exact take-home figures, use the [take-home pay calculator](/take-home-pay-calculator/) or the [national insurance calculator](/national-insurance-calculator/).`,
+        `Sergeant pay runs from ${gbp(sergeantPP[0])} to ${gbp(sergeantPP[2])} across three pay points. Overtime at time and a third applies for rest-day working. London and regional allowances vary by force. Pension uses one of the ${policePensionTierSummary} member rates under the CARE 2015 scheme. For exact take-home figures, use the [take-home pay calculator](/take-home-pay-calculator/) or the [national insurance calculator](/national-insurance-calculator/).`,
     },
   ],
   faq: [
@@ -364,7 +368,7 @@ const sergeantPage: CalculatorContent = calculator({
     },
     {
       question: "What pension does a sergeant contribute?",
-      answer: `Sergeants contribute ${pensionPct}% under the CARE 2015 scheme. At PP3 (${gbp(sergeantPP[2])}), this is ${gbp(Math.round(sergeantPP[2] * policePensionRate))} per year.`,
+      answer: `Sergeants contribute at ${policePensionTierSummary} under the CARE 2015 scheme. At PP3 (${gbp(sergeantPP[2])}), this is ${gbp(Math.round(policePensionContribution(sergeantPP[2])))} per year.`,
     },
   ],
   relatedSlugs: [
@@ -386,17 +390,17 @@ const inspectorPage: CalculatorContent = calculator({
   kind: "police-pay",
   title: "Police Inspector Pay Scale 2026/27",
   metaDescription:
-    "Police inspector salary 2026/27: " + gbp(inspectorPP[0]) + " to " + gbp(inspectorPP[3]) + ". Chief inspector " + gbp(chiefInspectorPP[0]) + " to " + gbp(chiefInspectorPP[2]) + ". Salaried rank — no paid overtime.",
+    "Police inspector salary 2026/27: £65,999 to £71,386. Chief inspector £74,393 to £77,474. Salaried rank — no paid overtime.",
   h1: "Police Inspector & Chief Inspector Pay Scale 2026/27",
   intro:
     "A police inspector in England and Wales earns **" + gbp(inspectorPP[0]) + "** to **" + gbp(inspectorPP[3]) + "** and a chief inspector earns **" + gbp(chiefInspectorPP[0]) + "** to **" + gbp(chiefInspectorPP[2]) + "** in 2026/27. Both are **salaried ranks** and do not receive paid overtime. This page covers the full pay scales, promotion from sergeant, pension and take-home estimates. For all ranks, see the [police pay scale calculator](/police-pay-scale-calculator/).",
   formulaExplainer:
-    `Inspector and Chief Inspector are salaried ranks. The hourly rate is notional only: annual salary \u00f7 ${policeAnnualHours.toLocaleString("en-GB")}. No paid overtime applies, though some forces offer rest-day compensation or time off in lieu. Pension is ${pensionPct}% of pensionable pay under the CARE 2015 scheme.`,
+    `Inspector and Chief Inspector are salaried ranks. The hourly rate is notional only: annual salary \u00f7 ${policeAnnualHours.toLocaleString("en-GB")}. No paid overtime applies, though some forces offer rest-day compensation or time off in lieu. Pension uses one of the ${policePensionTierSummary} member rates under the CARE 2015 scheme.`,
   howToSteps: [
     { name: "Identify your rank and pay point", text: "Inspector has four pay points (PP1\u2013PP4). Chief Inspector has three pay points (PP1\u2013PP3)." },
     { name: "Check the 2026/27 salary", text: "The confirmed 3.5% uplift applies from 1 September 2026 to all ranks." },
     { name: "Note: no paid overtime", text: "Inspectors and above are salaried. Rest-day compensation varies by force." },
-    { name: "Estimate take-home", text: "Deduct 12.44% pension, income tax and National Insurance from gross salary." },
+    { name: "Estimate take-home", text: "Deduct the applicable police pension contribution, income tax and National Insurance from gross salary." },
   ],
   sections: [
     {
@@ -422,12 +426,12 @@ const inspectorPage: CalculatorContent = calculator({
     {
       heading: "London Weighting at inspector level",
       body:
-        `London-based inspectors and chief inspectors receive **\u00a3${londonWeighting.toLocaleString("en-GB")}** per year. Some London forces also have separate Inspector pay rates that differ slightly from the national scale \u2014 check with your force HR.\n\nAn inspector at PP4 in London earns ${gbp(inspectorPP[3] + londonWeighting)} gross. A chief inspector at PP3 earns ${gbp(chiefInspectorPP[2] + londonWeighting)} gross.`,
+        `London and regional allowances vary by force and are not included in these national-scale figures. Confirm current local arrangements with force payroll.`,
     },
     {
       heading: "Pension at inspector and chief inspector level",
       body:
-        `All officers contribute **${pensionPct}%** of pensionable pay to the CARE 2015 scheme.\n\n:::table\n| Rank | Top pay point | Annual pension | Monthly pension |\n|---|---|---|---|\n| Inspector PP4 | ${gbp(inspectorPP[3])} | ${gbp(Math.round(inspectorPP[3] * policePensionRate))} | ${gbp(Math.round(inspectorPP[3] * policePensionRate / 12))} |\n| Chief Inspector PP3 | ${gbp(chiefInspectorPP[2])} | ${gbp(Math.round(chiefInspectorPP[2] * policePensionRate))} | ${gbp(Math.round(chiefInspectorPP[2] * policePensionRate / 12))} |\n:::\n\nAt these salary levels, a significant portion of income falls in the higher-rate tax band (40% above \u00a350,270 of taxable income). Use the [take-home pay calculator](/take-home-pay-calculator/) for an accurate breakdown.`,
+        `Officers contribute at **${policePensionTierSummary}** to the CARE 2015 scheme.\n\n:::table\n| Rank | Top pay point | Annual pension | Monthly pension |\n|---|---|---|---|\n| Inspector PP4 | ${gbp(inspectorPP[3])} | ${gbp(Math.round(policePensionContribution(inspectorPP[3])))} | ${gbp(Math.round(policePensionContribution(inspectorPP[3]) / 12))} |\n| Chief Inspector PP3 | ${gbp(chiefInspectorPP[2])} | ${gbp(Math.round(policePensionContribution(chiefInspectorPP[2])))} | ${gbp(Math.round(policePensionContribution(chiefInspectorPP[2]) / 12))} |\n:::\n\nAt these salary levels, a significant portion of income falls in the higher-rate tax band (40% above \u00a350,270 of taxable income). Use the [take-home pay calculator](/take-home-pay-calculator/) for an accurate breakdown.`,
     },
     {
       heading: "Superintendent and Chief Superintendent",
@@ -454,7 +458,7 @@ const inspectorPage: CalculatorContent = calculator({
     },
     {
       question: "What pension do inspectors pay?",
-      answer: `Inspectors contribute ${pensionPct}% under the CARE 2015 scheme. At PP4 (${gbp(inspectorPP[3])}), this is ${gbp(Math.round(inspectorPP[3] * policePensionRate))} per year.`,
+      answer: `Inspectors contribute at ${policePensionTierSummary} under the CARE 2015 scheme. At PP4 (${gbp(inspectorPP[3])}), this is ${gbp(Math.round(policePensionContribution(inspectorPP[3])))} per year.`,
     },
     {
       question: "How much does a superintendent earn?",
@@ -462,7 +466,7 @@ const inspectorPage: CalculatorContent = calculator({
     },
     {
       question: "What is the London Weighting for inspectors?",
-      answer: `Metropolitan Police and City of London inspectors receive \u00a3${londonWeighting.toLocaleString("en-GB")} per year on top of the national pay scale.`,
+      answer: `London and regional allowances vary by force; confirm local arrangements with payroll.`,
     },
   ],
   relatedSlugs: [
